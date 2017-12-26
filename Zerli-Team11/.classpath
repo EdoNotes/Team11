@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
-	<classpathentry kind="lib" path="D:/MegaNz Cloud Sync/לימודים/שנה ג/שיטות הנדסיות לפיתוח מערכות תכנה/שלב 2-/Assignment2-הכי מעודכן/G11_Assignment2/mysql-connector-java-5.1.19-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Matan/Desktop/מתן/לימודים -סמסטר חמישי/שיטות הנדסיות/תרגול 5/Ex-05_jdbc/mysql-connector-java-5.1.19-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
