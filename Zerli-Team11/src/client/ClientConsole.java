@@ -27,18 +27,13 @@ public class ClientConsole implements ChatIF {
 		}
 	}
 	/**
-	 * 
+	 * @get Msg from the client and send to to the server with the func client.handleMessageFromClientUI()
 	 */
-	  public void accept(ArrayList<String> ary) 
+	  public void accept() 
 	  {  try
 	    {
 		 
-	    client.handleMessageFromClientUI(ary);
-	    //////////////////////////////
-	    ArrayList<String> arr2=new ArrayList<String>();
-	    arr2=(ArrayList<String>)client.msg;
-	    /////////////////////////////
-	    Thread.sleep(250);
+	    //Thread.sleep(250);
 		System.out.println("msg from server"+    client.msg);
 	    }  
 	    catch (Exception ex) 

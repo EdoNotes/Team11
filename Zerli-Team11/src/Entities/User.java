@@ -9,7 +9,8 @@ public class User {
 	public enum Premission {Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
 	public enum OnlineStatus {Online, Offline;}
 
-	
+	private String userName;
+	private String password;
 	private int ID;
 	private String FirstName;
 	private String LastName;
@@ -19,8 +20,11 @@ public class User {
 	private Premission UserType;
 	private OnlineStatus ConnectionStatus;
 
-	public User(int ID, String FirstName, String LastName, OnlineStatus ConnectionStatus, Premission UserType,
+
+	public User(String userName,String password,int ID, String FirstName, String LastName, OnlineStatus ConnectionStatus, Premission UserType,
 			String Phone, String Gender, String Email) {
+		this.userName=userName;
+		this.password=password;
 		this.ID = ID;
 		this.FirstName = FirstName;
 		this.LastName = LastName;
