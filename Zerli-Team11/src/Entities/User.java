@@ -19,8 +19,12 @@ public class User {
 	private String Email;
 	private Premission UserType;
 	private OnlineStatus ConnectionStatus;
+	private int tryToConnectCounter;
+	
+	/*Empty constructor*/
+	public User() {}
 
-
+	/*full constructor*/
 	public User(String userName,String password,int ID, String FirstName, String LastName, OnlineStatus ConnectionStatus, Premission UserType,
 			String Phone, String Gender, String Email) {
 		this.userName=userName;
@@ -33,6 +37,13 @@ public class User {
 		this.Email = Email;
 		this.UserType = UserType;
 		this.ConnectionStatus = ConnectionStatus;
+	}
+	
+	/*Login constructor*/
+	public User(String userName,String password)
+	{
+		this.userName=userName;
+		this.password=password;
 	}
 
 	public int getID() {
@@ -98,5 +109,30 @@ public class User {
 	public void setConnectionStatus(OnlineStatus connectionStatus) {
 		ConnectionStatus = connectionStatus;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getTryToConnectCounter() {
+		return tryToConnectCounter;
+	}
+
+	public void setTryToConnectCounter(int tryToConnectCounter) {
+		this.tryToConnectCounter = tryToConnectCounter;
+	}
+	
 
 }

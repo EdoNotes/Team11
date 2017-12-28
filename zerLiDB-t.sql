@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `zerli` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `zerli`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: zerli
@@ -338,6 +336,8 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
+  `UserName` varchar(20) DEFAULT NULL,
+  `Password` varchar(8) DEFAULT NULL,
   `ID` int(9) NOT NULL,
   `FirstName` varchar(45) DEFAULT NULL,
   `LastName` varchar(45) DEFAULT NULL,
@@ -356,7 +356,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (201097300,'Matan','Sabag','Offline','Client','0526140707','M','19matan@gmail.com'),(305334096,'Edo','Notes','Offline','Client','0547678432','M','Edoono24@gmail.com'),(305337990,'Tomer','Arzuan','Offline','Client','0526751403','F','tomerArzu@gmail.com');
+INSERT INTO `user` VALUES ('19matan','mtnsbg',201097300,'Matan','Sabag','Offline','Client','0526140707','M','19matan@gmail.com'),('edoono24','darklord',305334096,'Edo','Notes','Offline','Client','0547678432','M','Edoono24@gmail.com'),('tomerarzu','230791',305337990,'Tomer','Arzuan','Offline','Client','0526751403','F','tomerArzu@gmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -369,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-27  2:31:58
+-- Dump completed on 2017-12-28  2:35:47
