@@ -31,15 +31,16 @@ public class ClientConsole implements ChatIF {
 	 */
 	  public void accept(Object msg)
 	  {  
-		try
-		{
-			client.sendToServer(msg);
-		}
-	    catch (Exception ex) 
-	    {
-	      System.out.println
-	        ("Unexpected error while reading from console!");
-	    }
+		  client.handleMessageFromClientUI(msg);
+//			}
+//		try
+//		{
+			
+//	    catch (Exception ex) 
+//	    {
+//	      System.out.println
+//	        ("Unexpected error while reading from console!");
+//	    }
 		  
 	  }
 
