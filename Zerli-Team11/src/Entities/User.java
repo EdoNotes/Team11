@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 	
 	public enum Premission {Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
-	public enum OnlineStatus {Online, Offline;}
+	public enum ConnectionStatus {Online, Offline,Blocked;}
 
 	private String userName;
 	private String password;
@@ -21,14 +21,15 @@ public class User implements Serializable {
 	private String Gender;
 	private String Email;
 	private Premission UserType;
-	private OnlineStatus ConnectionStatus;
+	private ConnectionStatus ConnectionStatus;
 	private int tryToConnectCounter;
 	
 	/*Empty constructor*/
 	public User() {}
 
+
 	/*full constructor*/
-	public User(String userName,String password,int ID, String FirstName, String LastName, OnlineStatus ConnectionStatus, Premission UserType,
+	public User(String userName,String password,int ID, String FirstName, String LastName, ConnectionStatus ConnectionStatus, Premission UserType,
 			String Phone, String Gender, String Email) {
 		this.userName=userName;
 		this.password=password;
@@ -100,17 +101,49 @@ public class User implements Serializable {
 	public Premission getUserType() {
 		return UserType;
 	}
-
-	public void setUserType(Premission userType) {
-		UserType = userType;
+//{Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
+	public void setUserType(String userType)
+	{
+		if(userType.equals(Premission.Client))
+		{
+			this.UserType=Premission.Client;
+		}
+		if(userType.equals(Premission.StoreManager))
+		{
+			this.UserType=Premission.StoreManager;
+		}
+		if(userType.equals(Premission.StoreEmpployee))
+		{
+			this.UserType=Premission.StoreEmpployee;
+		}
+		if(userType.equals(Premission.Expert))
+		{
+			this.UserType=Premission.Expert;
+		}
+		else//CostomerServiece
+		{
+			this.UserType=Premission.CostomerServiece;
+		}
 	}
 
-	public OnlineStatus getConnectionStatus() {
+	public ConnectionStatus getConnectionStatus() {
 		return ConnectionStatus;
 	}
 
-	public void setConnectionStatus(OnlineStatus connectionStatus) {
-		ConnectionStatus = connectionStatus;
+	public void setConnectionStatus(String connectionStatus) 
+	{
+		if(connectionStatus.equals(ConnectionStatus.Offline))
+		{
+			this.ConnectionStatus=ConnectionStatus.Offline;
+		}
+		else if(connectionStatus.equals(ConnectionStatus.Online))
+		{
+			this.ConnectionStatus=ConnectionStatus.Online;
+		}
+		else//Blocked
+		{
+			this.ConnectionStatus=ConnectionStatus.Blocked;
+		}
 	}
 
 	public String getUserName() {

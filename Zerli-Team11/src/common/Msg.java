@@ -10,7 +10,7 @@ public class Msg implements Serializable {
 	private String queryQuestion; /*The query that we send to server(DB)*/
 	private boolean queryExist=false; /*flag to check if there is any query msg must have a query before we send her*/
 	private boolean queryAns; /*will check id there is some answer from DB*/
-	
+	private String ClassType;
 	/*Constants word at any query that we will use */
 	final public static String qSELECTALL = "SELECT *";
 	final static public String qSELECT="SELECT";
@@ -22,7 +22,7 @@ public class Msg implements Serializable {
 	final public static String qVALUES =" VALUES "; */
 	
 	/*constructor*/
-	public Msg(String queryQ)
+	public Msg(String queryQ) 
 	{
 		sentObj=null;
 		returnObj=null;
@@ -80,6 +80,14 @@ public class Msg implements Serializable {
 
 	public void setQueryAns(boolean queryAns) {
 		this.queryAns = queryAns;
+	}
+	public String getClassType()
+	{
+		return this.ClassType;
+	}
+	public void setClassType(String cl)
+	{
+		this.ClassType=cl;
 	}
 	
 	

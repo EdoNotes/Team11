@@ -39,8 +39,9 @@ public class LoginController
 		User userToConnect=new User(uName,uPass); //create a new user to make sure
 		Msg userToCheck=new Msg(Msg.qSELECTALL); // create a new msg
 		userToCheck.setSentObj(userToConnect); //put the user into msg
+		userToCheck.setClassType("User");
 		client=new ClientConsole(Server.HOST,Server.DEFAULT_PORT);
-		//ServerController sc=new ServerController(uPass);
+		
 		client.accept(userToCheck);
 		User returnUsr=(User)userToCheck.getReturnObj();
 		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
@@ -49,8 +50,8 @@ public class LoginController
 			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
 			{
 				System.out.println("User Connected succesfuly!");
-				//returnUsr.setConnectionStatus(OnlineStatus.Online);
-				/*Need To update the Online status*/
+				returnUsr.setConnectionStatus("Online");
+				
 			}
 			else
 			{

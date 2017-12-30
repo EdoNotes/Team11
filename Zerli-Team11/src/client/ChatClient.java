@@ -18,7 +18,8 @@ import java.io.*;
  * @version July 2000
  */
 public class ChatClient extends AbstractClient
- {	public Object msg;
+ {	
+	public Object msg;
   //Instance variables **********************************************
   
   /**
@@ -56,7 +57,7 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-//	  this.msg = msg;
+	  this.msg = msg;
     clientUI.display(msg);
   }
 

@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.io.*;
 import Entities.*;
+import Entities.User.ConnectionStatus;
 import common.*;
 import ocsf.server.*;
 
@@ -34,16 +35,21 @@ public class Server extends AbstractServer {
 		super(port);
 	}
 
-	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client)
+	
+	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
 		try 
 		{
+			
 		Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/zerli","root","root");
         System.out.println("SQL connection succeed 222");
-		if (msg instanceof User)
-			userHandeler(msg,"zerli.User",client,conn);
-		} 
+        System.out.printf("\n%s\n",((Msg)msg).getClassType());
+		if ((((Msg)msg).getClassType()).equalsIgnoreCase("User"))
+			{
+				System.out.println("SQL connection succeed 777");
+				userHandeler(msg,"zerli.User",client,conn);
+			}
+		}
 		catch (SQLException ex) 
 		{/* handle any errors*/
 	    	System.out.println("SQLException: " + ex.getMessage());
@@ -54,39 +60,52 @@ public class Server extends AbstractServer {
 
 	
 	
-	protected void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) 
+	public static  void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) 
 	{
 		String queryToDo=((Msg)msg).getQueryQuestion();
-		if(queryToDo==Msg.qSELECT)
+		if(queryToDo.equalsIgnoreCase(Msg.qSELECTALL)) { 
+			System.out.println("Matan sabag");
 			searchUserInDB(msg,tableName,client,con);
+		}
 	}
 	
 
 
-	protected void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
+	public static  void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
+		System.out.println("This Shit Works12");
 		User toSearch=(User)msg;
+		System.out.println("This Shit Works5");
 		User tmpUsr= new User();
+		System.out.println("This Shit Works6");
 		try 
 		{
+			System.out.println("This Shit Works10");
 			Statement stmt = con.createStatement();
+			System.out.println("This Shit Works12");
 			ResultSet rs = stmt.executeQuery(Msg.qSELECTALL + "From"+ tableName + "WHERE UserName= '"+toSearch.getUserName()+"' AND Password='"+toSearch.getPassword()+"';");
-			tmpUsr.setUserName(rs.getString(0));
-			tmpUsr.setPassword(rs.getString(1));
-			tmpUsr.setFirstName(rs.getString(2));
-			tmpUsr.setLastName(rs.getString(3));
-			//---------------------I dont know how I takes the eNums----------------------//
-//			tmpUsr.setConnectionStatus((OnlineStatus));gi 
-//			tmpUsr.setUserType(rs.getString(5));
-			//----------------------------------------------------------------------------//
-			tmpUsr.setPhone(rs.getString(6));
-			tmpUsr.setGender(rs.getString(7));
-			tmpUsr.setEmail(rs.getString(8));
+			System.out.println("This Shit Works13");
+			if(rs.getString(0).equals(((User)msg).getUserName()))
+			{
+				System.out.println("This Shit Works");
+			}
+			tmpUsr.setUserName(rs.getString(0));//Set user name for returned object
+			tmpUsr.setPassword(rs.getString(1));//Set Password for returned object
+			tmpUsr.setID(Integer.parseInt(rs.getString(2)));//Set ID for returned object
+			tmpUsr.setFirstName(rs.getString(3));//Set FirstName for returned object
+			tmpUsr.setLastName(rs.getString(4));//Set tLastName for returned object
+			tmpUsr.setConnectionStatus(rs.getString(5));//Set ConnectionStatus for returned object
+			tmpUsr.setUserType(rs.getString(6));//Set UserType for returned object
+			tmpUsr.setPhone(rs.getString(6));//Set Phone for returned object
+			tmpUsr.setGender(rs.getString(7));//Set Gender for returned object
+			tmpUsr.setEmail(rs.getString(8));//Set Email for returned object
+			
+			
 			((Msg)msg).setReturnObj((Object)tmpUsr);
 		} 
 		catch (SQLException e) 
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
