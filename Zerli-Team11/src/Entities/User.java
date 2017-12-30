@@ -1,10 +1,13 @@
 package Entities;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author Matan
  * This class represents user details including the type of the user(e.g client,store manager...)
  */
-public class User {
+public class User implements Serializable {
 	
 	public enum Premission {Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
 	public enum OnlineStatus {Online, Offline;}

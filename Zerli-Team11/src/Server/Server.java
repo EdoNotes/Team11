@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.io.*;
 import Entities.*;
-import Entities.User.OnlineStatus;
-import Entities.User.Premission;
 import common.*;
 import ocsf.server.*;
 
@@ -78,12 +76,9 @@ public class Server extends AbstractServer {
 			tmpUsr.setFirstName(rs.getString(2));
 			tmpUsr.setLastName(rs.getString(3));
 			//---------------------I dont know how I takes the eNums----------------------//
-//			tmpUsr.setConnectionStatus((OnlineStatus));
+//			tmpUsr.setConnectionStatus((OnlineStatus));gi 
 //			tmpUsr.setUserType(rs.getString(5));
-			//****Fixed****
 			//----------------------------------------------------------------------------//
-			tmpUsr.setConnectionStatus(OnlineStatus.Online);
-			tmpUsr.setUserType(Premission.Client);
 			tmpUsr.setPhone(rs.getString(6));
 			tmpUsr.setGender(rs.getString(7));
 			tmpUsr.setEmail(rs.getString(8));
