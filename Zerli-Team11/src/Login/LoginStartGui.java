@@ -1,4 +1,4 @@
-package Login1;
+package Login;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,16 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LoginMain extends Application 
+public class LoginStartGui extends Application 
 {
 	@Override
 	public void start(Stage primaryStage) 
 	{
 		try 
 		{
-			Parent root=FXMLLoader.load(getClass().getResource("/Login1/Login.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
 			Scene serverScene = new Scene(root);
-			serverScene.getStylesheets().add(getClass().getResource("login_application1.css").toExternalForm());
+			serverScene.getStylesheets().add(getClass().getResource("login_application.css").toExternalForm());
 			primaryStage.setScene(serverScene);
 			primaryStage.show();
 		} 
@@ -29,5 +29,4 @@ public class LoginMain extends Application
 	{
 		launch(args);
 	}
-
 }
