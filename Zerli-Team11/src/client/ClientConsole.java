@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ClientConsole implements ChatIF {
 	/* Variables Zone */
-	public ArrayList<String> msg = new ArrayList<String>();
+	public Object msg ;
 
 	final public static int DEFAULT_PORT = 5555;
 	ChatClient client;
@@ -32,18 +32,19 @@ public class ClientConsole implements ChatIF {
 	  public void accept(Object msg)
 	  {  
 		  client.handleMessageFromClientUI(msg); 
-		  //Thread.sleep(2000);
+		  //client.handleMessageFromServer(msg);
+
 	  }
 
 	 
 	  public void display(Object message) 
 	  {   
-		  this.msg =(ArrayList<String>) message;
-		  System.out.println("> " + message); 
+		  this.msg =message;
+		  //ystem.out.println("> " + message); 
 	  }
 
 	  
-	  public ArrayList<String> get_msg()
+	  public Object get_msg()
 		{
 			return this.msg;
 		}

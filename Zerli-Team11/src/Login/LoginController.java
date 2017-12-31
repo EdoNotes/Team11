@@ -1,9 +1,12 @@
 package Login;
 
+import java.io.IOException;
+
 import com.mysql.jdbc.util.ServerController;
 
 import Entities.User;
 import Server.Server;
+import client.ChatClient;
 import client.ClientConsole;
 import common.Msg;
 import javafx.event.ActionEvent;
@@ -20,6 +23,7 @@ public class LoginController
 	PasswordField txtPassword;
 	
 	public ClientConsole client;
+	public ChatClient chat;
 	
 	@FXML
 	public void ExitBtn(ActionEvent e)
@@ -41,6 +45,12 @@ public class LoginController
 		userToCheck.setSentObj(userToConnect); //put the user into msg
 		userToCheck.setClassType("User");
 		client=new ClientConsole(Server.HOST,Server.DEFAULT_PORT);
+		try {
+			chat=new ChatClient(Server.HOST, Server.DEFAULT_PORT, client);//need to be checked
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		client.accept(userToCheck);
 		User returnUsr=(User)userToCheck.getReturnObj();

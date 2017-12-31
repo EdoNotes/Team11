@@ -169,6 +169,12 @@ public class User implements Serializable {
 	public void setTryToConnectCounter(int tryToConnectCounter) {
 		this.tryToConnectCounter = tryToConnectCounter;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", password=" + password + ", ID=" + ID + ", FirstName=" + FirstName
+				+ ", LastName=" + LastName + ", Phone=" + Phone + ", Gender=" + Gender + ", Email=" + Email
+				+ ", UserType=" + UserType + ", ConnectionStatus=" + ConnectionStatus + ", tryToConnectCounter="
+				+ tryToConnectCounter + "]";
+	}
 
 }
