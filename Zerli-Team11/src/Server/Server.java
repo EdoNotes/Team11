@@ -74,7 +74,7 @@ public class Server extends AbstractServer {
 	public static  void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
 		System.out.println("This Shit Works12");
-		User toSearch=(User)msg;
+		User toSearch=(User)(((Msg)msg).getSentObj());
 		System.out.println("This Shit Works5");
 		User tmpUsr= new User();
 		System.out.println("This Shit Works6");
