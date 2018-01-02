@@ -104,19 +104,19 @@ public class User implements Serializable {
 //{Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
 	public void setUserType(String userType)
 	{
-		if(userType.equals(Premission.Client))
+		if(userType.equalsIgnoreCase("Client"))
 		{
 			this.UserType=Premission.Client;
 		}
-		if(userType.equals(Premission.StoreManager))
+		else if(userType.equalsIgnoreCase("StoreManager"))
 		{
 			this.UserType=Premission.StoreManager;
 		}
-		if(userType.equals(Premission.StoreEmpployee))
+		else if(userType.equalsIgnoreCase("StoreEmpployee"))
 		{
 			this.UserType=Premission.StoreEmpployee;
 		}
-		if(userType.equals(Premission.Expert))
+		else if(userType.equalsIgnoreCase("Expert"))
 		{
 			this.UserType=Premission.Expert;
 		}
@@ -132,11 +132,11 @@ public class User implements Serializable {
 
 	public void setConnectionStatus(String connectionStatus) 
 	{
-		if(connectionStatus.equals(ConnectionStatus.Offline))
+		if(connectionStatus.equalsIgnoreCase("offline"))
 		{
 			this.ConnectionStatus=ConnectionStatus.Offline;
 		}
-		else if(connectionStatus.equals(ConnectionStatus.Online))
+		else if(connectionStatus.equalsIgnoreCase("online"))
 		{
 			this.ConnectionStatus=ConnectionStatus.Online;
 		}

@@ -11,6 +11,7 @@ public class Msg implements Serializable {
 	private boolean queryExist=false; /*flag to check if there is any query msg must have a query before we send her*/
 	private boolean queryAns; /*will check id there is some answer from DB*/
 	private String ClassType;
+	private String queryNeedTo;
 	/*Constants word at any query that we will use */
 	final public static String qSELECTALL = "SELECT *";
 	final static public String qSELECT="SELECT";
@@ -22,7 +23,7 @@ public class Msg implements Serializable {
 	final public static String qVALUES =" VALUES "; */
 	
 	/*constructor*/
-	public Msg(String queryQ) 
+	public Msg(String queryQ,String query) 
 	{
 		sentObj=null;
 		returnObj=null;
@@ -32,6 +33,7 @@ public class Msg implements Serializable {
 			this.queryExist=true;
 		}
 		this.queryAns=false; /*init to false while the Msg even did not sent to any server*/
+		queryNeedTo=query;
 	}
 	public Msg()
 	{
@@ -40,6 +42,12 @@ public class Msg implements Serializable {
 		this.queryAns=false;
 	}
 
+	public String getQueryNeedTo() {
+		return queryNeedTo;
+	}
+	public void setQueryNeedTo(String queryNeedTo) {
+		this.queryNeedTo = queryNeedTo;
+	}
 	public Object getSentObj() {
 		return sentObj;
 	}

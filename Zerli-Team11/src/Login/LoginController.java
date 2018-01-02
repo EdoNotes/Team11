@@ -41,7 +41,7 @@ public class LoginController
 		String uName=txtUsername.getText();
 		String uPass=txtPassword.getText();
 		User userToConnect=new User(uName,uPass); //create a new user to make sure
-		Msg userToCheck=new Msg(Msg.qSELECTALL); // create a new msg
+		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence"); // create a new msg
 		userToCheck.setSentObj(userToConnect); //put the user into msg
 		userToCheck.setClassType("User");
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
@@ -73,7 +73,6 @@ public class LoginController
 		User myNewUser=(User)myMsg.getReturnObj();
 		if(myNewUser.getUserName().compareTo(myOldUser.getUserName())==0)
 		{
-			System.out.println("user name exist");
 			if(myNewUser.getPassword().compareTo(myOldUser.getPassword())==0)
 			{
 				System.out.println("User Connected succesfuly!");
