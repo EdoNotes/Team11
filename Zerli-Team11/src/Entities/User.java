@@ -1,3 +1,13 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Entities;
 
 import java.io.Serializable;
@@ -9,9 +19,17 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 	
+	
+	/***************************************************************************/
+	/**								<Enums>								
+	 */
 	public enum Premission {Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
 	public enum ConnectionStatus {Online, Offline,Blocked;}
-
+	/***************************************************************************/
+	
+	/***************************************************************************/
+	/**							<Instance Variables>
+	 */
 	private String userName;
 	private String password;
 	private int ID;
@@ -23,12 +41,30 @@ public class User implements Serializable {
 	private Premission UserType;
 	private ConnectionStatus ConnectionStatus;
 	private int tryToConnectCounter;
+	/***************************************************************************/
 	
-	/*Empty constructor*/
+	/***************************************************************************/
+	/**								<Methods>
+	 */
+	/**
+	 * Empty Constructor
+	 */
 	public User() {}
 
 
-	/*full constructor*/
+	/**
+	 * Full Constructor
+	 * @param userName
+	 * @param password
+	 * @param ID
+	 * @param FirstName
+	 * @param LastName
+	 * @param ConnectionStatus-{Online,Offline,Blocked}
+	 * @param UserType-Acess Permission for user
+	 * @param Phone
+	 * @param Gender
+	 * @param Email
+	 */
 	public User(String userName,String password,int ID, String FirstName, String LastName, ConnectionStatus ConnectionStatus, Premission UserType,
 			String Phone, String Gender, String Email) {
 		this.userName=userName;
@@ -43,7 +79,11 @@ public class User implements Serializable {
 		this.ConnectionStatus = ConnectionStatus;
 	}
 	
-	/*Login constructor*/
+	/**
+	 * User Login Constructor
+	 * @param userName
+	 * @param password
+	 */
 	public User(String userName,String password)
 	{
 		this.userName=userName;
@@ -97,11 +137,13 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		Email = email;
 	}
-
+/**
+ * 
+ * @return Premission Of User
+ */
 	public Premission getUserType() {
 		return UserType;
 	}
-//{Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
 	public void setUserType(String userType)
 	{
 		if(userType.equalsIgnoreCase("Client"))
@@ -125,7 +167,10 @@ public class User implements Serializable {
 			this.UserType=Premission.CostomerServiece;
 		}
 	}
-
+	/**
+	 * 
+	 * @return User's Current Connection Status On Server
+	 */
 	public ConnectionStatus getConnectionStatus() {
 		return ConnectionStatus;
 	}
@@ -161,7 +206,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	/**
+	 * 
+	 * @return Counter That Represents Wrong Login Tries
+	 */
 	public int getTryToConnectCounter() {
 		return tryToConnectCounter;
 	}
@@ -176,5 +224,5 @@ public class User implements Serializable {
 				+ ", UserType=" + UserType + ", ConnectionStatus=" + ConnectionStatus + ", tryToConnectCounter="
 				+ tryToConnectCounter + "]";
 	}
-
+	/***************************************************************************/
 }
