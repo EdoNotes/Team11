@@ -52,7 +52,7 @@ public class LoginController
 			e1.printStackTrace();
 		}
 		
-		client.accept(userToCheck);
+		client.accept((Object)userToCheck);
 		User returnUsr=(User)userToCheck.getReturnObj();
 		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
 		{

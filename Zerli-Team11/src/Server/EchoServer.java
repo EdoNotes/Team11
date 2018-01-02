@@ -28,8 +28,6 @@ public class EchoServer extends AbstractServer {
 	 */
 	final public static int DEFAULT_PORT = 5555;
 	final public static String HOST= "localhost";
-	private static Server.ServerController svc;
-	private static EchoServer EchoSer;
 
 	/*
 	 * Methods Area
@@ -47,10 +45,8 @@ public class EchoServer extends AbstractServer {
 			
 		Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/zerli","root","root");
         System.out.println("SQL connection succeed 222");
-        System.out.printf("\n%s\n",((Msg)msg).getClassType());
 		if ((((Msg)msg).getClassType()).equalsIgnoreCase("User"))
 			{
-				System.out.println("SQL connection succeed 777");
 				userHandeler(msg,"user",client,conn);
 			}
 		}
@@ -68,7 +64,6 @@ public class EchoServer extends AbstractServer {
 	{
 		String queryToDo=((Msg)msg).getQueryQuestion();
 		if(queryToDo.equalsIgnoreCase(Msg.qSELECTALL)) { 
-			System.out.println("Matan sabag");
 			searchUserInDB(msg,tableName,client,con);
 		}
 	}
@@ -77,21 +72,12 @@ public class EchoServer extends AbstractServer {
 
 	public static  void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
-		svc=new Server.ServerController();
-		EchoSer=svc.getServer();
-		
-		Object toReturn;
-		System.out.println("This Shit Works12");
 		User toSearch=(User)(((Msg)msg).getSentObj());
-		System.out.println("This Shit Works5");
 		User tmpUsr= new User();
-		System.out.println("This Shit Works6");
 		try 
 		{
-			System.out.println("This Shit Works10");
 			Statement stmt = con.createStatement();
-			System.out.println("This Shit Works12");
-			ResultSet rs = stmt.executeQuery("select * from user where UserName='edoono24' and Password='darklord'");
+			ResultSet rs = stmt.executeQuery(((Msg)msg).getQueryQuestion()+" FROM "+tableName+" WHERE UserName='"+toSearch.getUserName()+"' AND Password='"+toSearch.getPassword()+"';");
 	 		if(rs.next())
 	 		{
 
@@ -107,18 +93,14 @@ public class EchoServer extends AbstractServer {
 				tmpUsr.setEmail(rs.getString(10));//Set Email for returned object
 			} 
 	 		rs.close();
+	 		con.close();
 			System.out.println(tmpUsr);//works
 			
-			((Msg)msg).setReturnObj((User)tmpUsr);
-			
-			System.out.println((User)((Msg)msg).getReturnObj());
-			toReturn=(User)((Msg)msg).getReturnObj();
-			//EchoSer.sendToAllClients(toReturn);
+			((Msg)msg).setReturnObj(tmpUsr);
 			
 			try {
-				client.sendToClient(msg);
+				client.sendToClient((Object)msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} 
