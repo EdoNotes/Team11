@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="102.0" layoutY="35.0" text="Satisfication Survey">
          <font>
@@ -20,11 +19,11 @@
       <Label layoutX="50.0" layoutY="275.0" text="Q #5" />
       <Label layoutX="50.0" layoutY="327.0" text="Q #6" />
       <Label layoutX="50.0" layoutY="229.0" text="Q #4" />
-      <ComboBox layoutX="328.0" layoutY="99.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="cmbSelectAnswer1" layoutX="328.0" layoutY="99.0" prefHeight="25.0" prefWidth="40.0" />
       <ComboBox layoutX="328.0" layoutY="183.0" prefHeight="25.0" prefWidth="40.0" />
       <ComboBox layoutX="328.0" layoutY="323.0" prefHeight="25.0" prefWidth="40.0" />
       <ComboBox layoutX="328.0" layoutY="225.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox layoutX="328.0" layoutY="140.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="cmbSelectAnswer2" layoutX="328.0" layoutY="140.0" prefHeight="25.0" prefWidth="40.0" />
       <ComboBox layoutX="328.0" layoutY="271.0" prefHeight="25.0" prefWidth="40.0" />
       <Button layoutX="89.0" layoutY="410.0" mnemonicParsing="false" text="Back" />
       <Button layoutX="272.0" layoutY="410.0" mnemonicParsing="false" text="Send" />
