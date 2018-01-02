@@ -99,7 +99,7 @@ public class EchoServer extends AbstractServer {
 			((Msg)msg).setReturnObj(tmpUsr);
 			
 			try {
-				client.sendToClient((Object)msg);
+				client.sendToClient(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

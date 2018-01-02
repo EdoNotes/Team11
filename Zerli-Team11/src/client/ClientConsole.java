@@ -4,6 +4,8 @@ import java.io.*;
 import common.*;
 import java.util.ArrayList;
 
+import Login.LoginController;
+
 
 public class ClientConsole implements ChatIF {
 	/* Variables Zone */
@@ -39,8 +41,8 @@ public class ClientConsole implements ChatIF {
 	 
 	  public void display(Object message) 
 	  {   
-		  this.msg =message;
-		  //ystem.out.println("> " + message); 
+		  Login.LoginController LIC=new LoginController();
+		  LIC.confirmUser(message);
 	  }
 
 	  

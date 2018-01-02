@@ -45,22 +45,39 @@ public class LoginController
 		userToCheck.setSentObj(userToConnect); //put the user into msg
 		userToCheck.setClassType("User");
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
-		try {
-			chat=new ChatClient(EchoServer.HOST, EchoServer.DEFAULT_PORT, client);//need to be checked
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		client.accept((Object)userToCheck);
 		User returnUsr=(User)userToCheck.getReturnObj();
-		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
+//		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
+//		{
+//			System.out.println("user name exist");
+//			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
+//			{
+//				System.out.println("User Connected succesfuly!");
+//				returnUsr.setConnectionStatus("Online");
+//				
+//			}
+//			else
+//			{
+//				System.out.println("Wrong password");
+//			}
+//		}
+//		else
+//		{
+//			System.out.println("Worng UserName");
+//		}
+	}
+	public void confirmUser(Object msg)
+	{
+		Msg myMsg=(Msg)msg;
+		User myOldUser =(User)myMsg.getSentObj();
+		User myNewUser=(User)myMsg.getReturnObj();
+		if(myNewUser.getUserName().compareTo(myOldUser.getUserName())==0)
 		{
 			System.out.println("user name exist");
-			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
+			if(myNewUser.getPassword().compareTo(myOldUser.getPassword())==0)
 			{
 				System.out.println("User Connected succesfuly!");
-				returnUsr.setConnectionStatus("Online");
+				myNewUser.setConnectionStatus("Online");
 				
 			}
 			else

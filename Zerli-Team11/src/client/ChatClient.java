@@ -8,6 +8,8 @@ import ocsf.client.*;
 import common.*;
 import java.io.*;
 
+import Entities.User;
+
 /**
  * This class overrides some of the methods defined in the abstract
  * superclass in order to give more functionality to the client.
@@ -57,8 +59,10 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
+	  //User tmpUser=(User)((Msg)msg).getReturnObj();
 	  this.msg = msg;
-    clientUI.display(msg);
+	  System.out.println("TRY TRY TRY TRY TRY \n"+ ((Msg)msg).getReturnObj() );
+	  clientUI.display(msg);
   }
 
   /**
