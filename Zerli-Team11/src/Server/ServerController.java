@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import client.ClientConsole;
+import common.Msg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -26,6 +28,7 @@ public class ServerController {
 	final public static int DEFAULT_PORT = 5555;
 	Connection con;// A variable that will store our Connection pointer with SQL
 	boolean serverIsUp=false;
+	private EchoServer server;
 
 	
 	@FXML
@@ -82,13 +85,16 @@ public class ServerController {
 		} else {
 			port = DEFAULT_PORT;
 		}
-		Server server = new Server(port);
-
+		server = new EchoServer(port);
 		try {
 			server.listen(); // Start listening for connections
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
+	}
+	public EchoServer getServer()
+	{
+		return this.server;
 	}
 
 }

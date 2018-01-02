@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.mysql.jdbc.util.ServerController;
 
 import Entities.User;
-import Server.Server;
+import Server.EchoServer;
 import client.ChatClient;
 import client.ClientConsole;
 import common.Msg;
@@ -44,9 +44,9 @@ public class LoginController
 		Msg userToCheck=new Msg(Msg.qSELECTALL); // create a new msg
 		userToCheck.setSentObj(userToConnect); //put the user into msg
 		userToCheck.setClassType("User");
-		client=new ClientConsole(Server.HOST,Server.DEFAULT_PORT);
+		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		try {
-			chat=new ChatClient(Server.HOST, Server.DEFAULT_PORT, client);//need to be checked
+			chat=new ChatClient(EchoServer.HOST, EchoServer.DEFAULT_PORT, client);//need to be checked
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

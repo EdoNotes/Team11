@@ -3,19 +3,21 @@ package Server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.mysql.jdbc.util.ServerController;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.io.*;
 import Entities.*;
-import Entities.User.ConnectionStatus;
-import Login.LoginController;
-import client.ChatClient;
 import common.*;
-import ocsf.server.*;
+import ocsf.server.AbstractServer;
+//import ocsf.server.*;
+import ocsf.server.ConnectionToClient;
 
 
 
-public class Server extends AbstractServer {
+public class EchoServer extends AbstractServer {
 	/*
 	 * Attributes Area
 	 * =============================================================================
@@ -26,6 +28,8 @@ public class Server extends AbstractServer {
 	 */
 	final public static int DEFAULT_PORT = 5555;
 	final public static String HOST= "localhost";
+	private static Server.ServerController svc;
+	private static EchoServer EchoSer;
 
 	/*
 	 * Methods Area
@@ -33,11 +37,9 @@ public class Server extends AbstractServer {
 	 * ==
 	 */
 
-	public Server(int port) {
+	public EchoServer(int port) {
 		super(port);
 	}
-
-	
 	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
 		try 
@@ -75,6 +77,9 @@ public class Server extends AbstractServer {
 
 	public static  void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
+		svc=new Server.ServerController();
+		EchoSer=svc.getServer();
+		
 		Object toReturn;
 		System.out.println("This Shit Works12");
 		User toSearch=(User)(((Msg)msg).getSentObj());
@@ -104,12 +109,14 @@ public class Server extends AbstractServer {
 	 		rs.close();
 			System.out.println(tmpUsr);//works
 			
-			((Msg)msg).setReturnObj((Object)tmpUsr);
+			((Msg)msg).setReturnObj((User)tmpUsr);
 			
 			System.out.println((User)((Msg)msg).getReturnObj());
-			toReturn=(Object)((Msg)msg).getReturnObj();
-			try {//*******לא עובד**********
-				client.sendToClient(toReturn);
+			toReturn=(User)((Msg)msg).getReturnObj();
+			//EchoSer.sendToAllClients(toReturn);
+			
+			try {
+				client.sendToClient(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -119,6 +126,7 @@ public class Server extends AbstractServer {
 		{
 			System.out.println(e.getMessage());
 		}
+		
 	}
 
 	
@@ -142,5 +150,7 @@ public class Server extends AbstractServer {
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
+	
+
 
 }

@@ -33,6 +33,12 @@ public class Msg implements Serializable {
 		}
 		this.queryAns=false; /*init to false while the Msg even did not sent to any server*/
 	}
+	public Msg()
+	{
+		sentObj=null;
+		returnObj=null;
+		this.queryAns=false;
+	}
 
 	public Object getSentObj() {
 		return sentObj;
