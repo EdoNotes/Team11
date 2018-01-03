@@ -33,6 +33,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ShopManagerMenuController implements Initializable
@@ -105,8 +106,24 @@ public class ShopManagerMenuController implements Initializable
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
 		directory = (TreeMap<String, String> )client.msg;
-//		String d = (String )client.msg;
 		System.out.println("good 2" +directory);
+		
+
+		
+		Stage primaryStage=new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
+		report_orderController report=loader.getController();
+		report.setdirectory(directory);
+		report.load_dir(directory);
+		Scene serverScene = new Scene(root);
+		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
+		primaryStage.setScene(serverScene);
+		primaryStage.show();
+
+		
+		
+		
 	}
 	@FXML
 	public void ExitBtn(ActionEvent event)

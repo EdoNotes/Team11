@@ -48,7 +48,6 @@ public class ClientConsole implements ChatIF {
 
 		  Thread.sleep(3000);
 		  this.msg=client.msg;
-		  //client.handleMessageFromServer(msg);
 		  System.out.println("msg from server"+    client.msg);
 
 	  }

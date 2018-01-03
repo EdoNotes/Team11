@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="360.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.report_orderController">
+   <children>
+      <Label layoutX="115.0" layoutY="27.0" text="Report -Orders">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button layoutX="345.0" layoutY="285.0" mnemonicParsing="false" onAction="#BackBtn" text="Back " />
+      <Label layoutX="93.0" layoutY="119.0" />
+      <Label fx:id="T3" layoutX="93.0" layoutY="247.0" />
+      <Label fx:id="T2" layoutX="93.0" layoutY="111.0" />
+      <Label fx:id="T1" layoutX="93.0" layoutY="161.0" />
+      <TextField fx:id="tx1" layoutX="94.0" layoutY="99.0" prefHeight="157.0" prefWidth="263.0" />
+   </children>
+</AnchorPane>
