@@ -21,7 +21,7 @@
          </font>
       </Label>
       <ComboBox fx:id="cmbSelectReport1" layoutX="14.0" layoutY="268.0" prefWidth="150.0" promptText="Select Report Type" />
-      <Button fx:id="Breport1" layoutX="382.0" layoutY="268.0" mnemonicParsing="false" text="View Report" />
+      <Button fx:id="Breport1" layoutX="382.0" layoutY="268.0" mnemonicParsing="false" onAction="#askReport" text="View Report" />
       <ComboBox fx:id="cmbSelectReport2" layoutX="14.0" layoutY="312.0" prefWidth="150.0" promptText="Select Report Type" />
       <Button fx:id="Breport2" layoutX="382.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="View Report" />
       <ComboBox fx:id="cmbQ1" layoutX="179.0" layoutY="268.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />

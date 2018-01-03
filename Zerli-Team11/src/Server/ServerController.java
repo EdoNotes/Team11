@@ -33,7 +33,7 @@ public class ServerController {
 	
 	@FXML
 	public void ClickToConnect(ActionEvent e) 
-	{
+	{		
 		if(serverIsUp==false)
 		{
 			if(txtPort.getText().equals(""))

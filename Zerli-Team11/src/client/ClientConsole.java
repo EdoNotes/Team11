@@ -39,18 +39,23 @@ public class ClientConsole implements ChatIF {
 		}
 	}
 	/**
+	 * @throws InterruptedException 
 	 * @get Msg from the client and send to to the server with the func client.handleMessageFromClientUI()
 	 */
-	  public void accept(Object msg)
+	  public void accept(Object msg) throws InterruptedException
 	  {  
-		  client.handleMessageFromClientUI(msg); 
+		  client.handleMessageFromClientUI(msg);
+
+		  Thread.sleep(3000);
+		  this.msg=client.msg;
 		  //client.handleMessageFromServer(msg);
+		  System.out.println("msg from server"+    client.msg);
 
 	  }
 
 	 
 	  public void display(Object message) 
-	  {   
+	  {   		  this.msg = message;
 		  Login.LoginController LIC=new LoginController();
 		  LIC.confirmUser(message);
 	  }

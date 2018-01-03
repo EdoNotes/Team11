@@ -46,7 +46,7 @@ public class LoginController
 	}
 	
 	@FXML
-	public void LoginButton(ActionEvent e)
+	public void LoginButton(ActionEvent e) throws InterruptedException
 	{
 		String uName=txtUsername.getText();
 		String uPass=txtPassword.getText();
@@ -77,7 +77,8 @@ public class LoginController
 //		}
 	}
 	public void confirmUser(Object msg)
-	{
+	{				System.out.println("User dddddddddddddddddddd succesfuly!");
+
 		Msg myMsg=(Msg)msg;
 		User myOldUser =(User)myMsg.getSentObj();
 		User myNewUser=(User)myMsg.getReturnObj();

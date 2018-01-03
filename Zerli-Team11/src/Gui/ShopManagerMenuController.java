@@ -15,7 +15,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
+import client.ChatClient;
+import Server.EchoServer;
+import client.ClientConsole;
+import common.Msg;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,7 +58,8 @@ public class ShopManagerMenuController implements Initializable
 	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
 	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
 	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
-
+	public ClientConsole client;
+	public ChatClient chat;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -69,7 +75,7 @@ public class ShopManagerMenuController implements Initializable
 	}
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
-	{if (event.getSource()==BNU)
+	{	
 		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		Stage primaryStage=new Stage();
 		Parent root=FXMLLoader.load(getClass().getResource("/Gui/NewUserRegistration.fxml"));
@@ -77,16 +83,30 @@ public class ShopManagerMenuController implements Initializable
 		serverScene.getStylesheets().add(getClass().getResource("NewUserRegistration.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();}
-	if (event.getSource()==Breport1)
-		System.out.println("good");
+
 	}
 	
 	
 	public void askReport(ActionEvent event) throws Exception
-	{			
-		if (event.getSource()==Breport1)
-			System.out.println("good");
-	
+{		TreeMap<String, String> directory = new TreeMap<String, String>();
+		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
+		userToCheck.setClassType("report");// create a new msg
+		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
+		String cmd ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
+		System.out.println((String)cmbQ1.getValue());
+		int q2 =Integer.parseInt((String)cmbQ1.getValue());
+		cmd += date[q2-1];
+		cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";
+		System.out.println(cmd);
+//
+		userToCheck.setQueryQuestion(cmd);
+		userToCheck.setQueryExist(true);
+		
+		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
+		client.accept((Object)userToCheck);
+		directory = (TreeMap<String, String> )client.msg;
+//		String d = (String )client.msg;
+		System.out.println("good 2" +directory);
 	}
 	@FXML
 	public void ExitBtn(ActionEvent event)

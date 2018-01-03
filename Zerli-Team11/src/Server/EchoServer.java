@@ -13,8 +13,11 @@ package Server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.TreeMap;
+import java.util.Vector;
 
 import com.mysql.jdbc.util.ServerController;
+import com.sun.javafx.collections.MappingChange.Map;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -54,6 +57,9 @@ public class EchoServer extends AbstractServer {
 			System.out.println("SQL connection succeed 222");
 			if ((msgRecived.getClassType()).equalsIgnoreCase("User")) {
 				userHandeler(msgRecived, "user", client, conn);
+			}
+			if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
+				get_order_report(msgRecived, conn, client);
 			}
 		} catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
@@ -125,5 +131,39 @@ public class EchoServer extends AbstractServer {
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
+	
+	
+	public void get_order_report(Msg msg, Connection con, ConnectionToClient client)
+	{   
+		System.out.println("great" + msg.getQueryQuestion());
+		TreeMap<String, String> directory = new TreeMap<String, String>();
+		try {
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(msg.getQueryQuestion()); 
+
+				while (rs.next()) {
+					
+					System.out.println(rs.getString(1)+rs.getString(2));
+					directory.put(rs.getString(1), rs.getString(2));
+				}
+				
+				rs.close();
+				System.out.println(directory);
+				try {
+					client.sendToClient(directory);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				con.close();
+		}
+		 catch (SQLException e) {
+		System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	
+	//SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN '2011-10-01' AND '2011-12-31'  and orders.shop = 'Ako' group by orders.type ;
+	
 
 }
