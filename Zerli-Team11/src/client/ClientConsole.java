@@ -45,18 +45,17 @@ public class ClientConsole implements ChatIF {
 	  public void accept(Object msg) throws InterruptedException
 	  {  
 		  client.handleMessageFromClientUI(msg);
-
-		  Thread.sleep(3000);
-		  this.msg=client.msg;
-		  System.out.println("msg from server"+    client.msg);
+//		  Thread.sleep(3000);
+//		  this.msg=client.msg;
+//		  System.out.println("msg from server"+    client.msg);
 
 	  }
 
 	 
 	  public void display(Object message) 
 	  {   		  this.msg = message;
-		  Login.LoginController LIC=new LoginController();
-		  LIC.confirmUser(message);
+		  //Login.LoginController LIC=new LoginController();
+		  //LIC.confirmUser(message);
 	  }
 
 	  

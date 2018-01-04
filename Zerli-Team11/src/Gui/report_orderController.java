@@ -28,44 +28,36 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class report_orderController 
-{
-	
-	public TreeMap<String, String> directory = new TreeMap<String, String>();
+public class report_orderController {
 
+	public TreeMap<String, String> directory = new TreeMap<String, String>();
 
 	@FXML
 	TextField tx1;
 
-
 	@FXML
-	public void BackBtn(ActionEvent event) throws IOException
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage primaryStage=new Stage();
-		Parent root=FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
+	public void BackBtn(ActionEvent event) throws IOException {
+		((Node) event.getSource()).getScene().getWindow().hide();// Hide Menu
+		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
 		Scene Scene = new Scene(root);
 		Scene.getStylesheets().add(getClass().getResource("ShopManagerMenu.css").toExternalForm());
 		primaryStage.setScene(Scene);
 		primaryStage.show();
 	}
-	public void setdirectory(TreeMap<String, String> d)
-	{
-		this.directory=d;
-	}
-	
 
-	
-	public void load_dir(TreeMap<String, String> directory)
-	{this.directory=directory;
-	String t="";
-	int j=0;
-	String s="";
-	this.tx1.setText(this.directory.toString());
-	 System.out.print(s);
-	 
-
+	public void setdirectory(TreeMap<String, String> d) {
+		this.directory = d;
 	}
 
+	public void load_dir(TreeMap<String, String> directory) {
+		this.directory = directory;
+		String t = "";
+		int j = 0;
+		String s = "";
+		this.tx1.setText(this.directory.toString());
+		System.out.print(s);
+
+	}
 
 }

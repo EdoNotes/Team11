@@ -15,6 +15,10 @@ import java.io.Serializable;
 public class Msg implements Serializable {
 	/*class att. :*/
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Object sentObj; /*The object holds the kind of object that we want to send to server*/
 	private Object returnObj; /*this obj is the obj that we are receive after the query*/
 	private String queryQuestion; /*The query that we send to server(DB)*/

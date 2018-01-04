@@ -56,38 +56,19 @@ public class LoginController
 		userToCheck.setClassType("User");
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
+		userToCheck=(Msg)client.get_msg();
 		User returnUsr=(User)userToCheck.getReturnObj();
-//		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
-//		{
-//			System.out.println("user name exist");
-//			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
-//			{
-//				System.out.println("User Connected succesfuly!");
-//				returnUsr.setConnectionStatus("Online");
-//				
-//			}
-//			else
-//			{
-//				System.out.println("Wrong password");
-//			}
-//		}
-//		else
-//		{
-//			System.out.println("Worng UserName");
-//		}
-	}
-	public void confirmUser(Object msg)
-	{				System.out.println("User dddddddddddddddddddd succesfuly!");
-
-		Msg myMsg=(Msg)msg;
-		User myOldUser =(User)myMsg.getSentObj();
-		User myNewUser=(User)myMsg.getReturnObj();
-		if(myNewUser.getUserName().compareTo(myOldUser.getUserName())==0)
+		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
 		{
-			if(myNewUser.getPassword().compareTo(myOldUser.getPassword())==0)
+			System.out.println("user name exist");
+			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
 			{
 				System.out.println("User Connected succesfuly!");
-				myNewUser.setConnectionStatus("Online");
+				returnUsr.setConnectionStatus("Online");
+				Alert al=new Alert(Alert.AlertType.INFORMATION);
+				al.setTitle("Connecttion Succeed");
+				al.setContentText("Welcome "+ returnUsr.getUserName());
+				al.showAndWait();
 				
 			}
 			else
@@ -100,4 +81,28 @@ public class LoginController
 			System.out.println("Worng UserName");
 		}
 	}
+//	public void confirmUser(Object msg)
+//	{				System.out.println("User dddddddddddddddddddd succesfuly!");
+//
+//		Msg myMsg=(Msg)msg;
+//		User myOldUser =(User)myMsg.getSentObj();
+//		User myNewUser=(User)myMsg.getReturnObj();
+//		if(myNewUser.getUserName().compareTo(myOldUser.getUserName())==0)
+//		{
+//			if(myNewUser.getPassword().compareTo(myOldUser.getPassword())==0)
+//			{
+//				System.out.println("User Connected succesfuly!");
+//				myNewUser.setConnectionStatus("Online");
+//				
+//			}
+//			else
+//			{
+//				System.out.println("Wrong password");
+//			}
+//		}
+//		else
+//		{
+//			System.out.println("Worng UserName");
+//		}
+//	}
 }
