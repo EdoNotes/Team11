@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.SurveyController">
    <children>
       <Label layoutX="102.0" layoutY="35.0" text="Satisfication Survey">
          <font>
@@ -19,19 +19,20 @@
       <Label layoutX="50.0" layoutY="275.0" text="Q #5" />
       <Label layoutX="50.0" layoutY="327.0" text="Q #6" />
       <Label layoutX="50.0" layoutY="229.0" text="Q #4" />
-      <ComboBox fx:id="cmbSelectAnswer1" layoutX="328.0" layoutY="99.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox layoutX="328.0" layoutY="183.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox layoutX="328.0" layoutY="323.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox layoutX="328.0" layoutY="225.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox fx:id="cmbSelectAnswer2" layoutX="328.0" layoutY="140.0" prefHeight="25.0" prefWidth="40.0" />
-      <ComboBox layoutX="328.0" layoutY="271.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="cmbSelectAnswer1" layoutX="328.0" layoutY="99.0" prefHeight="25.0" prefWidth="55.0" />
+      <ComboBox fx:id="cmbSelectAnswer3" layoutX="328.0" layoutY="183.0" prefHeight="25.0" prefWidth="55.0" />
+      <ComboBox fx:id="cmbSelectAnswer6" layoutX="328.0" layoutY="323.0" prefHeight="25.0" prefWidth="55.0" />
+      <ComboBox fx:id="cmbSelectAnswer4" layoutX="328.0" layoutY="225.0" prefHeight="25.0" prefWidth="55.0" />
+      <ComboBox fx:id="cmbSelectAnswer2" layoutX="328.0" layoutY="140.0" prefHeight="25.0" prefWidth="55.0" />
+      <ComboBox fx:id="cmbSelectAnswer5" layoutX="328.0" layoutY="271.0" prefHeight="25.0" prefWidth="55.0" />
       <Button layoutX="89.0" layoutY="410.0" mnemonicParsing="false" text="Back" />
-      <Button layoutX="272.0" layoutY="410.0" mnemonicParsing="false" text="Send" />
-      <Label layoutX="109.0" layoutY="103.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
-      <Label layoutX="109.0" layoutY="144.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
-      <Label layoutX="109.0" layoutY="187.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
-      <Label layoutX="109.0" layoutY="229.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
-      <Label layoutX="109.0" layoutY="275.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
-      <Label layoutX="109.0" layoutY="327.0" prefHeight="17.0" prefWidth="183.0" text="Label" />
+      <Button layoutX="272.0" layoutY="410.0" mnemonicParsing="false" onAction="#SandBtn" text="Send" />
+      <Button layoutX="179.0" layoutY="410.0" mnemonicParsing="false" onAction="#EditBtn" text="Edit" />
+      <Label fx:id="txtQuestion1" layoutX="96.0" layoutY="103.0" prefHeight="17.0" prefWidth="214.0" />
+      <Label fx:id="txtQuestion2" layoutX="96.0" layoutY="144.0" prefHeight="17.0" prefWidth="214.0" />
+      <Label fx:id="txtQuestion3" layoutX="96.0" layoutY="187.0" prefHeight="17.0" prefWidth="214.0" />
+      <Label fx:id="txtQuestion4" layoutX="96.0" layoutY="229.0" prefHeight="17.0" prefWidth="214.0" />
+      <Label fx:id="txtQuestion5" layoutX="96.0" layoutY="275.0" prefHeight="17.0" prefWidth="214.0" />
+      <Label fx:id="txtQuestion6" layoutX="93.0" layoutY="327.0" prefHeight="17.0" prefWidth="214.0" />
    </children>
 </AnchorPane>
