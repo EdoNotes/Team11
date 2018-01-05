@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ShopManagerMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.StoreManagerMenuController">
    <children>
       <Label layoutX="48.0" layoutY="29.0" text="Shop Manager Menu">
          <font>

@@ -21,9 +21,14 @@ import client.ClientConsole;
 import common.Msg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginController {
 	@FXML
@@ -44,7 +49,7 @@ public class LoginController {
 	}
 
 	@FXML
-	public void LoginButton(ActionEvent e) throws InterruptedException {
+	public void LoginButton(ActionEvent event) throws InterruptedException {
 		String uName = txtUsername.getText();
 		String uPass = txtPassword.getText();
 		User userToConnect = new User(uName, uPass); // create a new user to make sure
@@ -72,6 +77,35 @@ public class LoginController {
 						al.setTitle("Connecttion Succeed");
 						al.setContentText("Welcome " + returnUsr.getFirstName());
 						al.showAndWait();
+						//Open Appropriate menu
+						switch(returnUsr.getUserType())
+						{
+						case "Client":
+							//Client Menu
+						case "StoreManager":
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage primaryStage=new Stage();
+							Parent root;
+							try {
+								root = FXMLLoader.load(getClass().getResource("/Gui/StoreManagerMenu.fxml"));
+								Scene Scene = new Scene(root);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/StoreManagerMenu.css").toExternalForm());
+								primaryStage.setScene(Scene);
+								primaryStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+							
+						case "StoreEmployee":
+							//StoreEmployee Menu
+						case "Expert":
+							//Expert Menu;
+						case "CustomerService":
+							//CustomerService Menu
+						}
+						
 
 					}
 				} 

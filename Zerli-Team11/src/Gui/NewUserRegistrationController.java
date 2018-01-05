@@ -46,9 +46,9 @@ public class NewUserRegistrationController
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		Stage primaryStage=new Stage();
-		Parent root=FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
+		Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreManagerMenu.fxml"));
 		Scene Scene = new Scene(root);
-		Scene.getStylesheets().add(getClass().getResource("ShopManagerMenu.css").toExternalForm());
+		Scene.getStylesheets().add(getClass().getResource("StoreManagerMenu.css").toExternalForm());
 		primaryStage.setScene(Scene);
 		primaryStage.show();
 	}

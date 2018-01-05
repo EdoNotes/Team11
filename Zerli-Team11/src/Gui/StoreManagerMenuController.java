@@ -36,7 +36,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ShopManagerMenuController implements Initializable
+public class StoreManagerMenuController implements Initializable
 {
 	@FXML
 	ComboBox cmbSelectReport1;
