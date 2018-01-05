@@ -14,13 +14,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.TreeMap;
-import java.util.Vector;
 
-import com.mysql.jdbc.util.ServerController;
-import com.sun.javafx.collections.MappingChange.Map;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.io.*;
 import Entities.*;
 import common.*;
@@ -58,7 +56,7 @@ public class EchoServer extends AbstractServer {
 			if ((msgRecived.getClassType()).equalsIgnoreCase("User")) {
 				userHandeler(msgRecived, "user", client, conn);
 			}
-			if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
+			else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
 			}
 		} catch (SQLException ex) {/* handle any errors */
@@ -71,17 +69,37 @@ public class EchoServer extends AbstractServer {
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
-		if (requestMsg.getQueryNeedTo().compareTo("checkUserExistence")==0) //If we want to check if user is exist e.g to logIn
+		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist
+																				// e.g to logIn
 			searchUserInDB(msg, tableName, client, con);
-
+		else if(requestMsg.getqueryToDo().compareTo("update user")==0)
+			updateUserDetails(msg,tableName,client,con);
 
 	}// userHandler
+
+	private static void updateUserDetails(Object msg, String tableName, ConnectionToClient client, Connection con) {
+		User userToUpdate = (User) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+		try {
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+userToUpdate.getUserName()+"'");
+			stmt.setString(1, message.getValueToUpdate());
+			stmt.executeUpdate();
+			con.close();
+		} catch (SQLException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public static void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User toSearch = (User) (((Msg) msg).getSentObj());
 		User tmpUsr = new User();
 		try {
 			Statement stmt = con.createStatement();
+			// Case 1: Username and Password Correct
+
 			ResultSet rs = stmt.executeQuery(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
 					+ toSearch.getUserName() + "' AND Password='" + toSearch.getPassword() + "';");
 			if (rs.next()) {
@@ -97,8 +115,26 @@ public class EchoServer extends AbstractServer {
 				tmpUsr.setGender(rs.getString(9));// Set Gender for returned object
 				tmpUsr.setEmail(rs.getString(10));// Set Email for returned object
 			}
+			// Case 2 :UserName Correct But Password Wrong
+			else if (rs.next() == false) {
+				rs = stmt.executeQuery(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
+						+ toSearch.getUserName()+"';");
+				if (rs.next()) {
+					tmpUsr.setUserName(rs.getString(1));// Set user name for returned object
+					tmpUsr.setPassword(rs.getString(2));// Set Password for returned object
+					tmpUsr.setID(Integer.parseInt(rs.getString(3)));// Set ID for returned object
+					tmpUsr.setFirstName(rs.getString(4));// Set FirstName for returned object
+					tmpUsr.setLastName(rs.getString(5));// Set tLastName for returned object
+					tmpUsr.setConnectionStatus(rs.getString(6));// Set ConnectionStatus for returned object
+					tmpUsr.setUserType(rs.getString(7));// Set UserType for returned object
+					tmpUsr.setPhone(rs.getString(8));// Set Phone for returned object
+					tmpUsr.setGender(rs.getString(9));// Set Gender for returned object
+					tmpUsr.setEmail(rs.getString(10));// Set Email for returned object
+				}
+				
+			}
 			rs.close();
-			
+
 			con.close();
 			System.out.println(tmpUsr);// works
 
@@ -115,7 +151,6 @@ public class EchoServer extends AbstractServer {
 
 	}
 
-
 	/**
 	 * This method overrides the one in the superclass. Called when the server stops
 	 * listening for connections.
@@ -131,39 +166,34 @@ public class EchoServer extends AbstractServer {
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
-	
-	
-	public void get_order_report(Msg msg, Connection con, ConnectionToClient client)
-	{   
+
+	public void get_order_report(Msg msg, Connection con, ConnectionToClient client) {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		try {
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(msg.getQueryQuestion()); 
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
 
-				while (rs.next()) {
-					
-					System.out.println(rs.getString(1)+rs.getString(2));
-					directory.put(rs.getString(1), rs.getString(2));
-				}
-				
-				rs.close();
-				System.out.println(directory);
-				try {
-					client.sendToClient(directory);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				con.close();
-		}
-		 catch (SQLException e) {
-		System.out.println(e.getMessage());
+			while (rs.next()) {
+
+				System.out.println(rs.getString(1) + rs.getString(2));
+				directory.put(rs.getString(1), rs.getString(2));
+			}
+
+			rs.close();
+			System.out.println(directory);
+			try {
+				client.sendToClient(directory);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
-	
-	
-	
-	//SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN '2011-10-01' AND '2011-12-31'  and orders.shop = 'Ako' group by orders.type ;
-	
+
+	// SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN
+	// '2011-10-01' AND '2011-12-31' and orders.shop = 'Ako' group by orders.type ;
 
 }

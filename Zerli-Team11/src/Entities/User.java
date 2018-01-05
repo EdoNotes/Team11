@@ -171,8 +171,20 @@ public class User implements Serializable {
 	 * 
 	 * @return User's Current Connection Status On Server
 	 */
-	public ConnectionStatus getConnectionStatus() {
-		return ConnectionStatus;
+	public String getConnectionStatus() 
+	{
+		if(this.ConnectionStatus.compareTo(ConnectionStatus.Offline)==0)
+		{
+			return "Offline";
+		}
+		else if(this.ConnectionStatus.compareTo(ConnectionStatus.Online)==0)
+		{
+			return "Online";
+		}
+		else//Blocked
+		{
+			return "Blocked";
+		}
 	}
 
 	public void setConnectionStatus(String connectionStatus) 
@@ -217,6 +229,7 @@ public class User implements Serializable {
 	public void setTryToConnectCounter(int tryToConnectCounter) {
 		this.tryToConnectCounter = tryToConnectCounter;
 	}
+	
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", ID=" + ID + ", FirstName=" + FirstName

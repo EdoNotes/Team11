@@ -101,7 +101,7 @@ public class ShopManagerMenuController implements Initializable
 		System.out.println(cmd);
 //
 		userToCheck.setQueryQuestion(cmd);
-		userToCheck.setQueryExist(true);
+//		userToCheck.setQueryExist(true);
 		
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);

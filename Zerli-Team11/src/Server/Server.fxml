@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="161.0" prefHeight="161.0" prefWidth="218.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerController">
+<AnchorPane minHeight="149.0" prefHeight="149.0" prefWidth="246.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerController">
    <children>
       <Label layoutX="37.0" layoutY="14.0" prefHeight="27.0" prefWidth="156.0" text="Team11 Server" textAlignment="CENTER" textFill="#44cd49">
          <font>
@@ -26,8 +26,9 @@
             <Glow />
          </effect>
       </Label>
-      <Button fx:id="btnConnect" layoutX="125.0" layoutY="115.0" mnemonicParsing="false" onAction="#ClickToConnect" text="Connect" />
+      <Button fx:id="btnConnect" layoutX="172.0" layoutY="115.0" mnemonicParsing="false" onAction="#ClickToConnect" text="Connect" />
       <TextField fx:id="txtPort" layoutX="23.0" layoutY="81.0" promptText="Enter Port(Optional)" />
-      <Button layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#ExitBtn" prefHeight="25.0" prefWidth="60.0" text="Exit" />
+      <Button layoutX="7.0" layoutY="115.0" mnemonicParsing="false" onAction="#ExitBtn" prefHeight="25.0" prefWidth="60.0" text="Exit" />
+      <Button layoutX="88.0" layoutY="115.0" mnemonicParsing="false" onAction="#WelcomeBtn" prefHeight="25.0" prefWidth="68.0" text="Welcome" />
    </children>
 </AnchorPane>

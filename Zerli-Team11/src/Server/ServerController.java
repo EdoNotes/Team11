@@ -1,18 +1,22 @@
 package Server;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import client.ClientConsole;
-import common.Msg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class ServerController {
 
@@ -91,6 +95,25 @@ public class ServerController {
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
+	}
+	@FXML
+	public void WelcomeBtn(ActionEvent e)
+	{
+		
+		Stage primaryStage=new Stage();
+		Parent root;
+		try {
+			((Node)e.getSource()).getScene().getWindow().hide();
+			root = FXMLLoader.load(getClass().getResource("/Login/Welcome.fxml"));
+			Scene loginScene = new Scene(root);
+			loginScene.getStylesheets().add(getClass().getResource("/Login/Welcome.css").toExternalForm());
+			primaryStage.setScene(loginScene);
+			primaryStage.show();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 	public EchoServer getServer()
 	{

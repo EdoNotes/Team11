@@ -25,84 +25,79 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController 
-{
+public class LoginController {
 	@FXML
 	TextField txtUsername;
 	@FXML
 	PasswordField txtPassword;
-	
+
 	public ClientConsole client;
 	public ChatClient chat;
-	
+
 	@FXML
-	public void ExitBtn(ActionEvent e)
-	{
-		Alert al=new Alert(Alert.AlertType.INFORMATION);
+	public void ExitBtn(ActionEvent e) {
+		Alert al = new Alert(Alert.AlertType.INFORMATION);
 		al.setHeaderText("Closing Login Panel ");
 		al.setContentText("Closing Login Panel Now");
 		al.showAndWait();
 		System.exit(0);
 	}
-	
+
 	@FXML
-	public void LoginButton(ActionEvent e) throws InterruptedException
-	{
-		String uName=txtUsername.getText();
-		String uPass=txtPassword.getText();
-		User userToConnect=new User(uName,uPass); //create a new user to make sure
-		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence"); // create a new msg
-		userToCheck.setSentObj(userToConnect); //put the user into msg
+	public void LoginButton(ActionEvent e) throws InterruptedException {
+		String uName = txtUsername.getText();
+		String uPass = txtPassword.getText();
+		User userToConnect = new User(uName, uPass); // create a new user to make sure
+		Msg userToCheck = new Msg(Msg.qSELECTALL, "checkUserExistence"); // create a new msg
+		userToCheck.setSentObj(userToConnect); // put the user into msg
 		userToCheck.setClassType("User");
-		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
-		client.accept((Object)userToCheck);
-		userToCheck=(Msg)client.get_msg();
-		User returnUsr=(User)userToCheck.getReturnObj();
-		if(returnUsr.getUserName().compareTo(userToConnect.getUserName())==0)
-		{
-			System.out.println("user name exist");
-			if(returnUsr.getPassword().compareTo(userToConnect.getPassword())==0)
-			{
-				System.out.println("User Connected succesfuly!");
-				returnUsr.setConnectionStatus("Online");
-				Alert al=new Alert(Alert.AlertType.INFORMATION);
-				al.setTitle("Connecttion Succeed");
-				al.setContentText("Welcome "+ returnUsr.getUserName());
+		client = new ClientConsole(WelcomeController.IP,WelcomeController.port);
+		client.accept((Object) userToCheck);
+		userToCheck = (Msg) client.get_msg();
+		User returnUsr = (User) userToCheck.getReturnObj();
+		if (returnUsr.getUserName() != null) {
+			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) {
+				if (returnUsr.getUserName().compareTo(userToConnect.getUserName()) == 0) {
+					System.out.println("user name exist");
+					if (returnUsr.getPassword().compareTo(userToConnect.getPassword()) == 0) {
+						System.out.println("User Connected succesfuly!");
+						returnUsr.setConnectionStatus("Online");
+						userToCheck.setqueryToDo("update user");
+						userToCheck.setSentObj(userToCheck.getReturnObj());
+						userToCheck.setQueryQuestion(Msg.qUPDATE);
+						userToCheck.setColumnToUpdate("ConnectionStatus");
+						userToCheck.setValueToUpdate("Online");
+						client.accept(
+								userToCheck); /* Update the connection stause of the user from offline to online */
+						Alert al = new Alert(Alert.AlertType.INFORMATION);
+						al.setTitle("Connecttion Succeed");
+						al.setContentText("Welcome " + returnUsr.getFirstName());
+						al.showAndWait();
+
+					}
+				} 
+				else {
+					System.out.println("Wrong password");
+
+					Alert al = new Alert(Alert.AlertType.ERROR);
+					al.setTitle("Connecttion problem");
+					al.setContentText("Wrong Password!");
+					al.showAndWait();
+				}
+			}
+			else {
+				Alert al=new Alert(Alert.AlertType.WARNING);
+				al.setTitle("Notice !");
+				al.setContentText("User Alredy connected");
 				al.showAndWait();
-				
 			}
-			else
-			{
-				System.out.println("Wrong password");
-			}
-		}
-		else
-		{
-			System.out.println("Worng UserName");
+		} 
+		else {
+			Alert al = new Alert(Alert.AlertType.ERROR);
+			al.setTitle("Connecttion problem");
+			al.setContentText("Unexist Username!");
+			al.showAndWait();
 		}
 	}
-//	public void confirmUser(Object msg)
-//	{				System.out.println("User dddddddddddddddddddd succesfuly!");
-//
-//		Msg myMsg=(Msg)msg;
-//		User myOldUser =(User)myMsg.getSentObj();
-//		User myNewUser=(User)myMsg.getReturnObj();
-//		if(myNewUser.getUserName().compareTo(myOldUser.getUserName())==0)
-//		{
-//			if(myNewUser.getPassword().compareTo(myOldUser.getPassword())==0)
-//			{
-//				System.out.println("User Connected succesfuly!");
-//				myNewUser.setConnectionStatus("Online");
-//				
-//			}
-//			else
-//			{
-//				System.out.println("Wrong password");
-//			}
-//		}
-//		else
-//		{
-//			System.out.println("Worng UserName");
-//		}
-//	}
+
 }

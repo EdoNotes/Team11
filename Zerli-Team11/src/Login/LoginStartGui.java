@@ -14,9 +14,9 @@ public class LoginStartGui extends Application
 		try 
 		{
 			Parent root=FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
-			Scene serverScene = new Scene(root);
-			serverScene.getStylesheets().add(getClass().getResource("login_application.css").toExternalForm());
-			primaryStage.setScene(serverScene);
+			Scene loginScene = new Scene(root);
+			loginScene.getStylesheets().add(getClass().getResource("login_application.css").toExternalForm());
+			primaryStage.setScene(loginScene);
 			primaryStage.show();
 		} 
 		catch(Exception e) 

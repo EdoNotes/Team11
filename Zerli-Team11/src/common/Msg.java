@@ -22,10 +22,10 @@ public class Msg implements Serializable {
 	private Object sentObj; /*The object holds the kind of object that we want to send to server*/
 	private Object returnObj; /*this obj is the obj that we are receive after the query*/
 	private String queryQuestion; /*The query that we send to server(DB)*/
-	private boolean queryExist=false; /*flag to check if there is any query msg must have a query before we send her*/
-	private boolean queryAns; /*will check id there is some answer from DB*/
 	private String ClassType;
-	private String queryNeedTo;
+	private String queryToDo;
+	private String ColumnToUpdate;
+	private String ValueToUpdate;
 	/*Constants word at any query that we will use */
 	final public static String qSELECTALL = "SELECT *";
 	final static public String qSELECT="SELECT";
@@ -42,49 +42,35 @@ public class Msg implements Serializable {
 		sentObj=null;
 		returnObj=null;
 		queryQuestion=queryQ;
-		if(this.queryQuestion!=null) /*we cant create a Msg without question*/
-		{
-			this.queryExist=true;
-		}
-		this.queryAns=false; /*init to false while the Msg even did not sent to any server*/
-		queryNeedTo=query;
+		queryToDo=query;
 	}
 	public Msg()
 	{
 		sentObj=null;
 		returnObj=null;
-		this.queryAns=false;
 	}
 
-	public String getQueryNeedTo() {
-		return queryNeedTo;
+	public String getqueryToDo() {
+		return queryToDo;
 	}
-	public void setQueryNeedTo(String queryNeedTo) {
-		this.queryNeedTo = queryNeedTo;
+	public void setqueryToDo(String queryNeedTo) {
+		this.queryToDo = queryNeedTo;
 	}
 	public Object getSentObj() {
 		return sentObj;
 	}
 
-
-
 	public void setSentObj(Object sentObj) {
 		this.sentObj = sentObj;
 	}
-
-
-
+	
 	public Object getReturnObj() {
 		return returnObj;
 	}
 
-
-
 	public void setReturnObj(Object returnObj) {
 		this.returnObj = returnObj;
 	}
-
-
 
 	public String getQueryQuestion() {
 		return queryQuestion;
@@ -94,21 +80,6 @@ public class Msg implements Serializable {
 		this.queryQuestion = queryQuestion;
 	}
 
-	public boolean isQueryExist() {
-		return queryExist;
-	}
-
-	public void setQueryExist(boolean queryExist) {
-		this.queryExist = queryExist;
-	}
-
-	public boolean isQueryAns() {
-		return queryAns;
-	}
-
-	public void setQueryAns(boolean queryAns) {
-		this.queryAns = queryAns;
-	}
 	public String getClassType()
 	{
 		return this.ClassType;
@@ -117,6 +88,19 @@ public class Msg implements Serializable {
 	{
 		this.ClassType=cl;
 	}
+	public String getColumnToUpdate() {
+		return ColumnToUpdate;
+	}
+	public void setColumnToUpdate(String columnToUpdate) {
+		ColumnToUpdate = columnToUpdate;
+	}
+	public String getValueToUpdate() {
+		return ValueToUpdate;
+	}
+	public void setValueToUpdate(String valueToUpdate) {
+		ValueToUpdate = valueToUpdate;
+	}
+	
 	
 	
 }
