@@ -65,9 +65,7 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-	  //User tmpUser=(User)((Msg)msg).getReturnObj();
 	  this.msg = msg;
-	  System.out.println("TRY TRY TRY TRY TRY \n"+ ((Msg)msg).getReturnObj() );
 	  clientUI.display(msg);
   }
 

@@ -58,7 +58,6 @@ public class LoginController {
 		if (returnUsr.getUserName() != null) {
 			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) {
 				if (returnUsr.getUserName().compareTo(userToConnect.getUserName()) == 0) {
-					System.out.println("user name exist");
 					if (returnUsr.getPassword().compareTo(userToConnect.getPassword()) == 0) {
 						System.out.println("User Connected succesfuly!");
 						returnUsr.setConnectionStatus("Online");
