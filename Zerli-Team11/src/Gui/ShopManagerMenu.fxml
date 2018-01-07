@@ -23,6 +23,5 @@
       <ComboBox fx:id="cmbSelectReport1" layoutX="14.0" layoutY="268.0" prefWidth="150.0" promptText="Select Report Type" />
       <Button fx:id="Breport1" layoutX="382.0" layoutY="268.0" mnemonicParsing="false" onAction="#askReport" text="View Report" />
       <ComboBox fx:id="cmbQ1" layoutX="179.0" layoutY="268.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />
-      <ComboBox fx:id="cmbS1" layoutX="288.0" layoutY="268.0" prefHeight="25.0" prefWidth="81.0" promptText="Shop" />
    </children>
 </AnchorPane>
