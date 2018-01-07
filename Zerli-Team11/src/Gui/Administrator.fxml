@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.StoreManagerMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.Administrator">
    <children>
       <Label layoutX="48.0" layoutY="29.0" text="Shop Manager Menu">
          <font>
@@ -22,7 +22,11 @@
       </Label>
       <ComboBox fx:id="cmbSelectReport1" layoutX="14.0" layoutY="268.0" prefWidth="150.0" promptText="Select Report Type" />
       <Button fx:id="Breport1" layoutX="382.0" layoutY="268.0" mnemonicParsing="false" onAction="#askReport" text="View Report" />
+      <ComboBox fx:id="cmbSelectReport2" layoutX="14.0" layoutY="312.0" prefWidth="150.0" promptText="Select Report Type" />
+      <Button fx:id="Breport2" layoutX="382.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="View Report" />
       <ComboBox fx:id="cmbQ1" layoutX="179.0" layoutY="268.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />
+      <ComboBox fx:id="cmbQ2" layoutX="183.0" layoutY="312.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />
+      <ComboBox fx:id="cmbS2" layoutX="288.0" layoutY="312.0" prefHeight="25.0" prefWidth="81.0" promptText="Shop" />
       <ComboBox fx:id="cmbS1" layoutX="288.0" layoutY="268.0" prefHeight="25.0" prefWidth="81.0" promptText="Shop" />
    </children>
 </AnchorPane>

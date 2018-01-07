@@ -36,14 +36,22 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class StoreManagerMenuController implements Initializable
+public class Administrator implements Initializable
 {
 	@FXML
 	ComboBox cmbSelectReport1;
 	@FXML
+	ComboBox cmbSelectReport2;
+	@FXML
 	ComboBox cmbS1;
 	@FXML
+	ComboBox cmbS2;
+	@FXML
 	ComboBox cmbQ1;
+	@FXML
+	ComboBox cmbQ2;
+	@FXML
+	Button Breport2;
 	@FXML
 	Button Breport1;
 	@FXML
@@ -58,8 +66,11 @@ public class StoreManagerMenuController implements Initializable
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		cmbSelectReport1.setItems(ReportsList);
+		cmbSelectReport2.setItems(ReportsList);
 		cmbQ1.setItems(quarterly);
+		cmbQ2.setItems(quarterly);
 		cmbS1.setItems(ShopList);
+		cmbS2.setItems(ShopList);
 	}
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
@@ -93,14 +104,11 @@ public class StoreManagerMenuController implements Initializable
 		System.out.println(cmd);
 		
 		userToCheck.setQueryQuestion(cmd);
-//		userToCheck.setQueryExist(true);
 		
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
 		directory = (TreeMap<String, String> )client.msg;
 		System.out.println("good 2" +directory);
-		
-
 		
 		Stage primaryStage=new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -113,9 +121,6 @@ public class StoreManagerMenuController implements Initializable
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
 
-		
-		
-		
 	}
 	@FXML
 	public void ExitBtn(ActionEvent event)

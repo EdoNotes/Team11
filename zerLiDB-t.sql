@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE DATABASE  IF NOT EXISTS `zerli` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `zerli`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
@@ -372,3 +373,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-01-05 19:36:48
+=======
+SELECT * FROM zerli.product;
+>>>>>>> add execute of orders report
