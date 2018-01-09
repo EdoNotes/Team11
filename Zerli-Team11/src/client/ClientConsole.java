@@ -63,4 +63,3 @@ public class ClientConsole implements ChatIF {
 		}
 
 	}
-

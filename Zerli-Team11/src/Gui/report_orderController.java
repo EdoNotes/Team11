@@ -9,8 +9,8 @@
  * 			  Elinor Faddoul<elinor.faddoul@gmail.com
  **************************************************************************/
 package Gui;
-
 import java.awt.Label;
+import java.awt.TextArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,24 +40,38 @@ public class report_orderController {
 		((Node) event.getSource()).getScene().getWindow().hide();// Hide Menu
 		Stage primaryStage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
+
 		Scene Scene = new Scene(root);
 		Scene.getStylesheets().add(getClass().getResource("ShopManagerMenu.css").toExternalForm());
 		primaryStage.setScene(Scene);
 		primaryStage.show();
 	}
 
-	public void setdirectory(TreeMap<String, String> d) {
-		this.directory = d;
+//	public void setdirectory(TreeMap<String, String> d) {
+//		this.directory = d;
+//	}
+//
+//	public void load_dir(TreeMap<String, String> directory) {
+//		this.directory = directory;
+//		String t = "";
+//		int j = 0;
+//		String s = "";
+//		this.tx1.setText(this.directory.toString());
+//		System.out.print(s);
+
+	public void setdirectory(TreeMap<String, String> d)
+	{
+		this.directory=d;
 	}
-
-	public void load_dir(TreeMap<String, String> directory) {
-		this.directory = directory;
-		String t = "";
-		int j = 0;
-		String s = "";
-		this.tx1.setText(this.directory.toString());
-		System.out.print(s);
-
+	
+	public void load_dir(TreeMap<String, String> directory)
+	{this.directory=directory;
+	String t="";
+	int j=0;
+	String s="";
+	this.tx1.setText(this.directory.toString());
+	 System.out.print(s);
+	 
 	}
 
 }
