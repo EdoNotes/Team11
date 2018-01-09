@@ -16,16 +16,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ShopManagerMenuGui extends Application 
+public class StoreManagerMenuGui extends Application 
 {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try 
 		{
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreManagerMenu.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("ShopManagerMenu.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("StoreManagerMenu.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 
@@ -34,14 +34,6 @@ public class ShopManagerMenuGui extends Application
 			e.printStackTrace();
 		}
 	} 
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public static void main(String[] args) 
 	{

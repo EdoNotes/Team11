@@ -56,9 +56,12 @@ public class EchoServer extends AbstractServer {
 			if ((msgRecived.getClassType()).equalsIgnoreCase("User")) {
 				userHandeler(msgRecived, "user", client, conn);
 			}
-			else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
-				get_order_report(msgRecived, conn, client);
+			else if ((msgRecived.getClassType()).equalsIgnoreCase("survey")) {
+				SurveyHandeler(msgRecived, "survey", client, conn);
 			}
+				else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
+					get_order_report(msgRecived, conn, client);
+				}
 		} catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
@@ -69,13 +72,30 @@ public class EchoServer extends AbstractServer {
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
-		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist
-																				// e.g to logIn
-			searchUserInDB(msg, tableName, client, con);
+		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0)  // If we want to check if user is exist
+			searchUserInDB(msg, tableName, client, con);  // e.g to logIn
 		else if(requestMsg.getqueryToDo().compareTo("update user")==0)
 			updateUserDetails(msg,tableName,client,con);
+			else if(requestMsg.getqueryToDo().compareTo("AddNewUserToDB")==0) 
+					AddNewUser(msg,tableName,client,con);				
 
 	}// userHandler
+	
+	/*
+	 * 
+	 * =============================================================================
+	 * ==
+	 */
+	
+	public static void SurveyHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
+		String queryToDo = ((Msg) msg).getQueryQuestion();
+		Msg requestMsg = (Msg) msg;
+		if (requestMsg.getqueryToDo().compareTo("SendSurveyToDB") == 0) // If we want to check if user is exist																	// e.g to logIn
+			InsertSurveyToDB(msg, tableName, client, con);
+
+	}// SurveyHandler
+	
+	
 
 	private static void updateUserDetails(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User userToUpdate = (User) (((Msg) msg).getSentObj());
@@ -149,6 +169,68 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 
+	}
+	
+	/*
+	 * Methods that insert a new survey to DB
+	 * =============================================================================
+	 * ==
+	 */
+	
+	public static void InsertSurveyToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
+		Survey surveyDB = (Survey) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+		try {
+
+			//ResultSet rs =stmt.executeQuery("SELECT MAX(SurveyNum) FROM "+ tableName); אולי להוסיף..
+			
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" " + tableName+" ("+"SurveyNum ,question1 ,question2 ,question3 , question4 ,question5 ,question6 ,answer1 ,answer2 ,answer3 ,answer4 ,answer5 ,answer6 )"
+			+ "\nVALUES "+"('" + Survey.NumSurvey +"','" +
+			surveyDB.getQuestion1() + "','" +  surveyDB.getQuestion2() + "','" + surveyDB.getQuestion3()  + "','" + surveyDB.getQuestion4() + "','" +
+			surveyDB.getQuestion5() + "','" + surveyDB.getQuestion6() + "','" +surveyDB.getAnswer1() + "','" +surveyDB.getAnswer2() + "','" +
+			surveyDB.getAnswer3()  + "','" +surveyDB.getAnswer4() + "','" +surveyDB.getAnswer5() + "','" +surveyDB.getAnswer6()+"');");
+			
+			stmt.executeUpdate();
+
+			Survey.NumSurvey++;
+			con.close();
+			try {
+				client.sendToClient(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+	
+	/*
+	 * Method that adding new user to DB
+	 * =============================================================================
+	 * ==
+	 */
+	
+	public static void AddNewUser(Object msg, String tableName, ConnectionToClient client, Connection con) {
+		User NewUserToAdd = (User) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+		try {
+							
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" " + tableName  + " ("+ "UserName ,Password ,ID ,FirstName ,LastName ,ConnectionStatus ,Premission ,Phone ,Gender ,Email)"
+					+"\nVALUES "+ "('"+NewUserToAdd.getUserName()+ "','" + NewUserToAdd.getPassword() + "','"  +NewUserToAdd.getID() + "','" + NewUserToAdd.getFirstName() +  "','" +NewUserToAdd.getLastName() 
+					+  "','" + NewUserToAdd.getConnectionStatus() +  "','"+ NewUserToAdd.getUserType() +  "','"+NewUserToAdd.getPhone() +  "','" +NewUserToAdd.getGender() +  "','" 
+					+ NewUserToAdd.getEmail()+ "');");
+			stmt.executeUpdate();
+			con.close();
+			try {
+				client.sendToClient(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 	/**

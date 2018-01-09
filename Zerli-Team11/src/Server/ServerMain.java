@@ -43,7 +43,6 @@ public class ServerMain extends Application
 	public static void main(String[] args) throws SQLException 
 	{
 
-	
 		launch(args);
 	}
 }

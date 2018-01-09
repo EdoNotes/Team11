@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 public class Survey implements Serializable {
 	
-	private String Question1="";
-	private String Question2="";
-	private String Question3="";
-	private String Question4="";
-	private String Question5="";
-	private String Question6="";
+	public static int NumSurvey=1;
+	
+	private String Question1;
+	private String Question2;
+	private String Question3;
+	private String Question4;
+	private String Question5;
+	private String Question6;
 	
 	private String Answer1;
 	private String Answer2;
@@ -39,7 +41,6 @@ public class Survey implements Serializable {
 //	}
 	
 	public Survey() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getQuestion1() {
@@ -132,10 +133,19 @@ public class Survey implements Serializable {
 
 	public String getAnswer6() {
 		return Answer6;
+		
 	}
 
 	public void setAnswer6(String answer6) {
 		Answer6 = answer6;
+	}
+	
+	@Override
+	public String toString() {
+		return "Survey number: "+NumSurvey + " [Q1#=" + Question1 + ", Answer1#=" + Answer1 + ",\n Q2#=" + Question2 + ", Answer2#=" + Answer2
+				+ ",\n Q3#=" + Question3 + ", Answer3#=" + Answer3 + ",\n Q4#=" + Question4 + ", Answer4#=" + Answer4
+				+ ",\n Q5#=" + Question5 + ", Answer5#=" + Answer5 + ",\n Q6#="
+				+ Question6 +  ", Answer6#=" + Answer6+"]";
 	}
 
 }

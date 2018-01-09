@@ -23,7 +23,7 @@ public class User implements Serializable {
 	/***************************************************************************/
 	/**								<Enums>								
 	 */
-	public enum Premission {Client, StoreManager, StoreEmpployee, Expert, CostomerServiece;}
+	public enum Premission {Client, StoreManager, StoreEmployee, Expert, CustomerService;}
 	public enum ConnectionStatus {Online, Offline,Blocked;}
 	/***************************************************************************/
 	
@@ -141,8 +141,27 @@ public class User implements Serializable {
  * 
  * @return Premission Of User
  */
-	public Premission getUserType() {
-		return UserType;
+	public String getUserType() 
+	{
+		
+		if(UserType.compareTo(UserType.Client)==0)
+		{
+			return "Client";
+		}
+		else if(UserType.compareTo(UserType.StoreManager)==0)
+		{
+			return "StoreManager";
+		}
+		else if(UserType.compareTo(UserType.StoreEmployee)==0)
+		{
+			return "StoreEmployee";
+		}
+		else if(UserType.compareTo(UserType.Expert)==0)
+		{
+			return "Expert";
+		}
+		else
+			return "CustomerService";
 	}
 	public void setUserType(String userType)
 	{
@@ -154,9 +173,9 @@ public class User implements Serializable {
 		{
 			this.UserType=Premission.StoreManager;
 		}
-		else if(userType.equalsIgnoreCase("StoreEmpployee"))
+		else if(userType.equalsIgnoreCase("StoreEmployee"))
 		{
-			this.UserType=Premission.StoreEmpployee;
+			this.UserType=Premission.StoreEmployee;
 		}
 		else if(userType.equalsIgnoreCase("Expert"))
 		{
@@ -164,7 +183,7 @@ public class User implements Serializable {
 		}
 		else//CostomerServiece
 		{
-			this.UserType=Premission.CostomerServiece;
+			this.UserType=Premission.CustomerService;
 		}
 	}
 	/**
