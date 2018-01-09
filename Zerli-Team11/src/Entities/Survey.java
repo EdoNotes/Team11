@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Survey implements Serializable {
 	
+
 	public static int NumSurvey=1;
 	
 	private String Question1;
@@ -12,6 +13,9 @@ public class Survey implements Serializable {
 	private String Question4;
 	private String Question5;
 	private String Question6;
+
+
+
 	
 	private String Answer1;
 	private String Answer2;
@@ -41,6 +45,7 @@ public class Survey implements Serializable {
 //	}
 	
 	public Survey() {
+
 	}
 
 	public String getQuestion1() {
@@ -133,12 +138,13 @@ public class Survey implements Serializable {
 
 	public String getAnswer6() {
 		return Answer6;
-		
+
 	}
 
 	public void setAnswer6(String answer6) {
 		Answer6 = answer6;
 	}
+
 	
 	@Override
 	public String toString() {
@@ -147,5 +153,6 @@ public class Survey implements Serializable {
 				+ ",\n Q5#=" + Question5 + ", Answer5#=" + Answer5 + ",\n Q6#="
 				+ Question6 +  ", Answer6#=" + Answer6+"]";
 	}
+
 
 }

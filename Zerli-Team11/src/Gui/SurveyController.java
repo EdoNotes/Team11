@@ -16,9 +16,11 @@ import java.util.ResourceBundle;
 
 import Entities.Survey;
 import Entities.User;
+
 import Login.WelcomeController;
 import client.ClientConsole;
 import common.Msg;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +30,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -67,8 +71,10 @@ public class SurveyController implements Initializable
 	@FXML
 	Label txtQuestion6;
 	
+
 	@FXML
 	Label txtNumSurvey;
+
 	
 	
 	ObservableList<String> OneToTen=FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10"); //comboBox one to ten
@@ -83,6 +89,7 @@ public class SurveyController implements Initializable
 		cmbSelectAnswer4.setItems(OneToTen);
 		cmbSelectAnswer5.setItems(OneToTen);
 		cmbSelectAnswer6.setItems(OneToTen);
+
 		txtQuestion1.setText("bla bla bla Question1 ");
 		txtQuestion2.setText("bla bla bla Question2 ");
 		txtQuestion3.setText("bla bla bla Question3 ");
@@ -91,6 +98,7 @@ public class SurveyController implements Initializable
 		txtQuestion6.setText("bla bla bla Question6 ");
 		
 		txtNumSurvey.setText("Survey Number : " + Survey.NumSurvey);
+
 	}
 	
 	@FXML
@@ -104,6 +112,9 @@ public class SurveyController implements Initializable
 		EditSurveyController EditsurveyController = (EditSurveyController)loader.getController();
 		EditsurveyController.getEditQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
 		
+
+		//Parent root=FXMLLoader.load(getClass().getResource("/Gui/EditSurvey.fxml"));
+
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("EditSurvey.css").toExternalForm());
 		primaryStage.setScene(serverScene);
@@ -111,6 +122,7 @@ public class SurveyController implements Initializable
 	}
 	
 	@FXML
+
 	public void SandBtn(ActionEvent event) throws InterruptedException
 	{
 		Survey SendSurvey = new Survey();
@@ -153,8 +165,6 @@ public class SurveyController implements Initializable
 				Survey.NumSurvey++;
 				txtNumSurvey.setText("Survey Number : " + Survey.NumSurvey);
 			}
-		
-	
 	}
 	
 	
@@ -168,5 +178,7 @@ public class SurveyController implements Initializable
 		txtQuestion6.setText(ques6);
 	}
 	
+
+
 
 }

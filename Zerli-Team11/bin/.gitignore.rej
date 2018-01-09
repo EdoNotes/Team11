@@ -1,0 +1,11 @@
+diff a/Zerli-Team11/bin/.gitignore b/Zerli-Team11/bin/.gitignore	(rejected hunks)
+@@ -1,5 +1,9 @@
+ +/Server/
+ +/client/
+ +/common/
+  /Gui/
+  /Login/
+++<<<<<<< HEAD
+++=======
++ /Server/
+++>>>>>>> few changes
