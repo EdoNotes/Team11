@@ -41,6 +41,7 @@ public class User implements Serializable {
 	private Premission UserType;
 	private ConnectionStatus ConnectionStatus;
 	private int tryToConnectCounter;
+	public static User currUser;
 	/***************************************************************************/
 	
 	/***************************************************************************/
@@ -88,6 +89,24 @@ public class User implements Serializable {
 	{
 		this.userName=userName;
 		this.password=password;
+	}
+	/**
+	 * a constructor that getting an instance of user and copying to 
+	 * currUser static variable
+	 * @param copyUser
+	 */
+	public User(User copyUser)
+	{
+		currUser.userName=copyUser.getUserName();
+		currUser.password=copyUser.getPassword();
+		currUser.ID=copyUser.getID();
+		currUser.FirstName=copyUser.getFirstName();
+		currUser.LastName=copyUser.getLastName();
+		currUser.Phone=copyUser.getPhone();
+		currUser.Gender=copyUser.getGender();
+		currUser.Email=copyUser.getEmail();
+		currUser.setUserType(copyUser.getUserType());
+		currUser.setConnectionStatus(copyUser.getConnectionStatus());
 	}
 
 	public int getID() {
