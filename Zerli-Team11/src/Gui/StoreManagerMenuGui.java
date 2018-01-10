@@ -25,7 +25,7 @@ public class StoreManagerMenuGui extends Application
 		{
 			Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreManagerMenu.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("StoreManagerMenu.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("/Gui/StoreManagerMenu.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 

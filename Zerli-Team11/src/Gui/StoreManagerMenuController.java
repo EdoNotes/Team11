@@ -59,7 +59,7 @@ public class StoreManagerMenuController implements Initializable
 	{
 		cmbSelectReport1.setItems(ReportsList);
 		cmbQ1.setItems(quarterly);
-		cmbS1.setItems(ShopList);
+		//cmbS1.setItems(ShopList);
 	}
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException

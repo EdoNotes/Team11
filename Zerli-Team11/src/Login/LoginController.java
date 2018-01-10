@@ -62,7 +62,7 @@ public class LoginController {
 		User returnUsr = (User) userToCheck.getReturnObj();
 		if (returnUsr.getUserName() != null) {
 			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) {
-				if (returnUsr.getUserName().compareTo(userToConnect.getUserName()) == 0) {
+				if (returnUsr.getUserName().toLowerCase().compareTo(userToConnect.getUserName()) == 0) {
 					if (returnUsr.getPassword().compareTo(userToConnect.getPassword()) == 0) {
 						System.out.println("User Connected succesfuly!");
 						returnUsr.setConnectionStatus("Online");
@@ -78,11 +78,28 @@ public class LoginController {
 						al.setContentText("Welcome " + returnUsr.getFirstName());
 						al.showAndWait();
 						//Open Appropriate menu
-						switch(returnUsr.getUserType())
+						String userType=returnUsr.getUserType();
+						switch(userType)
 						{
-						case "Client":
-							//Client Menu
+						case "Customer":
+						{
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage CustomerStage=new Stage();
+							Parent CustomerRoot;
+							try {
+								CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+								Scene CustomerScene = new Scene(CustomerRoot);
+								CustomerScene.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+								CustomerStage.setScene(CustomerScene);
+								CustomerStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						}
 						case "StoreManager":
+						{
 							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 							Stage primaryStage=new Stage();
 							Parent root;
@@ -96,14 +113,21 @@ public class LoginController {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-
-							
+							break;
+						}
+						
 						case "StoreEmployee":
 							//StoreEmployee Menu
+							break;
+							
 						case "Expert":
 							//Expert Menu;
+							break;
+							
 						case "CustomerService":
 							//CustomerService Menu
+							break;
+							
 						}
 						
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Gui.CatalogWindowController">
+   <children>
+      <Label layoutX="134.0" layoutY="14.0" prefHeight="40.0" prefWidth="106.0" text="Catalog">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Pagination prefHeight="500.0" prefWidth="400.0" />
+   </children>
+</AnchorPane>

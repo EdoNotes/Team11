@@ -23,7 +23,7 @@ public class User implements Serializable {
 	/***************************************************************************/
 	/**								<Enums>								
 	 */
-	public enum Premission {Client, StoreManager, StoreEmployee, Expert, CustomerService;}
+	public enum Premission {Customer, StoreManager, StoreEmployee,Expert,CustomerService,SystemManager,CompanyEmployee,CompanyManager;}
 	public enum ConnectionStatus {Online, Offline,Blocked;}
 	/***************************************************************************/
 	
@@ -144,9 +144,9 @@ public class User implements Serializable {
 	public String getUserType() 
 	{
 		
-		if(UserType.compareTo(UserType.Client)==0)
+		if(UserType.compareTo(UserType.Customer)==0)
 		{
-			return "Client";
+			return "Customer";
 		}
 		else if(UserType.compareTo(UserType.StoreManager)==0)
 		{
@@ -160,14 +160,27 @@ public class User implements Serializable {
 		{
 			return "Expert";
 		}
-		else
+		else if(UserType.compareTo(UserType.CustomerService)==0)
+		{
 			return "CustomerService";
+		}
+		else if(UserType.compareTo(UserType.SystemManager)==0)
+		{
+			return "SystemManager";
+		}
+		else if(UserType.compareTo(UserType.CompanyEmployee)==0)
+		{
+			return "CompanyEmployee";
+		}
+		else
+			return "CompanyManager";
+		
 	}
 	public void setUserType(String userType)
 	{
-		if(userType.equalsIgnoreCase("Client"))
+		if(userType.equalsIgnoreCase("Customer"))
 		{
-			this.UserType=Premission.Client;
+			this.UserType=Premission.Customer;
 		}
 		else if(userType.equalsIgnoreCase("StoreManager"))
 		{
@@ -181,10 +194,20 @@ public class User implements Serializable {
 		{
 			this.UserType=Premission.Expert;
 		}
-		else//CostomerServiece
+		else if(userType.equalsIgnoreCase("CustomerService"))
 		{
 			this.UserType=Premission.CustomerService;
 		}
+		else if(userType.equalsIgnoreCase("SystemManager"))
+		{
+			this.UserType=Premission.SystemManager;
+		}
+		else if(userType.equalsIgnoreCase("CompanyEmployee"))
+		{
+			this.UserType=Premission.StoreEmployee;
+		}
+		else
+			this.UserType=Premission.CompanyManager;
 	}
 	/**
 	 * 
