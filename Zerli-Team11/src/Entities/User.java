@@ -97,16 +97,7 @@ public class User implements Serializable {
 	 */
 	public User(User copyUser)
 	{
-		currUser.userName=copyUser.getUserName();
-		currUser.password=copyUser.getPassword();
-		currUser.ID=copyUser.getID();
-		currUser.FirstName=copyUser.getFirstName();
-		currUser.LastName=copyUser.getLastName();
-		currUser.Phone=copyUser.getPhone();
-		currUser.Gender=copyUser.getGender();
-		currUser.Email=copyUser.getEmail();
-		currUser.setUserType(copyUser.getUserType());
-		currUser.setConnectionStatus(copyUser.getConnectionStatus());
+		currUser=copyUser;
 	}
 
 	public int getID() {

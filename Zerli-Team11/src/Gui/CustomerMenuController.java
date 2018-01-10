@@ -1,6 +1,7 @@
 package Gui;
 
 import java.io.IOException;
+import java.rmi.server.LoaderHandler;
 
 import Entities.User;
 import javafx.event.ActionEvent;
@@ -9,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CustomerMenuController 
@@ -36,24 +39,19 @@ public class CustomerMenuController
 	public void viewMyProfileBtn(ActionEvent event)
 	{
 
-		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage ViewProfileStage=new Stage();
-		Parent ViewProfileRoot;
+
 		try {
-			ViewProfileRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerViewProfileMenu.fxml"));
+			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+			Stage ViewProfileStage=new Stage();
+			FXMLLoader loader=new FXMLLoader();
+			Pane ViewProfileRoot = loader.load(getClass().getResource("/Gui/CustomerViewProfile.fxml").openStream());
+			CustomerViewProfileController profile=(CustomerViewProfileController)loader.getController();
+			profile.getUserDetails(User.currUser);
 			Scene ViewProfileScene = new Scene(ViewProfileRoot);
-			ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/CustomerViewProfileMenu.css").toExternalForm());
+			ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/CustomerViewProfile.css").toExternalForm());
 			ViewProfileStage.setScene(ViewProfileScene);
-			//load catalog products images
 			ViewProfileStage.show();
-			CustomerViewProfileController profile=new CustomerViewProfileController();
-			profile.setTxtUserName(User.currUser.getUserName());
-			profile.setTxtPassword(User.currUser.getPassword());
-			profile.setTxtFirstName(User.currUser.getFirstName());
-			profile.setTxtLastName(User.currUser.getLastName());
-			profile.setTxtPhone(User.currUser.getPhone());
-			profile.setTxtGender(User.currUser.getGender());
-			profile.setTxtEmail(User.currUser.getEmail());
+
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -12,11 +12,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CustomerViewProfileController 
+public class CustomerViewProfileController implements Initializable
 {
+	private User UserDetails;
+
+	@FXML
+	private Label usenNameLab;
 	@FXML
 	private TextField txtUserName;
 	@FXML
@@ -31,7 +36,6 @@ public class CustomerViewProfileController
 	private TextField txtEmail;
 	@FXML
 	private TextField txtPassword;
-	
 
 	@FXML
 	public void BackBtn(ActionEvent event)
@@ -50,77 +54,45 @@ public class CustomerViewProfileController
 			e1.printStackTrace();
 		}
 	}
-
-
-	public TextField getTxtUserName() {
-		return txtUserName;
-	}
-
-
-	public void setTxtUserName(String txtUserName) {
-		this.txtUserName.setText(txtUserName);
-	}
-
-
-	public TextField getTxtLastName() {
-		return txtLastName;
-	}
-
-
-	public void setTxtLastName(String txtLastName) {
-		this.txtLastName.setText(txtLastName);
-	}
-
-
-	public TextField getTxtFirstName() {
-		return txtFirstName;
-	}
-
-
-	public void setTxtFirstName(String txtFirstName) {
-		this.txtFirstName.setText(txtFirstName);
-	}
-
-
-	public TextField getTxtGender() {
-		return txtGender;
-	}
-
-
-	public void setTxtGender(String txtGender) {
-		this.txtGender.setText(txtGender);
-	}
-
-
-	public TextField getTxtPhone() {
-		return txtPhone;
-	}
-
-
-	public void setTxtPhone(String txtPhone) {
-		this.txtPhone.setText(txtPhone);
-	}
-
-
-	public TextField getTxtEmail() {
-		return txtEmail;
-	}
-
-
-	public void setTxtEmail(String txtEmail) {
-		this.txtEmail.setText(txtEmail);
-	}
-
-
-	public TextField getTxtPassword() {
-		return txtPassword;
-	}
-
-
-	public void setTxtPassword(String txtPassword) {
-		this.txtPassword.setText(txtPassword);
+//	@FXML
+//	public void loadProfile(User u1)
+//	{
+//		this.UserDetails=u1;
+//		System.out.println(User.currUser.getUserName().toString());
+//		txtUserName=new TextField();
+//		txtPassword=new TextField();
+//		txtFirstName=new TextField();
+//		txtPhone=new TextField();
+//		txtGender=new TextField();
+//		txtEmail=new TextField();
+//		txtUserName.setText(User.currUser.getUserName());
+//		txtPassword.setText(User.currUser.getPassword());
+//		txtFirstName.setText(User.currUser.getFirstName());
+//		txtPhone.setText(User.currUser.getPhone());
+//		txtGender.setText(User.currUser.getGender());
+//		txtEmail.setText(User.currUser.getEmail());
+//	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	
+	public void getUserDetails(User user)
+	{
+		//txtUserName=new TextField();
+		txtPassword=new TextField();
+		txtFirstName=new TextField();
+		txtPhone=new TextField();
+		txtGender=new TextField();
+		txtEmail=new TextField();
+		usenNameLab.setText(user.getUserName());
+		txtPassword.setText(User.currUser.getPassword());
+		txtFirstName.setText(User.currUser.getFirstName());
+		txtPhone.setText(User.currUser.getPhone());
+		txtGender.setText(User.currUser.getGender());
+		txtEmail.setText(User.currUser.getEmail());
+	}
+
 
 }

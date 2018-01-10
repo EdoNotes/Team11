@@ -77,7 +77,8 @@ public class LoginController {
 						al.setTitle("Connecttion Succeed");
 						al.setContentText("Welcome " + returnUsr.getFirstName());
 						al.showAndWait();
-						new User(returnUsr);//Fill static User
+						User.currUser=returnUsr;
+						//new User(returnUsr);//Fill static User
 						//Open Appropriate menu
 						String userType=returnUsr.getUserType();
 						switch(userType)
