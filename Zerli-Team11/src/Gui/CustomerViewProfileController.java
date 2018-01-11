@@ -16,26 +16,24 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CustomerViewProfileController implements Initializable
+public class CustomerViewProfileController
 {
-	private User UserDetails;
 
 	@FXML
-	private Label usenNameLab;
+	private Label lblUserName;
 	@FXML
-	private TextField txtUserName;
+	private Label lblPassword;
 	@FXML
-	private TextField txtLastName;
+	private Label lblFirstName;
 	@FXML
-	private TextField txtFirstName;
+	private Label lblLastName;
 	@FXML
-	private TextField txtGender;
+	private Label lblPhone;
 	@FXML
-	private TextField txtPhone;
+	private Label lblGender;
 	@FXML
-	private TextField txtEmail;
-	@FXML
-	private TextField txtPassword;
+	private Label lblEmail;
+
 
 	@FXML
 	public void BackBtn(ActionEvent event)
@@ -54,44 +52,16 @@ public class CustomerViewProfileController implements Initializable
 			e1.printStackTrace();
 		}
 	}
-//	@FXML
-//	public void loadProfile(User u1)
-//	{
-//		this.UserDetails=u1;
-//		System.out.println(User.currUser.getUserName().toString());
-//		txtUserName=new TextField();
-//		txtPassword=new TextField();
-//		txtFirstName=new TextField();
-//		txtPhone=new TextField();
-//		txtGender=new TextField();
-//		txtEmail=new TextField();
-//		txtUserName.setText(User.currUser.getUserName());
-//		txtPassword.setText(User.currUser.getPassword());
-//		txtFirstName.setText(User.currUser.getFirstName());
-//		txtPhone.setText(User.currUser.getPhone());
-//		txtGender.setText(User.currUser.getGender());
-//		txtEmail.setText(User.currUser.getEmail());
-//	}
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void getUserDetails(User user)
 	{
-		//txtUserName=new TextField();
-		txtPassword=new TextField();
-		txtFirstName=new TextField();
-		txtPhone=new TextField();
-		txtGender=new TextField();
-		txtEmail=new TextField();
-		usenNameLab.setText(user.getUserName());
-		txtPassword.setText(User.currUser.getPassword());
-		txtFirstName.setText(User.currUser.getFirstName());
-		txtPhone.setText(User.currUser.getPhone());
-		txtGender.setText(User.currUser.getGender());
-		txtEmail.setText(User.currUser.getEmail());
+
+		lblUserName.setText(user.getUserName());
+		lblPassword.setText(user.currUser.getPassword());
+		lblLastName.setText(user.currUser.getLastName());
+		lblFirstName.setText(user.currUser.getFirstName());
+		lblPhone.setText(user.currUser.getPhone());
+		lblGender.setText(user.currUser.getGender());
+		lblEmail.setText(user.currUser.getEmail());
 	}
 
 

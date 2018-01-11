@@ -16,20 +16,41 @@
       </Label>
       <Group layoutY="23.0">
          <children>
-            <Label layoutX="45.0" layoutY="155.0" text="First Name" />
-            <Label layoutX="60.0" layoutY="328.0" text="Email" />
-            <Label layoutX="49.0" layoutY="111.0" text="Password" />
-            <Label layoutX="46.0" layoutY="200.0" text="Last Name" />
-            <TextField fx:id="txtLastName" layoutX="117.0" layoutY="196.0" />
-            <TextField fx:id="txtFirstName" layoutX="117.0" layoutY="151.0" />
-            <TextField fx:id="txtGender" layoutX="117.0" layoutY="286.0" />
-            <TextField fx:id="txtPhone" layoutX="117.0" layoutY="242.0" />
-            <TextField fx:id="txtEmail" layoutX="117.0" layoutY="324.0" />
-            <Label layoutX="55.0" layoutY="290.0" text="Gender" />
-            <Label layoutX="46.0" layoutY="68.0" text="UserName" />
-            <TextField id="passID" fx:id="txtPassword" editable="false" layoutX="117.0" layoutY="107.0" />
-            <Label layoutX="57.0" layoutY="246.0" text="Phone" />
-            <Label fx:id="usenNameLab" layoutX="117.0" layoutY="68.0" prefHeight="17.0" prefWidth="125.0" />
+            <Label layoutX="45.0" layoutY="155.0" text="First Name:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="60.0" layoutY="328.0" text="Email:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="49.0" layoutY="111.0" text="Password:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="46.0" layoutY="200.0" text="Last Name:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="55.0" layoutY="290.0" text="Gender:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="46.0" layoutY="68.0" text="UserName:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="57.0" layoutY="246.0" text="Phone:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="lblUserName" layoutX="120.0" layoutY="69.0" prefHeight="17.0" prefWidth="193.0" />
+            <Label fx:id="lblPassword" layoutX="121.0" layoutY="112.0" prefHeight="17.0" prefWidth="194.0" />
+            <Label fx:id="lblFirstName" layoutX="121.0" layoutY="156.0" prefHeight="17.0" prefWidth="191.0" />
+            <Label fx:id="lblLastName" layoutX="121.0" layoutY="201.0" prefHeight="17.0" prefWidth="193.0" />
+            <Label fx:id="lblPhone" layoutX="121.0" layoutY="247.0" prefHeight="17.0" prefWidth="194.0" />
+            <Label fx:id="lblGender" layoutX="121.0" layoutY="291.0" prefHeight="17.0" prefWidth="195.0" />
+            <Label fx:id="lblEmail" layoutX="120.0" layoutY="331.0" prefHeight="17.0" prefWidth="197.0" />
          </children>
       </Group>
       <Button layoutX="160.0" layoutY="414.0" mnemonicParsing="false" onAction="#BackBtn" text="Back" />

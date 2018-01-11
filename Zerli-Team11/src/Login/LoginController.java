@@ -36,7 +36,7 @@ public class LoginController {
 	@FXML
 	PasswordField txtPassword;
 
-	public ClientConsole client;
+	private ClientConsole client;
 	public ChatClient chat;
 
 	@FXML
@@ -71,8 +71,7 @@ public class LoginController {
 						userToCheck.setQueryQuestion(Msg.qUPDATE);
 						userToCheck.setColumnToUpdate("ConnectionStatus");
 						userToCheck.setValueToUpdate("Online");
-						client.accept(
-								userToCheck); /* Update the connection stause of the user from offline to online */
+						client.accept(userToCheck); /* Update the connection stause of the user from offline to online */
 						Alert al = new Alert(Alert.AlertType.INFORMATION);
 						al.setTitle("Connecttion Succeed");
 						al.setContentText("Welcome " + returnUsr.getFirstName());
@@ -158,5 +157,4 @@ public class LoginController {
 			al.showAndWait();
 		}
 	}
-
 }
