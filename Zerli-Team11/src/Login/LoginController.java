@@ -60,10 +60,14 @@ public class LoginController {
 		client.accept((Object) userToCheck);
 		userToCheck = (Msg) client.get_msg();
 		User returnUsr = (User) userToCheck.getReturnObj();
-		if (returnUsr.getUserName() != null) {
-			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) {
-				if (returnUsr.getUserName().toLowerCase().compareTo(userToConnect.getUserName()) == 0) {
-					if (returnUsr.getPassword().compareTo(userToConnect.getPassword()) == 0) {
+		if (returnUsr.getUserName() != null) 
+		{
+			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) 
+			{
+				if (returnUsr.getUserName().compareTo(userToConnect.getUserName()) == 0) 
+				{
+					if (returnUsr.getPassword().compareTo(userToConnect.getPassword()) == 0)
+					{
 						System.out.println("User Connected succesfuly!");
 						returnUsr.setConnectionStatus("Online");
 						userToCheck.setqueryToDo("update user");
@@ -128,13 +132,30 @@ public class LoginController {
 						case "CustomerService":
 							//CustomerService Menu
 							break;
+						case "CompanyManager":
+							Stage primaryStage=new Stage();
+							Parent root;
+							try {
+								((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+								root = FXMLLoader.load(getClass().getResource("/Gui/CompanyManager.fxml"));
+								Scene Scene = new Scene(root);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/CompanyManager.css").toExternalForm());
+								primaryStage.setScene(Scene);
+								primaryStage.show();
+								break;
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+		
 							
 						}
 						
 
 					}
 				} 
-				else {
+				else 
+				{
 					System.out.println("Wrong password");
 
 					Alert al = new Alert(Alert.AlertType.ERROR);

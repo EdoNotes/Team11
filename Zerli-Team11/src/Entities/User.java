@@ -40,7 +40,7 @@ public class User implements Serializable {
 	private String Email;
 	private Premission UserType;
 	private ConnectionStatus ConnectionStatus;
-	private int tryToConnectCounter;
+	private  int tryToConnectCounter;
 	public static User currUser;
 	/***************************************************************************/
 	
@@ -78,6 +78,7 @@ public class User implements Serializable {
 		this.Email = Email;
 		this.UserType = UserType;
 		this.ConnectionStatus = ConnectionStatus;
+		tryToConnectCounter=0;
 	}
 	
 	/**
@@ -89,6 +90,7 @@ public class User implements Serializable {
 	{
 		this.userName=userName;
 		this.password=password;
+		tryToConnectCounter=0;
 	}
 	/**
 	 * a constructor that getting an instance of user and copying to 
@@ -280,6 +282,10 @@ public class User implements Serializable {
 
 	public void setTryToConnectCounter(int tryToConnectCounter) {
 		this.tryToConnectCounter = tryToConnectCounter;
+	}
+	public void IncrementTryToConnectCounter()
+	{
+		tryToConnectCounter++;
 	}
 	
 	@Override

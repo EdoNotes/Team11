@@ -16,16 +16,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AdministratorGui extends Application 
+public class CompanyManagerGui extends Application 
 {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try 
 		{
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/Administrator.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/CompanyManager.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("Administrator.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("CompanyManager.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 

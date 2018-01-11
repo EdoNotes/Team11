@@ -59,11 +59,26 @@ public class EchoServer extends AbstractServer {
 			else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
 			}
+			else if((msgRecived.getClassType()).equalsIgnoreCase("Customer"))
+			{
+				customerHandeler(msgRecived,"customer",client,conn);
+			}
 		} catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
+	}
+
+	private static void customerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) 
+	{
+		String queryToDo = ((Msg) msg).getQueryQuestion();
+		Msg requestMsg = (Msg) msg;
+		if (requestMsg.getqueryToDo().compareTo("checkCustomerExistence") == 0)
+		{
+			searchCustomerInDB(msg, tableName, client, con);
+		}
+		
 	}
 
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
@@ -92,7 +107,19 @@ public class EchoServer extends AbstractServer {
 		}
 		
 	}
-
+	private static void searchCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con) 
+	{
+		Customer toSearch=(Customer)(((Msg) msg).getSentObj());
+		Customer tmpCustomer=new Customer();
+		
+		try {
+			Statement stmt=con.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public static void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User toSearch = (User) (((Msg) msg).getSentObj());
 		User tmpUsr = new User();

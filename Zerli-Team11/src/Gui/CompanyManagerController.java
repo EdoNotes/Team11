@@ -17,6 +17,8 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import Entities.User;
+import Login.WelcomeController;
 import client.ChatClient;
 import Server.EchoServer;
 import client.ClientConsole;
@@ -36,7 +38,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Administrator implements Initializable
+public class CompanyManagerController implements Initializable
 {
 	@FXML
 	ComboBox cmbSelectReport1;
@@ -61,6 +63,7 @@ public class Administrator implements Initializable
 	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
 	public ClientConsole client;
 	public ChatClient chat;
+	private Msg LogoutMsg=new Msg();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -122,14 +125,39 @@ public class Administrator implements Initializable
 		primaryStage.show();
 
 	}
+
 	@FXML
-	public void ExitBtn(ActionEvent event)
+	public void LogoutBtn(ActionEvent event)
 	{
-		Alert al=new Alert(Alert.AlertType.INFORMATION);
-		al.setHeaderText("Closing Menu  ");
-		al.setContentText("Closing Menu Panel Now");
-		al.showAndWait();
-		System.exit(0);
+		LogoutMsg.setqueryToDo("update user");
+		LogoutMsg.setSentObj(User.currUser);
+		LogoutMsg.setQueryQuestion(Msg.qUPDATE);
+		LogoutMsg.setColumnToUpdate("ConnectionStatus");
+		LogoutMsg.setValueToUpdate("Offline");	
+		LogoutMsg.setClassType("User");
+		ClientConsole client=new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		try {
+			client.accept(LogoutMsg);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /* Update the connection status of the user from online  to offline */
+		
+		Stage primaryStage=new Stage();
+		Parent root;
+		try {
+			
+			((Node)event.getSource()).getScene().getWindow().hide();
+			root = FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
+			Scene loginScene = new Scene(root);
+			loginScene.getStylesheets().add(getClass().getResource("/Login/login_application.css").toExternalForm());
+			primaryStage.setScene(loginScene);
+			primaryStage.show();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 	
 }
