@@ -56,6 +56,7 @@ public class LoginController {
 		Msg userToCheck = new Msg(Msg.qSELECTALL, "checkUserExistence"); // create a new msg
 		userToCheck.setSentObj(userToConnect); // put the user into msg
 		userToCheck.setClassType("User");
+		//client=new ClientConsole(EchoServer.HOST, EchoServer.DEFAULT_PORT);
 		client = new ClientConsole(WelcomeController.IP,WelcomeController.port);
 		client.accept((Object) userToCheck);
 		userToCheck = (Msg) client.get_msg();

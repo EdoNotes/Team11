@@ -64,6 +64,24 @@ public class CustomerMenuController
 		}
 	}
 	@FXML
+	public void OpenDisputeBtn(ActionEvent event)
+	{
+		try {
+			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+			Stage OpenDisputeStage=new Stage();
+			FXMLLoader loader=new FXMLLoader();
+			Pane OpenDisputeRoot = loader.load(getClass().getResource("/Gui/OpenDispute.fxml").openStream());
+			Scene ViewProfileScene = new Scene(OpenDisputeRoot);
+			ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/OpenDispute.css").toExternalForm());
+			OpenDisputeStage.setScene(ViewProfileScene);
+			OpenDisputeStage.show();
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	@FXML
 	public void ExitBtn(ActionEvent event) {
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
 		al.setHeaderText("Closing Customer Panel ");
