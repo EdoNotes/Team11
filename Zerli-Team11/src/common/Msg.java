@@ -30,7 +30,7 @@ public class Msg implements Serializable {
 	final public static String qSELECTALL = "SELECT *";
 	final static public String qSELECT="SELECT";
 	final static public String qUPDATE="UPDATE";
-	final static public String qINSERT="INSERT TO";
+	final static public String qINSERT="INSERT INTO";
 	/*final public static String qSET = " SET ";
 	final public static String qFROM = " FROM ";
 	final public static String qWHERE = " WHERE ";

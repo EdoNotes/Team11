@@ -1,22 +1,26 @@
 package Entities;
 
-import java.sql.Date;
+import java.io.Serializable;
 
-public class Complaint {
+public class Complaint implements Serializable {
+	private int ComplaintId;
 	private int CustomerId;
 	private int StoreId;
 	private String ComplaintDetails;
-	private Date assigningDate;
+	private String assigningDate;
 	private int gotTreatment;
 	private int gotRefund;
+	public static int ComplaintIndex=1;
 
-	public Complaint(int cusId, int StorId, String Details, Date date) {
+	public Complaint(int CompId,int cusId, int StorId, String Details, String date) {
+		this.ComplaintId=CompId;
 		this.CustomerId = cusId;
 		this.StoreId = StorId;
 		this.ComplaintDetails = Details;
 		this.assigningDate = date;
 		this.gotTreatment = 0;
 		this.gotRefund = 0;
+		ComplaintIndex++;
 	}
 
 	public int getCustomerId() {
@@ -42,15 +46,6 @@ public class Complaint {
 	public void setComplaintDetails(String complaintDetails) {
 		ComplaintDetails = complaintDetails;
 	}
-
-	public Date getAssigningDate() {
-		return assigningDate;
-	}
-
-	public void setAssigningDate(Date assigningDate) {
-		this.assigningDate = assigningDate;
-	}
-
 	public int getGotTreatment() {
 		return gotTreatment;
 	}
@@ -66,5 +61,22 @@ public class Complaint {
 	public void setGotRefund(int gotRefund) {
 		this.gotRefund = gotRefund;
 	}
+
+	public String getAssigningDate() {
+		return assigningDate;
+	}
+
+	public void setAssigningDate(String assigningDate) {
+		this.assigningDate = assigningDate;
+	}
+
+	public int getComplaintId() {
+		return ComplaintId;
+	}
+
+	public void setComplaintId(int complaintId) {
+		ComplaintId = complaintId;
+	}
+	
 
 }

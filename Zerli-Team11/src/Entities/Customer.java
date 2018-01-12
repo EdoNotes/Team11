@@ -45,5 +45,10 @@ public class Customer extends User
 	public void setIsMember(int isMember) {
 		this.isMember = isMember;
 	}
+	@Override
+	public String toString() {
+		return "Customer [customerID=" + customerID + ", isSettlement=" + isSettlement + ", isMember=" + isMember + "]";
+	}
+	
 	
 }

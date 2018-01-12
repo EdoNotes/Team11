@@ -51,9 +51,8 @@ public class ClientConsole implements ChatIF {
 
 	 
 	  public void display(Object message) 
-	  {   		  this.msg = message;
-		  //Login.LoginController LIC=new LoginController();
-		  //LIC.confirmUser(message);
+	  {   		 
+		  this.msg = message;
 	  }
 
 	  
