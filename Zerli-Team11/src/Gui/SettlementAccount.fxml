@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.SettlementAccountController">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="400.0">
+         <children>
+            <Label layoutX="106.0" layoutY="27.0" prefHeight="32.0" prefWidth="188.0" text="AccountSettlement">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="78.0" layoutY="82.0" text="Customer ID:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtCustomerID" layoutX="165.0" layoutY="82.0" prefHeight="17.0" prefWidth="90.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="82.0" layoutY="118.0" text="User Name:" />
+            <Label fx:id="txtUserName" layoutX="165.0" layoutY="118.0" prefHeight="17.0" prefWidth="62.0" text="Label" />
+            <RadioButton fx:id="IsSettlement" layoutX="65.0" layoutY="190.0" mnemonicParsing="false" text="AccountisSettlement" textFill="#26b930">
+               <toggleGroup>
+                  <ToggleGroup fx:id="Settlement" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="isNOTSettlement" layoutX="62.0" layoutY="242.0" mnemonicParsing="false" selected="true" text="AccountisNOTSettlement" textFill="#ee0e0e" toggleGroup="$Settlement" />
+            <RadioButton fx:id="member" layoutX="66.0" layoutY="325.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="137.0" text="CustomerMember" textFill="#0bc614">
+               <toggleGroup>
+                  <ToggleGroup fx:id="Member" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="NOTmember" layoutX="67.0" layoutY="367.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="154.0" selected="true" text="NOTCustomerMember" textFill="#e80505" toggleGroup="$Member" />
+            <Button layoutX="278.0" layoutY="438.0" mnemonicParsing="false" onAction="#SaveBut" text="Save" />
+            <Button layoutX="100.0" layoutY="438.0" mnemonicParsing="false" text="Back" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

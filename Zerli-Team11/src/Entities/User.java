@@ -23,7 +23,9 @@ public class User implements Serializable {
 	/***************************************************************************/
 	/**								<Enums>								
 	 */
+
 	public enum Premission {Customer, StoreManager, StoreEmployee,Expert,CustomerService,SystemManager,CompanyEmployee,CompanyManager;}
+
 	public enum ConnectionStatus {Online, Offline,Blocked;}
 	/***************************************************************************/
 	
@@ -51,7 +53,6 @@ public class User implements Serializable {
 	 * Empty Constructor
 	 */
 	public User() {}
-
 
 	/**
 	 * Full Constructor

@@ -17,6 +17,8 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import Entities.Customer;
+import Entities.User;
 import client.ChatClient;
 import Server.EchoServer;
 import client.ClientConsole;
@@ -33,8 +35,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 public class StoreManagerMenuController implements Initializable
 {
@@ -48,6 +52,11 @@ public class StoreManagerMenuController implements Initializable
 	Button Breport1;
 	@FXML
 	Button BNU;
+	@FXML
+	TextField CustomerIDtext;
+	@FXML
+	Button SettelementAccount;
+	
 	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
 	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
 	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
@@ -74,7 +83,7 @@ public class StoreManagerMenuController implements Initializable
 
 	}
 	
-	
+	@FXML
 	public void askReport(ActionEvent event) throws Exception
 {		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
@@ -117,6 +126,43 @@ public class StoreManagerMenuController implements Initializable
 		
 		
 	}
+	
+	@FXML
+	public void SettelementAccountBut(ActionEvent event) throws Exception
+	{
+		Customer CustomerDB= new Customer();
+		CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
+		
+		Msg exsitCustomer = new Msg(Msg.qSELECT, "searchCustomerInDB"); // create a new msg
+		exsitCustomer.setSentObj(CustomerDB); // put the Survey into msg
+		exsitCustomer.setClassType("customer");
+		
+		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+		client.accept((Object) exsitCustomer); //adding the survey to DB
+		
+		exsitCustomer = (Msg) client.get_msg();
+		Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
+		if(returnCustomer.getCustomerID()!=0) 
+		{
+			
+			Stage primaryStage=new Stage();
+			((Node)event.getSource()).getScene().getWindow().hide();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
+			SettlementAccountController settlementController= (SettlementAccountController)loader.getController();
+			settlementController.getCustomerIdANDuserName(Integer.toString(returnCustomer.getCustomerID()), returnCustomer.getUserName());
+			Scene Scene = new Scene(root);
+			Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
+			primaryStage.setScene(Scene);
+			primaryStage.show();
+		}
+		
+		
+	}
+	
+	
+	
+	
 	@FXML
 	public void ExitBtn(ActionEvent event)
 	{
