@@ -56,6 +56,8 @@ public class EchoServer extends AbstractServer {
 				userHandeler(msgRecived, "user", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
+			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_report")) {
+				get_order_survey_report(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Customer")) {
 				customerHandeler(msgRecived, "customer", client, conn);
 			}
@@ -328,6 +330,35 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	public void get_order_survey_report(Msg msg, Connection con, ConnectionToClient client) {
+		System.out.println("great" + msg.getQueryQuestion());
+		TreeMap<String, String> directory = new TreeMap<String, String>();
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
+			Integer i=1;
+			rs.next();
+			while (i<7) {
+
+				System.out.println(i.toString()+ rs.getString(i));
+				directory.put(i.toString(), rs.getString(i));
+				i+=1;
+			}
+
+			rs.close();
+			System.out.println(directory);
+			try {
+				client.sendToClient(directory);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	
 	// SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN
 	// '2011-10-01' AND '2011-12-31' and orders.shop = 'Ako' group by orders.type ;
 

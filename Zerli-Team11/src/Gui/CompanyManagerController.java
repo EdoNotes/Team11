@@ -90,24 +90,37 @@ public class CompanyManagerController implements Initializable
 	
 	
 	public void askReport(ActionEvent event) throws Exception
-{		TreeMap<String, String> directory = new TreeMap<String, String>();
+{		
+		//The report request create an sql question.
+		//The code of Customers Complaints report is a bit different because of his table structure.
+		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("report");// create a new msg
 		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
 		String cmd = "";
 		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
 		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
+		String cmd_complain = "SELECT month(date) as M ,count(*) as count FROM zerli.complaint  WHERE date BETWEEN";
+		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
+				+ "avg(answer6) FROM zerli.survey_answer where num_survey = 1;";
+
 			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
 			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
-
+			if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
 		System.out.println((String)cmbQ1.getValue());
 		int q2 =Integer.parseInt((String)cmbQ1.getValue());
 		cmd += date[q2-1];
-		cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";
+		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
+		{cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";}
+		else {cmd += "  group by month(date)";}
 		System.out.println(cmd);
-		
-		userToCheck.setQueryQuestion(cmd);
-		
+		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
+		{userToCheck.setQueryQuestion(cmd);}
+		else
+		{userToCheck.setQueryQuestion(cmd_survey);
+		userToCheck.setClassType("survey_report");	
+		}
+		System.out.println("cmd " +userToCheck.getQueryQuestion());
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
 		directory = (TreeMap<String, String> )client.msg;
@@ -123,7 +136,6 @@ public class CompanyManagerController implements Initializable
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
-
 	}
 
 	@FXML

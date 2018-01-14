@@ -10,7 +10,6 @@
  **************************************************************************/
 package Gui;
 import java.awt.Label;
-import java.awt.TextArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +24,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -33,31 +36,12 @@ public class report_orderController {
 	public TreeMap<String, String> directory = new TreeMap<String, String>();
 
 	@FXML
-	TextField tx1;
-
+	BarChart<?,?> BarC;
 	@FXML
-	public void BackBtn(ActionEvent event) throws IOException {
-		((Node) event.getSource()).getScene().getWindow().hide();// Hide Menu
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/Gui/ShopManagerMenu.fxml"));
+	CategoryAxis x;
+	@FXML
+	NumberAxis y;
 
-		Scene Scene = new Scene(root);
-		Scene.getStylesheets().add(getClass().getResource("ShopManagerMenu.css").toExternalForm());
-		primaryStage.setScene(Scene);
-		primaryStage.show();
-	}
-
-//	public void setdirectory(TreeMap<String, String> d) {
-//		this.directory = d;
-//	}
-//
-//	public void load_dir(TreeMap<String, String> directory) {
-//		this.directory = directory;
-//		String t = "";
-//		int j = 0;
-//		String s = "";
-//		this.tx1.setText(this.directory.toString());
-//		System.out.print(s);
 
 	public void setdirectory(TreeMap<String, String> d)
 	{
@@ -66,11 +50,13 @@ public class report_orderController {
 	
 	public void load_dir(TreeMap<String, String> directory)
 	{this.directory=directory;
-	String t="";
-	int j=0;
-	String s="";
-	this.tx1.setText(this.directory.toString());
-	 System.out.print(s);
+	 XYChart.Series set1 = new XYChart.Series<>();
+
+	 for (String key: directory.keySet())
+	 {System.out.println(key+ directory.get(key));
+	 set1.getData().add(new XYChart.Data(key,Float.parseFloat(directory.get(key)))); 
+	 }
+	 BarC.getData().addAll(set1);
 	 
 	}
 
