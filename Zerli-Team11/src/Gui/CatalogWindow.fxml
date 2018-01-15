@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Gui.CatalogWindowController">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.CatalogWindowController">
    <children>
-      <Label layoutX="134.0" layoutY="14.0" prefHeight="40.0" prefWidth="106.0" text="Catalog">
+      <Label layoutX="109.0" layoutY="14.0" prefHeight="40.0" prefWidth="183.0" text="Catalog Menu">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <Pagination prefHeight="500.0" prefWidth="400.0" />
+      <Button fx:id="bouItem" layoutX="175.0" layoutY="152.0" mnemonicParsing="false" onAction="#showBouqeutCatalog" text="BOUQUET" />
+      <Button fx:id="custItem" layoutX="166.0" layoutY="299.0" mnemonicParsing="false" text="CUSTOMIZED" textAlignment="CENTER" />
    </children>
 </AnchorPane>

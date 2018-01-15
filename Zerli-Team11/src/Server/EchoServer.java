@@ -13,6 +13,7 @@ package Server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import java.sql.Connection;
@@ -58,7 +59,12 @@ public class EchoServer extends AbstractServer {
 				SurveyHandeler(msgRecived, "survey_question", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_answer")) {
 				SurveyHandeler(msgRecived, "survey_answer", client, conn);
-			} else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
+			}
+			else if(msgRecived.getClassType().equalsIgnoreCase("Product"))
+			{
+				productHandler(msgRecived,client,conn);
+			}
+			else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_report")) {
 				get_order_survey_report(msgRecived, conn, client);
@@ -68,15 +74,61 @@ public class EchoServer extends AbstractServer {
 				ComplaintHandeler(msgRecived, "complaint", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Store")) {
 				StoreHandeler(msgRecived, "store", client, conn);
-			} else if (msgRecived.getClassType().equalsIgnoreCase("customer")) {
-				System.out.println("BBBB");
-				CustomerHandeler(msgRecived, "customer", client, conn);
 			}
-		} catch (SQLException ex) {/* handle any errors */
+			
+		} 
+		catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+
+	
+	
+	private static void productHandler(Msg msg, ConnectionToClient client, Connection conn) throws SQLException, IOException {
+		String queryToDo = msg.getqueryToDo();
+		if(queryToDo.compareTo("load Bouqeut to catalog")==0)
+		{
+			loadProductsToCatalogByType(msg,"BOUQEUT",client,conn);
+		}
+		
+	}
+
+	private static void loadProductsToCatalogByType(Msg msg,String prodtype ,ConnectionToClient client, Connection conn) throws SQLException, IOException {
+		ArrayList<Product> productList= new ArrayList<Product>();
+		int i=0, storeId=((Product)msg.getSentObj()).getStoreId();
+		String que="SELECT productID,productName,productType,productDescription,price,quantity,dominantColor FROM zerli.product WHERE StoreID=3 AND `productType`='BOUQUET';";
+		System.out.println(storeId);
+		//Statement stmt = conn.createStatement();
+		PreparedStatement stmt=conn.prepareStatement("SELECT productID,productName,productType,productDescription,price,quantity,dominantColor FROM zerli.product WHERE `productType`= 'BOUQEUT' AND StoreID= 3;");
+		/*The PreparedStatment is not so good i dont know why but i need to fix it :( */
+		//stmt.setString(1, prodtype);
+		//stmt.setInt(2,storeId);/*I need to put here storeID that i will send from client with combobox*/
+		
+		ResultSet rs=stmt.executeQuery(que);
+		while(rs.next())
+		{
+			productList.add(new Product());
+			productList.get(i).setProductId(rs.getInt("productID"));
+			productList.get(i).setProductName(rs.getString("productName"));
+			productList.get(i).setProductType(rs.getString("productType"));
+			productList.get(i).setProductDescription(rs.getString("productDescription"));
+			productList.get(i).setPrice(rs.getDouble("price"));
+			productList.get(i).setQuantity(rs.getInt("quantity"));
+			productList.get(i).setProductColor(rs.getString("dominantColor"));
+			System.out.println(productList.get(i).getProductName());
+			i++;
+		}
+		rs.close();
+		conn.close();
+		msg.setReturnObj(productList);
+		client.sendToClient(msg);
+
+		
 	}
 
 	private void StoreHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
@@ -139,10 +191,11 @@ public class EchoServer extends AbstractServer {
 
 	}
 
-	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
-		String queryToDo = ((Msg) msg).getQueryQuestion();
+	/*---------------------------------------------------End----------------------*/
+	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		Msg requestMsg = (Msg) msg;
-		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist //																	// e.g to logIn
+		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist															// e.g to logIn
+
 			searchUserInDB(msg, tableName, client, con);
 		else if (requestMsg.getqueryToDo().compareTo("update user") == 0)
 			updateUserDetails(msg, tableName, client, con);
@@ -158,9 +211,6 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}// userHandler
-
-
-
 	public static void SurveyHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -185,24 +235,6 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}// CustomerHandeler
-
-
-	private static void updateUserDetails(Object msg, String tableName, ConnectionToClient client, Connection con) {
-		User userToUpdate = (User) (((Msg) msg).getSentObj());
-		Msg message = (Msg) msg;
-		try {
-			PreparedStatement stmt = con.prepareStatement(message.getQueryQuestion() + " zerli." + tableName + " Set "
-					+ message.getColumnToUpdate() + "= ? WHERE UserName='" + userToUpdate.getUserName() + "'");
-			stmt.setString(1, message.getValueToUpdate());
-			stmt.executeUpdate();
-			con.close();
-		} catch (SQLException e) {
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 	private static void searchCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Customer tmpCustomer = new Customer();
@@ -298,20 +330,24 @@ public class EchoServer extends AbstractServer {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
+	}
+	private static void updateUserDetails(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		User userToUpdate = (User) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+userToUpdate.getUserName()+"'");
+			stmt.setString(1, message.getValueToUpdate());
+			stmt.executeUpdate();
+			con.close();
 	}
 
-	public static void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
+	public static void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		User toSearch = (User) (((Msg) msg).getSentObj());
 		User tmpUsr = new User();
-		try {
 			Statement stmt = con.createStatement();
 			// Case 1: Username and Password Correct
-
 			ResultSet rs = stmt.executeQuery(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
 					+ toSearch.getUserName() + "' AND Password='" + toSearch.getPassword() + "';");
 			if (rs.next()) {
-
 				tmpUsr.setUserName(rs.getString(1));// Set user name for returned object
 				tmpUsr.setPassword(rs.getString(2));// Set Password for returned object
 				tmpUsr.setID(Integer.parseInt(rs.getString(3)));// Set ID for returned object
@@ -342,19 +378,9 @@ public class EchoServer extends AbstractServer {
 
 			}
 			rs.close();
-
 			con.close();
 			((Msg) msg).setReturnObj(tmpUsr);
-
-			try {
-				client.sendToClient(msg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-
+			client.sendToClient(msg);
 	}
 
 	/*
@@ -474,10 +500,9 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 
-	public void get_order_report(Msg msg, Connection con, ConnectionToClient client) {
+	public void get_order_report(Msg msg, Connection con, ConnectionToClient client) throws SQLException, IOException {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
-		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
 
@@ -489,15 +514,9 @@ public class EchoServer extends AbstractServer {
 
 			rs.close();
 			System.out.println(directory);
-			try {
 				client.sendToClient(directory);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
 			con.close();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
 	public void get_order_survey_report(Msg msg, Connection con, ConnectionToClient client) {

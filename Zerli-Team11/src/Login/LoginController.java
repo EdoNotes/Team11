@@ -31,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginController {
+	
+	
 	@FXML
 	TextField txtUsername;
 	@FXML
@@ -85,6 +87,7 @@ public class LoginController {
 						//new User(returnUsr);//Fill static User
 						//Open Appropriate menu
 						String userType=returnUsr.getUserType();
+						userToCheck=null;
 						switch(userType)
 						{
 						case "Customer":

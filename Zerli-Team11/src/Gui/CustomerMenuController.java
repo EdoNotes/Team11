@@ -30,9 +30,9 @@ public class CustomerMenuController
 		Stage CatalogStage=new Stage();
 		Parent CatalogRoot;
 		try {
-			CatalogRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+			CatalogRoot = FXMLLoader.load(getClass().getResource("/Gui/CatalogWindow.fxml"));
 			Scene CatalogScene = new Scene(CatalogRoot);
-			CatalogScene.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+			CatalogScene.getStylesheets().add(getClass().getResource("/Gui/CatalogWindow.css").toExternalForm());
 			CatalogStage.setScene(CatalogScene);
 			//load catalog products images
 			CatalogStage.show();

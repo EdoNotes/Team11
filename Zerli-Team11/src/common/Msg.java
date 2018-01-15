@@ -12,12 +12,16 @@ package common;
 
 import java.io.Serializable;
 
+import Login.WelcomeController;
+import client.ClientConsole;
+
 public class Msg implements Serializable {
 	/*class att. :*/
 	
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Object sentObj; /*The object holds the kind of object that we want to send to server*/
 	private Object returnObj; /*this obj is the obj that we are receive after the query*/
@@ -37,12 +41,12 @@ public class Msg implements Serializable {
 	final public static String qVALUES =" VALUES "; */
 	
 	/*constructor*/
-	public Msg(String queryQ,String query) 
+	public Msg(String queryQ,String queryTodo) 
 	{
 		sentObj=null;
 		returnObj=null;
 		queryQuestion=queryQ;
-		queryToDo=query;
+		queryToDo=queryTodo;
 	}
 	public Msg()
 	{
@@ -100,6 +104,7 @@ public class Msg implements Serializable {
 	public void setValueToUpdate(String valueToUpdate) {
 		ValueToUpdate = valueToUpdate;
 	}
+
 	
 	
 	

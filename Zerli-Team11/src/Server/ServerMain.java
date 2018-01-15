@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import client.ClientConsole;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 public class ServerMain extends Application   
 {
+	
 	@Override
 	public void start(Stage primaryStage) 
 	{

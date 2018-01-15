@@ -14,6 +14,7 @@ import ocsf.client.*;
 import common.*;
 import java.io.*;
 
+import Entities.Catalog;
 import Entities.User;
 
 /**
