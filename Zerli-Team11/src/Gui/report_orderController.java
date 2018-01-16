@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 public class report_orderController {
 
 	public TreeMap<String, String> directory = new TreeMap<String, String>();
-
+	public String type="";
 	@FXML
 	BarChart<?,?> BarC;
 	@FXML
@@ -43,13 +43,17 @@ public class report_orderController {
 	NumberAxis y;
 
 
-	public void setdirectory(TreeMap<String, String> d)
+
+	public void setdirectory(TreeMap<String, String> d,String type)
 	{
 		this.directory=d;
+		this.type=type;
 	}
 	
 	public void load_dir(TreeMap<String, String> directory)
 	{this.directory=directory;
+	x.setLabel(this.type);
+	
 	 XYChart.Series set1 = new XYChart.Series<>();
 
 	 for (String key: directory.keySet())

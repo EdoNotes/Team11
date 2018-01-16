@@ -1,5 +1,6 @@
 package Entities;
 
+
 public class Customer extends User 
 {
 	private int customerID;
@@ -22,6 +23,7 @@ public class Customer extends User
 	
 	public Customer() {}
 
+
 	public int getCustomerID() {
 		return customerID;
 	}
@@ -30,21 +32,27 @@ public class Customer extends User
 		this.customerID = customerID;
 	}
 
+
+
 	public int getIsSettlement() {
 		return isSettlement;
 	}
+
 
 	public void setIsSettlement(int isSettlement) {
 		this.isSettlement = isSettlement;
 	}
 
+
 	public int getIsMember() {
 		return isMember;
 	}
 
+
 	public void setIsMember(int isMember) {
 		this.isMember = isMember;
 	}
+	
 	@Override
 	public String toString() {
 		return "Customer [customerID=" + customerID + ", isSettlement=" + isSettlement + ", isMember=" + isMember + "]";

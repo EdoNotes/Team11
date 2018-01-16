@@ -26,10 +26,12 @@
       <Label layoutX="67.0" layoutY="271.0" text="Last Name" />
       <Label layoutX="74.0" layoutY="311.0" text="Phone" />
       <Label layoutX="71.0" layoutY="354.0" text="Gender" />
-      <Label layoutX="69.0" layoutY="408.0" text="Email" />
+      <Label layoutX="69.0" layoutY="396.0" text="Email" />
       <TextField fx:id="txtPhone" layoutX="148.0" layoutY="307.0" />
       <TextField fx:id="txtGender" layoutX="148.0" layoutY="350.0" />
       <TextField fx:id="txtUserName" layoutX="148.0" layoutY="85.0" />
-      <TextField fx:id="txtEmail" layoutX="148.0" layoutY="404.0" />
+      <TextField fx:id="txtEmail" layoutX="148.0" layoutY="392.0" />
+      <Label layoutX="55.0" layoutY="440.0" prefHeight="17.0" prefWidth="75.0" text="Credit Card" />
+      <TextField fx:id="txtCreditCard" layoutX="148.0" layoutY="436.0" />
    </children>
 </AnchorPane>

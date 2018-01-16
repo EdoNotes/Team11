@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Entities.Survey;
+import client.ClientConsole;
+import common.Msg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +14,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EditSurveyController 
 {
+	
+	public ClientConsole client;
 	
 	@FXML
 	TextField txtQuestion1;
@@ -33,24 +38,28 @@ public class EditSurveyController
 	TextField txtQuestion6;
 	
 	@FXML
-	public void SaveBtn(ActionEvent event)
+	public void SaveBtn(ActionEvent event) throws InterruptedException
 	{
+		Survey SendNewSurvey = new Survey();
 		
-		try {
-			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-			Stage primaryStage=new Stage();
-			FXMLLoader loader=new FXMLLoader();
-			Pane root=loader.load(getClass().getResource("/Gui/Survey.fxml").openStream());
-			SurveyController surveyController = (SurveyController)loader.getController();
-			surveyController.getQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
-			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("Survey.css").toExternalForm());
-			primaryStage.setScene(Scene);
-			primaryStage.show();
-		}catch(Exception e) 
-			{
-				e.printStackTrace();
-			}
+		SendNewSurvey.setQuestion1(txtQuestion1.getText());
+		SendNewSurvey.setQuestion2(txtQuestion2.getText());
+		SendNewSurvey.setQuestion3(txtQuestion3.getText());
+		SendNewSurvey.setQuestion4(txtQuestion4.getText());
+		SendNewSurvey.setQuestion5(txtQuestion5.getText());
+		SendNewSurvey.setQuestion6(txtQuestion6.getText());
+		
+		
+		Msg NewSurveyToDB = new Msg(Msg.qINSERT, "SendNewQuestionSurveyToDB"); // create a new msg
+		NewSurveyToDB.setSentObj(SendNewSurvey); // put the Survey into msg
+		NewSurveyToDB.setClassType("survey_question");
+		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+		client.accept((Object) NewSurveyToDB); //adding the survey to DB
+		Alert al = new Alert(Alert.AlertType.INFORMATION);
+		al.setTitle("New Survey");
+		al.setContentText("Save Succeed ");
+		al.showAndWait();
+		
 	}
 		
 		
@@ -59,16 +68,21 @@ public class EditSurveyController
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage primaryStage=new Stage();
-		FXMLLoader loader=new FXMLLoader();
-		Pane root=loader.load(getClass().getResource("/Gui/Survey.fxml").openStream());
-		SurveyController surveyController = (SurveyController)loader.getController();
-		//surveyController.getQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
-		Scene Scene = new Scene(root);
-		Scene.getStylesheets().add(getClass().getResource("Survey.css").toExternalForm());
-		primaryStage.setScene(Scene);
-		primaryStage.show();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		Stage stage = new Stage();
+		Parent Root;
+		try {
+			Root = FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
+			Scene scene = new Scene(Root);
+			scene.getStylesheets()
+					.add(getClass().getResource("/Gui/CustomerServiceMenu.css").toExternalForm());
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 	}
 	
 	public void getEditQues(String ques1,String ques2,String ques3,String ques4,String ques5,String ques6)

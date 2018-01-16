@@ -90,10 +90,10 @@ public class OpenDisputeController {
 								Stage CustomerStage = new Stage();
 								Parent CustomerRoot;
 								try {
-									CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+									CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
 									Scene CustomerScene = new Scene(CustomerRoot);
 									CustomerScene.getStylesheets()
-											.add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+											.add(getClass().getResource("/Gui/CustomerServiceMenu.css").toExternalForm());
 									CustomerStage.setScene(CustomerScene);
 									CustomerStage.show();
 								} catch (IOException e1) {
@@ -140,10 +140,10 @@ public class OpenDisputeController {
 		Stage CustomerStage = new Stage();
 		Parent CustomerRoot;
 		try {
-			CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+			CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
 			Scene CustomerScene = new Scene(CustomerRoot);
 			CustomerScene.getStylesheets()
-					.add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+					.add(getClass().getResource("/Gui/CustomerServiceMenu.css").toExternalForm());
 			CustomerStage.setScene(CustomerScene);
 			CustomerStage.show();
 		} catch (IOException e1) {

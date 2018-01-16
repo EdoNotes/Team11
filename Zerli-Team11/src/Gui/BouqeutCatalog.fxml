@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.BouqeutCatalogController">
+   <children>
+      <TableView fx:id="prodTable" layoutX="270.0" layoutY="61.0" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="prodId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="prodtName" prefWidth="103.0" text="Name" />
+            <TableColumn fx:id="prodColor" prefWidth="91.0" text="Color" />
+            <TableColumn fx:id="prodDesc" prefWidth="137.0" text="Decription" />
+            <TableColumn fx:id="prodType" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="prodPrice" minWidth="0.0" prefWidth="99.0" text="Price" />
+            <TableColumn fx:id="quantity" minWidth="0.0" prefWidth="107.0" text="Quantity" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

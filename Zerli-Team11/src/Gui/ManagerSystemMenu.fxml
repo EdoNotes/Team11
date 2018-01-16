@@ -6,17 +6,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="Gui.ManagerSystemMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManagerSystemMenuController">
    <children>
-      <Label layoutX="98.0" layoutY="27.0" text="Manager System Menu">
+      <Label layoutX="98.0" layoutY="34.0" text="Manager System Menu">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="139.0" layoutY="130.0" />
-      <Label layoutX="30.0" layoutY="134.0" text="Please enter ID:" />
-      <Label layoutX="51.0" layoutY="88.0" />
-      <Button layoutX="180.0" layoutY="348.0" mnemonicParsing="false" text="Next" />
+      <Label layoutX="40.0" layoutY="144.0" text="Please enter ID:" />
+      <Label layoutX="61.0" layoutY="98.0" />
+      <Button layoutX="248.0" layoutY="405.0" mnemonicParsing="false" onAction="#ShowDetails" text="Next" />
+      <TextField fx:id="txtId" layoutX="149.0" layoutY="140.0" promptText="ID" />
+      <Button layoutX="96.0" layoutY="405.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
    </children>
 </AnchorPane>

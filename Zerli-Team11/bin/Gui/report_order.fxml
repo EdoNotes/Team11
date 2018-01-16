@@ -3,14 +3,13 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="559.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.report_orderController">
    <children>
-      <Label layoutX="115.0" layoutY="27.0" text="Report -Orders">
+      <Label fx:id="lab2" layoutX="115.0" layoutY="27.0" >
          <font>
             <Font size="25.0" />
          </font>

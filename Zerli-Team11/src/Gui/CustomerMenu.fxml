@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.CustomerMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.CustomerMenuController">
    <children>
       <Label layoutX="102.0" layoutY="20.0" text="Customer Menu">
          <font>
@@ -16,7 +14,7 @@
       </Label>
       <Button layoutX="66.0" layoutY="382.0" mnemonicParsing="false" onAction="#LogoutBtn" text="LogOut" />
       <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="View Catalog" />
-      <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
+      <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
       <Button layoutX="307.0" layoutY="382.0" mnemonicParsing="false" onAction="#ExitBtn" prefHeight="25.0" prefWidth="56.0" text="Exit" />
       <Button layoutX="154.0" layoutY="225.0" mnemonicParsing="false" onAction="#OpenDisputeBtn" prefHeight="25.0" prefWidth="92.0" text="Open Dispute" />
       <Button layoutX="149.0" layoutY="286.0" mnemonicParsing="false" onAction="#viewMyProfileBtn" prefHeight="25.0" prefWidth="99.0" text="View My Profile" />

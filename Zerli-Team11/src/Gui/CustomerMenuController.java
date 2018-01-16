@@ -2,10 +2,14 @@ package Gui;
 
 import java.io.IOException;
 import java.rmi.server.LoaderHandler;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import Entities.User;
 import Login.LoginController;
 import Login.WelcomeController;
+import Server.EchoServer;
+import client.ChatClient;
 import client.ClientConsole;
 import common.Msg;
 import javafx.event.ActionEvent;
@@ -21,6 +25,8 @@ import javafx.stage.Stage;
 
 public class CustomerMenuController 
 {
+	public ClientConsole client;
+	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
 	@FXML
 	public void viewCatalogBtn(ActionEvent event)
@@ -30,9 +36,9 @@ public class CustomerMenuController
 		Stage CatalogStage=new Stage();
 		Parent CatalogRoot;
 		try {
-			CatalogRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+			CatalogRoot = FXMLLoader.load(getClass().getResource("/Gui/CatalogWindow.fxml"));
 			Scene CatalogScene = new Scene(CatalogRoot);
-			CatalogScene.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+			CatalogScene.getStylesheets().add(getClass().getResource("/Gui/CatalogWindow.css").toExternalForm());
 			CatalogStage.setScene(CatalogScene);
 			//load catalog products images
 			CatalogStage.show();
@@ -81,6 +87,43 @@ public class CustomerMenuController
 			e1.printStackTrace();
 		}
 	}
+	
+	@FXML
+	public void OpenCancelOrder(ActionEvent event) throws InterruptedException, IOException
+	{
+		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+		
+		TreeMap<String, String> directory = new TreeMap<String, String>();
+		String cmd ="SELECT  o.orderId ,o.orderPrice ,o.Date FROM zerli.order o where o.customerID=2468;";
+		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
+		userToCheck.setClassType("Ask_order");// create a new msg
+		userToCheck.setQueryQuestion(cmd);
+		System.out.println(cmd);
+		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
+		client.accept((Object)userToCheck);
+		directory = (TreeMap<String, String> )client.msg;
+		System.out.println("good 2" +directory);
+		
+		
+		
+		Stage primaryStage=new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/Gui/CancelOrder.fxml").openStream());
+		CancelOrderController report=loader.getController();
+		report.load_list(directory);
+		Scene serverScene = new Scene(root);
+		serverScene.getStylesheets().add(getClass().getResource("CancelOrder.css").toExternalForm());
+		primaryStage.setScene(serverScene);
+		primaryStage.show();
+		
+		}
+
+	}
+	
+	
+	
+	
+	
 	@FXML
 	public void ExitBtn(ActionEvent event) {
 		Alert al = new Alert(Alert.AlertType.INFORMATION);

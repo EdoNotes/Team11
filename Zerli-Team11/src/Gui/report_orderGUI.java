@@ -23,9 +23,9 @@ public class report_orderGUI extends Application {
 	{
 		try 
 		{
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/NewUserRegistration.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/report_order.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("NewUserRegistration.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 

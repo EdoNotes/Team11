@@ -60,7 +60,7 @@ public class CompanyManagerController implements Initializable
 	Button BNU;
 	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
 	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
-	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
+	ObservableList<String> ShopList=FXCollections.observableArrayList("1","2","3");
 	public ClientConsole client;
 	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
@@ -96,13 +96,13 @@ public class CompanyManagerController implements Initializable
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("report");// create a new msg
-		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
+		String[] date= {"'2018-01-01' AND '2018-3-31'", "'2018-4-01' AND '2018-12-06'","'2018-07-01' AND '2018-09-31'", "'2018-10-01' AND '2018-12-31'"}; 
 		String cmd = "";
-		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
-		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
-		String cmd_complain = "SELECT month(date) as M ,count(*) as count FROM zerli.complaint  WHERE date BETWEEN";
+		String cmd_count ="SELECT  p.productType, count(*) FROM zerli.order o, zerli.product_in_order pid, zerli.product p where o.Date BETWEEN";
+		String cmd_sum = "SELECT  p.productType, sum(p.price) FROM zerli.order o, zerli.product_in_order pid, zerli.product p where o.Date BETWEEN";
+		String cmd_complain = "SELECT month(assigningDate) as M ,count(*) as count FROM zerli.complaint  WHERE assigningDate BETWEEN";
 		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
-				+ "avg(answer6) FROM zerli.survey_answer where num_survey = 1;";
+				+ "avg(answer6) FROM zerli.survey_answer where numSurvey = 1;";
 
 			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
 			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
@@ -111,8 +111,8 @@ public class CompanyManagerController implements Initializable
 		int q2 =Integer.parseInt((String)cmbQ1.getValue());
 		cmd += date[q2-1];
 		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
-		{cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";}
-		else {cmd += "  group by month(date)";}
+		{cmd +=" and o.storeID = '" + cmbS1.getValue() +"' and o.orderId=pid.OrderID and pid.productID = p.productID group by p.productType;";}
+		else {cmd += "  group by month(assigningDate)";}
 		System.out.println(cmd);
 		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
 		{userToCheck.setQueryQuestion(cmd);}
@@ -130,7 +130,7 @@ public class CompanyManagerController implements Initializable
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
 		report_orderController report=loader.getController();
-		report.setdirectory(directory);
+		report.setdirectory(directory, (String)cmbSelectReport1.getValue());
 		report.load_dir(directory);
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());

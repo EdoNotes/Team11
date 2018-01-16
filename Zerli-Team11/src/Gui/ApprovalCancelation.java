@@ -16,17 +16,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SurveyGUI extends Application {
+public class ApprovalCancelation extends Application 
+{
 
 	@Override
-	public void start(Stage arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public void start(Stage primaryStage) throws Exception {
 		try 
 		{
-			Stage primaryStage=new Stage();
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/Survey.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/CompanyManager.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("Survey.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("CompanyManager.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 
@@ -36,10 +35,19 @@ public class SurveyGUI extends Application {
 		}
 	} 
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) 
 	{
 		launch(args);
 	}
+		
 }
 
 

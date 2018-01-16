@@ -17,6 +17,9 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import Entities.Customer;
+import Entities.User;
+import Login.WelcomeController;
 import client.ChatClient;
 import Server.EchoServer;
 import client.ClientConsole;
@@ -33,8 +36,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 public class StoreManagerMenuController implements Initializable
 {
@@ -48,12 +53,18 @@ public class StoreManagerMenuController implements Initializable
 	Button Breport1;
 	@FXML
 	Button BNU;
+	@FXML
+	TextField CustomerIDtext;
+	@FXML
+	Button SettelementAccount;
+	
 	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
 	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
 	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
 	public ClientConsole client;
 	public ChatClient chat;
-
+	private Msg LogoutMsg=new Msg();
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
@@ -74,7 +85,7 @@ public class StoreManagerMenuController implements Initializable
 
 	}
 	
-	
+	@FXML
 	public void askReport(ActionEvent event) throws Exception
 {		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
@@ -106,7 +117,7 @@ public class StoreManagerMenuController implements Initializable
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
 		report_orderController report=loader.getController();
-		report.setdirectory(directory);
+		report.setdirectory(directory, (String)cmbSelectReport1.getValue());
 		report.load_dir(directory);
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
@@ -117,14 +128,75 @@ public class StoreManagerMenuController implements Initializable
 		
 		
 	}
+	
 	@FXML
-	public void ExitBtn(ActionEvent event)
+	public void SettelementAccountBut(ActionEvent event) throws Exception
 	{
-		Alert al=new Alert(Alert.AlertType.INFORMATION);
-		al.setHeaderText("Closing Menu  ");
-		al.setContentText("Closing Menu Panel Now");
-		al.showAndWait();
-		System.exit(0);
+		Customer CustomerDB= new Customer();
+		CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
+		
+		Msg exsitCustomer = new Msg(Msg.qSELECT, "searchCustomerInDB"); // create a new msg
+		exsitCustomer.setSentObj(CustomerDB); // put the Survey into msg
+		exsitCustomer.setClassType("customer");
+		
+		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+		client.accept((Object) exsitCustomer); //adding the survey to DB
+		
+		exsitCustomer = (Msg) client.get_msg();
+		Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
+		if(returnCustomer.getCustomerID()!=0) 
+		{
+			
+			Stage primaryStage=new Stage();
+			((Node)event.getSource()).getScene().getWindow().hide();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
+			SettlementAccountController settlementController= (SettlementAccountController)loader.getController();
+			settlementController.getCustomerIdANDuserName(Integer.toString(returnCustomer.getCustomerID()), returnCustomer.getUserName());
+			Scene Scene = new Scene(root);
+			Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
+			primaryStage.setScene(Scene);
+			primaryStage.show();
+		}
+		
+		
+	}
+	
+	
+	
+	
+	@FXML
+	public void LogoutBtn(ActionEvent event)
+	{
+		LogoutMsg.setqueryToDo("update user");
+		LogoutMsg.setSentObj(User.currUser);
+		LogoutMsg.setQueryQuestion(Msg.qUPDATE);
+		LogoutMsg.setColumnToUpdate("ConnectionStatus");
+		LogoutMsg.setValueToUpdate("Offline");	
+		LogoutMsg.setClassType("User");
+		ClientConsole client=new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		try {
+			client.accept(LogoutMsg);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /* Update the connection status of the user from online  to offline */
+		
+		Stage primaryStage=new Stage();
+		Parent root;
+		try {
+			
+			((Node)event.getSource()).getScene().getWindow().hide();
+			root = FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
+			Scene loginScene = new Scene(root);
+			loginScene.getStylesheets().add(getClass().getResource("/Login/login_application.css").toExternalForm());
+			primaryStage.setScene(loginScene);
+			primaryStage.show();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 	
 }

@@ -32,6 +32,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -40,40 +41,21 @@ import javafx.stage.Stage;
 
 public class CancelOrderController implements Initializable
 {
-	@FXML
-	ComboBox cmbSelectReport1;
-	@FXML
-	ComboBox cmbSelectReport2;
-	@FXML
-	ComboBox cmbS1;
-	@FXML
-	ComboBox cmbS2;
-	@FXML
-	ComboBox cmbQ1;
-	@FXML
-	ComboBox cmbQ2;
-	@FXML
-	Button Breport2;
-	@FXML
-	Button Breport1;
-	@FXML
-	Button BNU;
-	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
-	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
-	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
+	public TreeMap<String, String> directory = new TreeMap<String, String>();
+
+	ObservableList<String> orderList=FXCollections.observableArrayList();
+
 	public ClientConsole client;
 	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
-
+	@FXML
+	ComboBox CBcancel;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		cmbSelectReport1.setItems(ReportsList);
-		cmbSelectReport2.setItems(ReportsList);
-		cmbQ1.setItems(quarterly);
-		cmbQ2.setItems(quarterly);
-		cmbS1.setItems(ShopList);
-		cmbS2.setItems(ShopList);
+		CBcancel.setItems(orderList);
+
 	}
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
@@ -89,51 +71,70 @@ public class CancelOrderController implements Initializable
 	}
 	
 	
-	public void askReport(ActionEvent event) throws Exception
+	public void cancel(ActionEvent event) throws Exception
 {		
-		//The report request create an sql question.
-		//The code of Customers Complaints report is a bit different because of his table structure.
-		TreeMap<String, String> directory = new TreeMap<String, String>();
+		
+		
+		
+		String cmd ="DELETE FROM zerli.`order` WHERE orderId=  ";
+		String val = (String) CBcancel.getValue();
+		String id = this.directory.get(val);
+		cmd+=id+" ;";
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
-		userToCheck.setClassType("report");// create a new msg
-		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
-		String cmd = "";
-		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
-		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
-		String cmd_complain = "SELECT month(date) as M ,count(*) as count FROM zerli.complaint  WHERE date BETWEEN";
-		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
-				+ "avg(answer6) FROM zerli.survey_answer where num_survey = 1;";
-
-			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
-			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
-			if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
-		System.out.println((String)cmbQ1.getValue());
-		int q2 =Integer.parseInt((String)cmbQ1.getValue());
-		cmd += date[q2-1];
-		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
-		{cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";}
-		else {cmd += "  group by month(date)";}
-		System.out.println(cmd);
-		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
-		{userToCheck.setQueryQuestion(cmd);}
-		else
-		{userToCheck.setQueryQuestion(cmd_survey);
-		userToCheck.setClassType("survey_report");	
-		}
-		System.out.println("cmd " +userToCheck.getQueryQuestion());
+		userToCheck.setClassType("CancelO");// create a new msg
+		userToCheck.setQueryQuestion(cmd);
+		userToCheck.setqueryToDo(id);
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
-		directory = (TreeMap<String, String> )client.msg;
-		System.out.println("good 2" +directory);
+		System.out.println(cmd);
+		ArrayList<String> dir_return = (ArrayList< String> )client.msg;
+		System.out.println(dir_return);
 		
+		
+		//		//The report request create an sql question.
+//		//The code of Customers Complaints report is a bit different because of his table structure.
+//		TreeMap<String, String> directory = new TreeMap<String, String>();
+//		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
+//		userToCheck.setClassType("report");// create a new msg
+//		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
+//		String cmd = "";
+//		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
+//		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
+//		String cmd_complain = "SELECT month(date) as M ,count(*) as count FROM zerli.complaint  WHERE date BETWEEN";
+//		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
+//				+ "avg(answer6) FROM zerli.survey_answer where num_survey = 1;";
+//
+//			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
+//			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
+//			if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
+//		System.out.println((String)cmbQ1.getValue());
+//		int q2 =Integer.parseInt((String)cmbQ1.getValue());
+//		cmd += date[q2-1];
+//		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
+//		{cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";}
+//		else {cmd += "  group by month(date)";}
+//		System.out.println(cmd);
+//		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
+//		{userToCheck.setQueryQuestion(cmd);}
+//		else
+//		{userToCheck.setQueryQuestion(cmd_survey);
+//		userToCheck.setClassType("survey_report");	
+//		}
+//		System.out.println("cmd " +userToCheck.getQueryQuestion());
+//		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
+//		client.accept((Object)userToCheck);
+//		directory = (TreeMap<String, String> )client.msg;
+//		System.out.println("good 2" +directory);
+//		
 		Stage primaryStage=new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
-		report_orderController report=loader.getController();
-		report.setdirectory(directory);
-		report.load_dir(directory);
+		Pane root = loader.load(getClass().getResource("ApprovalCancelation.fxml").openStream());
+		
+//		report_orderController report=loader.getController();
+//		report.setdirectory(directory);
+//		report.load_dir(directory);
 		Scene serverScene = new Scene(root);
-		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
+		serverScene.getStylesheets().add(getClass().getResource("ApprovalCancelation.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
 	}
@@ -170,6 +171,14 @@ public class CancelOrderController implements Initializable
 			e1.printStackTrace();
 		}
 
+	}
+	public void load_list(TreeMap<String, String> directory)
+	{this.directory=directory;
+	for(String s: directory.keySet())
+	{
+		this.orderList.add(s);
+	}
+	 
 	}
 	
 }

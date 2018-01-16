@@ -46,7 +46,9 @@ public class costumerController implements Initializable
 	Button Breport1;
 	@FXML
 	Button BNU;
-
+	@FXML
+	ComboBox CBcancel;
+	
 	public ClientConsole client;
 	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
