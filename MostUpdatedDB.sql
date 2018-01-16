@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `complaint`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `complaint` (
-  `complaintID` int(11) NOT NULL,
+  `complaintID` int(11) NOT NULL AUTO_INCREMENT,
   `customerID` int(11) NOT NULL,
   `storeID` int(11) NOT NULL,
   `complaintDetails` varchar(250) DEFAULT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `complaint` (
   KEY `strCOM_idx` (`storeID`),
   CONSTRAINT `custCOM` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `strCOM` FOREIGN KEY (`storeID`) REFERENCES `store` (`storeID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +62,8 @@ CREATE TABLE `customer` (
   `UserName` varchar(20) NOT NULL,
   `isSettlement` int(11) DEFAULT '0',
   `isMember` int(11) DEFAULT '0',
+  `creditCardNumber` varchar(16) NOT NULL,
+  `balance` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`customerID`),
   KEY `USERNAME_FK_CUSTO_idx` (`UserName`),
   CONSTRAINT `USERNAME_FK_CUSTO` FOREIGN KEY (`UserName`) REFERENCES `user` (`UserName`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -74,7 +76,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (2468,'customer1',0,0),(5326,'Customer',1,1);
+INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',0);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +156,7 @@ CREATE TABLE `order` (
   KEY `STOREID_FK_Order_idx` (`storeID`),
   CONSTRAINT `STOREID_FK_Order` FOREIGN KEY (`storeID`) REFERENCES `store` (`storeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `customerID_FK_Oder` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,6 +165,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1,2468,'PICKUP',68,'hi','2018-02-18','10:00:00',0,1),(2,5326,'DELIVERY',202,NULL,'2018-02-07','20:00:00',0,2),(3,2468,'PICKUP',55,'To Mrs Bracha','2018-02-22','03:00:00',0,3),(4,5326,'DELIVERY',99,NULL,'2018-03-01','11:00:00',0,1),(5,2468,'PICKUP',103,NULL,'2018-04-01','18:00:00',0,3);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -348,7 +351,8 @@ CREATE TABLE `survey_answer` (
   `answer3` int(11) DEFAULT NULL,
   `answer4` int(11) DEFAULT NULL,
   `answer5` int(11) DEFAULT NULL,
-  `answer6` int(11) DEFAULT NULL
+  `answer6` int(11) DEFAULT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,7 +362,7 @@ CREATE TABLE `survey_answer` (
 
 LOCK TABLES `survey_answer` WRITE;
 /*!40000 ALTER TABLE `survey_answer` DISABLE KEYS */;
-INSERT INTO `survey_answer` VALUES (1,4,6,6,7,8,10),(1,1,2,5,5,2,3);
+INSERT INTO `survey_answer` VALUES (1,4,6,6,7,8,10,'0000-00-00'),(1,1,2,5,5,2,3,'0000-00-00');
 /*!40000 ALTER TABLE `survey_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,7 +374,7 @@ DROP TABLE IF EXISTS `survey_question`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `survey_question` (
-  `numSurvey` int(11) NOT NULL,
+  `numSurvey` int(11) NOT NULL AUTO_INCREMENT,
   `question1` text,
   `question2` text,
   `question3` text,
@@ -378,7 +382,7 @@ CREATE TABLE `survey_question` (
   `question5` text,
   `question6` text,
   PRIMARY KEY (`numSurvey`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-15 15:07:44
+-- Dump completed on 2018-01-16 13:45:10
