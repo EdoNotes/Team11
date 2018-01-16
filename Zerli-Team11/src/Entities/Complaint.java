@@ -22,7 +22,11 @@ public class Complaint implements Serializable {
 		this.gotRefund = 0;
 		ComplaintIndex++;
 	}
-
+	public Complaint() {}
+	public Complaint(int CompId)
+	{
+		this.ComplaintId=CompId;
+	}
 	public int getCustomerId() {
 		return CustomerId;
 	}

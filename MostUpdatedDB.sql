@@ -46,7 +46,7 @@ CREATE TABLE `complaint` (
 
 LOCK TABLES `complaint` WRITE;
 /*!40000 ALTER TABLE `complaint` DISABLE KEYS */;
-INSERT INTO `complaint` VALUES (1,2468,1,NULL,'2011-11-11',0,0),(2,5326,3,NULL,'2011-11-11',0,0),(3,2468,2,NULL,'2011-12-12',0,0),(4,5326,1,NULL,'2011-07-07',0,0);
+INSERT INTO `complaint` VALUES (1,2468,1,'kjdfmnfdkjfd','2011-11-11',0,0),(2,5326,3,'sdfjksdkjdsf','2011-11-11',0,0),(3,2468,2,'dfjkdkjds','2011-12-12',0,0),(4,5326,1,'sajksakj','2011-07-07',0,0);
 /*!40000 ALTER TABLE `complaint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +76,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',0);
+INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',150);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +184,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`paymentID`),
   KEY `Customer_ID-FK_PAY_idx` (`customerID`),
   CONSTRAINT `Customer_ID-FK_PAY` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,7 +382,7 @@ CREATE TABLE `survey_question` (
   `question5` text,
   `question6` text,
   PRIMARY KEY (`numSurvey`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -423,7 +423,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il'),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL),('customer','123',305337990,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com'),('customer1','123',832947347,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com'),('CustomerService','123',123455432,'Elinor','faddol','Offline','CustomerService','5468641818','F','Eli_nor@gmail.com'),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com'),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com'),('StoreManager','123',111222333,'Matan','sabag','Offline','StoreManager','0526514879','M','blabla@gmail.com'),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com');
+INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il'),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL),('customer','123',305337990,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com'),('customer1','123',832947347,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com'),('CustomerService','123',123455432,'Elinor','faddol','Online','CustomerService','5468641818','F','Eli_nor@gmail.com'),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com'),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com'),('StoreManager','123',111222333,'Matan','sabag','Offline','StoreManager','0526514879','M','blabla@gmail.com'),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -436,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-16 13:45:10
+-- Dump completed on 2018-01-17  1:23:59
