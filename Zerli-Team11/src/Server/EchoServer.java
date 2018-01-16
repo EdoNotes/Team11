@@ -13,6 +13,7 @@ package Server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import java.sql.Connection;
@@ -56,6 +57,8 @@ public class EchoServer extends AbstractServer {
 				userHandeler(msgRecived, "user", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
+			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Ask_order")) {
+				get_consumer_order(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_report")) {
 				get_order_survey_report(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Customer")) {
@@ -357,7 +360,31 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
+	public void get_consumer_order(Msg msg, Connection con, ConnectionToClient client) {
+		System.out.println("great" + msg.getQueryQuestion());
+		ArrayList<String> directory = new ArrayList<String>();
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
+			while (rs.next()) {
+				String order="orderID: "+rs.getString(1)+" type: "+rs.getString(2)+" date: "+rs.getString(3)+" price: "+rs.getString(4);
+				System.out.println(order);
+				directory.add(order);
+			}
 
+
+			rs.close();
+			System.out.println(directory);
+			try {
+				client.sendToClient(directory);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
 	// SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN
 	// '2011-10-01' AND '2011-12-31' and orders.shop = 'Ako' group by orders.type ;
