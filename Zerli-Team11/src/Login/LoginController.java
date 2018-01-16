@@ -127,15 +127,63 @@ public class LoginController {
 						
 						case "StoreEmployee":
 							//StoreEmployee Menu
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage StoreEmployeeprimaryStage=new Stage();
+							Parent StoreEmployeeroot;
+							try {
+								StoreEmployeeroot = FXMLLoader.load(getClass().getResource("/Gui/StoreEmployeeMenu.fxml"));
+								Scene Scene = new Scene(StoreEmployeeroot);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/StoreEmployeeMenu.css").toExternalForm());
+								StoreEmployeeprimaryStage.setScene(Scene);
+								StoreEmployeeprimaryStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+							
+						
+							
+							
+						case "SystemManager":
+							//SystemManager Menu;
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage SystemManagerStage=new Stage();
+							Parent SystemManagerroot;
+							try {
+								StoreEmployeeroot = FXMLLoader.load(getClass().getResource("/Gui/ManagerSystemMenu.fxml"));
+								Scene Scene = new Scene(StoreEmployeeroot);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/ManagerSystemMenu.css").toExternalForm());
+								SystemManagerStage.setScene(Scene);
+								SystemManagerStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+							
+							
+						case "CustomerService":
+							//CustomerService Menu
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage CustomerServiceStage=new Stage();
+							Parent CustomerServiceroot;
+							try {
+								CustomerServiceroot = FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
+								Scene Scene = new Scene(CustomerServiceroot);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/CustomerServiceMenu.css").toExternalForm());
+								CustomerServiceStage.setScene(Scene);
+								CustomerServiceStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							break;
 							
 						case "Expert":
 							//Expert Menu;
 							break;
 							
-						case "CustomerService":
-							//CustomerService Menu
-							break;
 						case "CompanyManager":
 							Stage primaryStage=new Stage();
 							Parent root;

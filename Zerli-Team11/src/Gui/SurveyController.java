@@ -136,6 +136,7 @@ public class SurveyController implements Initializable
 				SendSurvey.setAnswer4(((String)(cmbSelectAnswer4.getValue())));
 				SendSurvey.setAnswer5(((String)(cmbSelectAnswer5.getValue())));
 				SendSurvey.setAnswer6(((String)(cmbSelectAnswer6.getValue())));
+				SendSurvey.setNumSurvey(Integer.parseInt(txtNumSurvey.getText()));
 			
 		
 		

@@ -21,13 +21,13 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="txtCustomerID" layoutX="165.0" layoutY="82.0" prefHeight="17.0" prefWidth="90.0" text="Label">
+            <Label fx:id="txtCustomerID" layoutX="165.0" layoutY="82.0" prefHeight="20.0" prefWidth="143.0" text="Label">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
             <Label layoutX="82.0" layoutY="118.0" text="User Name:" />
-            <Label fx:id="txtUserName" layoutX="165.0" layoutY="118.0" prefHeight="17.0" prefWidth="62.0" text="Label" />
+            <Label fx:id="txtUserName" layoutX="165.0" layoutY="118.0" prefHeight="17.0" prefWidth="130.0" text="Label" />
             <RadioButton fx:id="IsSettlement" layoutX="65.0" layoutY="190.0" mnemonicParsing="false" text="AccountisSettlement" textFill="#26b930">
                <toggleGroup>
                   <ToggleGroup fx:id="Settlement" />

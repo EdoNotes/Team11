@@ -46,7 +46,9 @@ public class NewUserRegistrationController
 	@FXML
 	TextField txtGender;
 	@FXML
-	TextField txtEmail;
+	TextField txtEmail;	
+	@FXML
+	TextField txtCreditCard;
 	
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException

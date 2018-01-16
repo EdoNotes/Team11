@@ -91,7 +91,7 @@ public class SettlementAccountController implements Initializable {
 		
 		Msg SaveCustomerInDB = new Msg(Msg.qINSERT, "Save New Customer Settlement and Member"); // create a new msg
 		SaveCustomerInDB.setSentObj(NewCustomerDB); // put the Survey into msg
-		SaveCustomerInDB.setClassType("customer");
+		SaveCustomerInDB.setClassType("Customer");
 		
 		System.out.println(SaveCustomerInDB.getClassType());
 		

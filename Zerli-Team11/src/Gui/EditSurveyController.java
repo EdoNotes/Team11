@@ -60,21 +60,6 @@ public class EditSurveyController
 		al.setContentText("Save Succeed ");
 		al.showAndWait();
 		
-//		try {
-//			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-//			Stage primaryStage=new Stage();
-//			FXMLLoader loader=new FXMLLoader();
-//			Pane root=loader.load(getClass().getResource("/Gui/Survey.fxml").openStream());
-//			SurveyController surveyController = (SurveyController)loader.getController();
-//	//		surveyController.getQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
-//			Scene Scene = new Scene(root);
-//			Scene.getStylesheets().add(getClass().getResource("Survey.css").toExternalForm());
-//			primaryStage.setScene(Scene);
-//			primaryStage.show();
-//		}catch(Exception e) 
-//			{
-//				e.printStackTrace();
-//			}
 	}
 		
 		
@@ -83,16 +68,21 @@ public class EditSurveyController
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage primaryStage=new Stage();
-		FXMLLoader loader=new FXMLLoader();
-		Pane root=loader.load(getClass().getResource("/Gui/Survey.fxml").openStream());
-		SurveyController surveyController = (SurveyController)loader.getController();
-		//surveyController.getQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
-		Scene Scene = new Scene(root);
-		Scene.getStylesheets().add(getClass().getResource("Survey.css").toExternalForm());
-		primaryStage.setScene(Scene);
-		primaryStage.show();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		Stage stage = new Stage();
+		Parent Root;
+		try {
+			Root = FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
+			Scene scene = new Scene(Root);
+			scene.getStylesheets()
+					.add(getClass().getResource("/Gui/CustomerServiceMenu.css").toExternalForm());
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 	}
 	
 	public void getEditQues(String ques1,String ques2,String ques3,String ques4,String ques5,String ques6)

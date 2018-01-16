@@ -15,7 +15,8 @@
       </Label>
       <Label layoutX="40.0" layoutY="144.0" text="Please enter ID:" />
       <Label layoutX="61.0" layoutY="98.0" />
-      <Button layoutX="203.0" layoutY="405.0" mnemonicParsing="false" onAction="#ShowDetails" text="Next" />
+      <Button layoutX="248.0" layoutY="405.0" mnemonicParsing="false" onAction="#ShowDetails" text="Next" />
       <TextField fx:id="txtId" layoutX="149.0" layoutY="140.0" promptText="ID" />
+      <Button layoutX="96.0" layoutY="405.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
    </children>
 </AnchorPane>

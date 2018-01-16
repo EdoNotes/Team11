@@ -188,6 +188,10 @@ public class EchoServer extends AbstractServer {
 		if (requestMsg.getqueryToDo().compareTo("checkCustomerExistence") == 0) {
 			searchCustomerInDB(msg, tableName, client, con);
 		}
+		else if (requestMsg.getqueryToDo().compareTo("Save New Customer Settlement and Member") == 0) {
+			System.out.println("ppppppp");
+			CustomerToDB(msg, tableName, client, con);
+		}
 
 	}
 
@@ -205,17 +209,13 @@ public class EchoServer extends AbstractServer {
 			searchUserbyID(msg, tableName, client, con);
 		else if (requestMsg.getqueryToDo().compareTo("UpadateUserInDB") == 0)
 			UpadateUserInDB(msg, tableName, client, con);
-		else if (requestMsg.getqueryToDo().compareTo("Save New Customer Settlement and Member") == 0) {
-			System.out.println("ppppppp");
-			CustomerToDB(msg, tableName, client, con);
-		}
+		
 
 	}// userHandler
 	public static void SurveyHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
-		if (requestMsg.getqueryToDo().compareTo("SendAnswerSurveyToDB") == 0) // If we want to check if user is exist //
-																				// e.g to logIn
+		if (requestMsg.getqueryToDo().compareTo("SendAnswerSurveyToDB") == 0) 																		// e.g to logIn
 			InsertAnswerSurveyToDB(msg, tableName, client, con);
 		else if (requestMsg.getqueryToDo().compareTo("select survey by numer survey") == 0)
 			returnSurveyQues(msg, tableName, client, con);
@@ -223,18 +223,6 @@ public class EchoServer extends AbstractServer {
 			addNewSurveyToDB(msg, tableName, client, con);
 	}// SurveyHandler
 
-	public static void CustomerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
-		String queryToDo = ((Msg) msg).getQueryQuestion();
-		Msg requestMsg = (Msg) msg;
-		if (requestMsg.getqueryToDo().compareTo("Save New Customer Settlement and Member") == 0) // If we want to check
-																									// if user is exist
-																									// // e.g to logIn
-		{
-			System.out.println("wwwww");
-			CustomerToDB(msg, tableName, client, con);
-		}
-
-	}// CustomerHandeler
 
 	private static void searchCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Customer tmpCustomer = new Customer();
@@ -345,6 +333,7 @@ public class EchoServer extends AbstractServer {
 		User tmpUsr = new User();
 			Statement stmt = con.createStatement();
 			// Case 1: Username and Password Correct
+
 			ResultSet rs = stmt.executeQuery(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
 					+ toSearch.getUserName() + "' AND Password='" + toSearch.getPassword() + "';");
 			if (rs.next()) {
@@ -427,12 +416,7 @@ public class EchoServer extends AbstractServer {
 		Survey surveyDB = (Survey) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
 		try {
-			System.out.println(message.getQueryQuestion() + " zerli." + tableName + " ("
-					+ "numSurvey ,answer1 ,answer2 ,answer3 ,answer4 ,answer5 ,answer6 )" + "\nVALUES " + "('"
-					+ surveyDB.getNumSurvey() + "','" + surveyDB.getAnswer1() + "','" + surveyDB.getAnswer2() + "','"
-					+ surveyDB.getAnswer3() + "','" + surveyDB.getAnswer4() + "','" + surveyDB.getAnswer5() + "','"
-					+ surveyDB.getAnswer6() + "');");
-
+			
 			PreparedStatement stmt = con.prepareStatement(message.getQueryQuestion() + " zerli." + tableName + " ("
 					+ "numSurvey ,answer1 ,answer2 ,answer3 ,answer4 ,answer5 ,answer6 )" + "\nVALUES " + "('"
 					+ surveyDB.getNumSurvey() + "','" + surveyDB.getAnswer1() + "','" + surveyDB.getAnswer2() + "','"
@@ -612,17 +596,21 @@ public class EchoServer extends AbstractServer {
 	private static void InsertComplaintToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Complaint userToUpdate = (Complaint) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
-		String Query = message.getQueryQuestion() + " " + tableName + " VALUES (?,?,?,?,?,?,?);";
-
+		
+		
+		String Query = message.getQueryQuestion() + " " + tableName+" (customerID , storeID,complaintDetails ,assigningDate ,gotTreatment,gotRefund)" 
+		+ " VALUES (?,?,?,?,?,?);";
+		
+		System.out.println(Query);
+		
 		try {
 			PreparedStatement stmt = con.prepareStatement(Query);
-			stmt.setInt(1, userToUpdate.getComplaintId());
-			stmt.setInt(2, userToUpdate.getCustomerId());
-			stmt.setInt(3, userToUpdate.getStoreId());
-			stmt.setString(4, userToUpdate.getComplaintDetails());
-			stmt.setString(5, userToUpdate.getAssigningDate());
-			stmt.setInt(6, userToUpdate.getGotTreatment());
-			stmt.setInt(7, userToUpdate.getGotRefund());
+			stmt.setInt(1, userToUpdate.getCustomerId());
+			stmt.setInt(2, userToUpdate.getStoreId());
+			stmt.setString(3, userToUpdate.getComplaintDetails());
+			stmt.setString(4, userToUpdate.getAssigningDate());
+			stmt.setInt(5, userToUpdate.getGotTreatment());
+			stmt.setInt(6, userToUpdate.getGotRefund());
 			stmt.executeUpdate();
 
 			con.close();
