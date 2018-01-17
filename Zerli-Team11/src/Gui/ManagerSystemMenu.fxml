@@ -13,10 +13,10 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="144.0" text="Please enter ID:" />
+      <Label layoutX="40.0" layoutY="144.0" text="Please enter ID of User :" />
       <Label layoutX="61.0" layoutY="98.0" />
       <Button layoutX="248.0" layoutY="405.0" mnemonicParsing="false" onAction="#ShowDetails" text="Next" />
-      <TextField fx:id="txtId" layoutX="149.0" layoutY="140.0" promptText="ID" />
+      <TextField fx:id="txtId" layoutX="185.0" layoutY="140.0" promptText="Enter ID" />
       <Button layoutX="96.0" layoutY="405.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
    </children>
 </AnchorPane>

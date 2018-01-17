@@ -52,7 +52,8 @@ public class ManagerSystemMenuController {
 			Msg userToCheck = new Msg(Msg.qSELECTALL, "check User By ID Existence"); // create a new msg
 			userToCheck.setSentObj(userToChange); // put the user into msg
 			userToCheck.setClassType("User");
-			client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 			try {
 				client.accept((Object) userToCheck);
 			} catch (InterruptedException e) {
@@ -76,7 +77,7 @@ public class ManagerSystemMenuController {
 				Pane root=loader.load(getClass().getResource("/Gui/ChangeUserDetails.fxml").openStream());
 				ChangeUserDetailsController showDetailsUser = (ChangeUserDetailsController)loader.getController();
 				showDetailsUser.getDetailsUser(returnUsr.getUserName(), returnUsr.getPassword(),Integer.toString(returnUsr.getID()), returnUsr.getFirstName(), returnUsr.getLastName(), 
-						returnUsr.getPhone(), returnUsr.getGender(), returnUsr.getEmail(), returnUsr.getUserType(), returnUsr.getConnectionStatus());
+						returnUsr.getPhone(), returnUsr.getGender(), returnUsr.getEmail(), returnUsr.getUserType(), returnUsr.getConnectionStatus(),returnUsr.getBranchName());
 			
 
 				Scene serverScene = new Scene(root);

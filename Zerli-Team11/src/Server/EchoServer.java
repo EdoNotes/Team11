@@ -16,6 +16,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -59,12 +61,9 @@ public class EchoServer extends AbstractServer {
 				SurveyHandeler(msgRecived, "survey_question", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_answer")) {
 				SurveyHandeler(msgRecived, "survey_answer", client, conn);
-			}
-			else if(msgRecived.getClassType().equalsIgnoreCase("Product"))
-			{
+			}else if(msgRecived.getClassType().equalsIgnoreCase("Product")) {
 				productHandler(msgRecived,client,conn);
-			}
-			else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
+			}else if ((msgRecived.getClassType()).equalsIgnoreCase("report")) {
 				get_order_report(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Ask_order")) {
 				get_consumer_order(msgRecived, conn, client);
@@ -279,19 +278,37 @@ public class EchoServer extends AbstractServer {
 		
 		
 	}
-	private static void customerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
+
+	private static void customerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
 		if (requestMsg.getqueryToDo().compareTo("checkCustomerExistence") == 0) {
 			searchCustomerInDB(msg, tableName, client, con);
 		}
 		else if (requestMsg.getqueryToDo().compareTo("Save New Customer Settlement and Member") == 0) {
-			System.out.println("ppppppp");
 			CustomerToDB(msg, tableName, client, con);
 		}
+
 		else if(requestMsg.getqueryToDo().compareTo("UpdateCustomerDetails") == 0)
 		{
 			UpdateCustomerInDB(msg, tableName, client, con);
+		}
+
+
+		else if(requestMsg.getqueryToDo().compareTo("Select DB customer") == 0) {
+			searchCustomerInDB(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("update DB customer") == 0) {
+			UpdateCustomer(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("Update Customer Settlement and Member and credit card") == 0) {
+			UpdateCustomerSettlMemberCreditInDB(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("pull the balance customer") == 0) {
+			searchCustomerInDB(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("updateBalance for loading money") == 0) {
+			UpdateCustomerBalanceDB(msg, tableName, client, con);
 		}
 
 	}
@@ -315,7 +332,6 @@ public class EchoServer extends AbstractServer {
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		Msg requestMsg = (Msg) msg;
 		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist															// e.g to logIn
-
 			searchUserInDB(msg, tableName, client, con);
 		else if (requestMsg.getqueryToDo().compareTo("update user") == 0)
 			updateUserDetails(msg, tableName, client, con);
@@ -345,6 +361,8 @@ public class EchoServer extends AbstractServer {
 		Msg message = (Msg) msg;
 		String Query = (message.getQueryQuestion() + " FROM  zerli." + tableName + " Where "
 				+ message.getColumnToUpdate() + "=" + "?;");
+		
+		System.out.println(Query);
 		try {
 			PreparedStatement stmt = con.prepareStatement(Query);
 			stmt.setString(1, message.getValueToUpdate());// get Specific Field's value
@@ -355,7 +373,7 @@ public class EchoServer extends AbstractServer {
 				tmpCustomer.setUserName(rs.getString(2));
 				tmpCustomer.setIsSettlement(rs.getInt(3));
 				tmpCustomer.setIsMember(rs.getInt(4));
-				tmpCustomer.setCreditCardNumber(rs.getString(5));
+				tmpCustomer.setCreditCard(rs.getString(5));
 				tmpCustomer.setBalance(rs.getDouble(6));
 			}
 			con.close();
@@ -390,7 +408,7 @@ public class EchoServer extends AbstractServer {
 							+ userToUpdate.getFirstName() + "' , LastName = '" + userToUpdate.getLastName()
 							+ "' , ConnectionStatus = '" + userToUpdate.getConnectionStatus() + "' , Phone = '"
 							+ userToUpdate.getPhone() + "' , Gender = '" + userToUpdate.getGender() + "' , Email = '"
-							+ userToUpdate.getEmail() + "'\nWHERE UserName= '" + userToUpdate.getUserName() + "';");
+							+ userToUpdate.getEmail() + "' , branchName = '"+userToUpdate.getBranchName() + "'\nWHERE UserName= '" + userToUpdate.getUserName() + "';");
 
 			stmt.executeUpdate();
 			con.close();
@@ -422,7 +440,7 @@ public class EchoServer extends AbstractServer {
 				toSearch.setPhone(rs.getString(8));// Set Phone for returned object
 				toSearch.setGender(rs.getString(9));// Set Gender for returned object
 				toSearch.setEmail(rs.getString(10));// Set Email for returned object
-
+				toSearch.setBranchName(rs.getString(11));
 			}
 			con.close();
 
@@ -465,6 +483,7 @@ public class EchoServer extends AbstractServer {
 				tmpUsr.setPhone(rs.getString(8));// Set Phone for returned object
 				tmpUsr.setGender(rs.getString(9));// Set Gender for returned object
 				tmpUsr.setEmail(rs.getString(10));// Set Email for returned object
+				tmpUsr.setBranchName(rs.getString(11));
 			}
 			// Case 2 :UserName Correct But Password Wrong
 			else if (rs.next() == false) {
@@ -481,6 +500,7 @@ public class EchoServer extends AbstractServer {
 					tmpUsr.setPhone(rs.getString(8));// Set Phone for returned object
 					tmpUsr.setGender(rs.getString(9));// Set Gender for returned object
 					tmpUsr.setEmail(rs.getString(10));// Set Email for returned object
+					tmpUsr.setBranchName(rs.getString(11));
 				}
 
 			}
@@ -499,20 +519,16 @@ public class EchoServer extends AbstractServer {
 	public static void CustomerToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Customer CustomerDB = (Customer) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
+		String sql= message.getQueryQuestion() + " zerli." + tableName + " ("
+				+ "customerID ,UserName ,isSettlement , isMember, creditCardNumber ,balance)" + "\nVALUES " + "('"
+				+ CustomerDB.getCustomerID() + "','" + CustomerDB.getUserName() + "','"
+				+ CustomerDB.getIsSettlement() + "','" + CustomerDB.getIsMember() + "','" +CustomerDB.getCreditCard()+ "','"+CustomerDB.getBalance()+ "');" ;
 		try {
 
-			System.out.println(message.getQueryQuestion() + " " + tableName + " ("
-					+ "customerID ,UserName ,isSettlement , isMember )" + "\nVALUES " + "('"
-					+ CustomerDB.getCustomerID() + "','" + CustomerDB.getUserName() + "','"
-					+ CustomerDB.getIsSettlement() + "','" + CustomerDB.getIsMember() + "');");
-
-			PreparedStatement stmt = con.prepareStatement(message.getQueryQuestion() + " " + tableName + " ("
-					+ "customerID ,UserName ,isSettlement , isMember )" + "\nVALUES " + "('"
-					+ CustomerDB.getCustomerID() + "','" + CustomerDB.getUserName() + "','"
-					+ CustomerDB.getIsSettlement() + "','" + CustomerDB.getIsMember() + "');");
-
-			stmt.executeUpdate();
-
+			Statement stmt=con.createStatement();
+			
+			stmt.executeUpdate(sql);
+					
 			con.close();
 			try {
 				client.sendToClient(msg);
@@ -536,10 +552,10 @@ public class EchoServer extends AbstractServer {
 		try {
 			
 			PreparedStatement stmt = con.prepareStatement(message.getQueryQuestion() + " zerli." + tableName + " ("
-					+ "numSurvey ,answer1 ,answer2 ,answer3 ,answer4 ,answer5 ,answer6 )" + "\nVALUES " + "('"
+					+ "numSurvey ,answer1 ,answer2 ,answer3 ,answer4 ,answer5 ,answer6, date )" + "\nVALUES " + "('"
 					+ surveyDB.getNumSurvey() + "','" + surveyDB.getAnswer1() + "','" + surveyDB.getAnswer2() + "','"
 					+ surveyDB.getAnswer3() + "','" + surveyDB.getAnswer4() + "','" + surveyDB.getAnswer5() + "','"
-					+ surveyDB.getAnswer6() + "');");
+					+ surveyDB.getAnswer6() +"','" +surveyDB.getDate() + "');");
 
 			stmt.executeUpdate();
 
@@ -567,11 +583,11 @@ public class EchoServer extends AbstractServer {
 		try {
 
 			PreparedStatement stmt = con.prepareStatement(message.getQueryQuestion() + " " + tableName + " ("
-					+ "UserName ,Password ,UserID ,FirstName ,LastName ,ConnectionStatus ,Permission ,Phone ,Gender ,Email)"
+					+ "UserName ,Password ,UserID ,FirstName ,LastName ,ConnectionStatus ,Permission ,Phone ,Gender ,Email,branchName)"
 					+ "\nVALUES " + "('" + NewUserToAdd.getUserName() + "','" + NewUserToAdd.getPassword() + "','"
 					+ NewUserToAdd.getID() + "','" + NewUserToAdd.getFirstName() + "','" + NewUserToAdd.getLastName()
 					+ "','" + NewUserToAdd.getConnectionStatus() + "','" + NewUserToAdd.getUserType() + "','"
-					+ NewUserToAdd.getPhone() + "','" + NewUserToAdd.getGender() + "','" + NewUserToAdd.getEmail()
+					+ NewUserToAdd.getPhone() + "','" + NewUserToAdd.getGender() + "','" + NewUserToAdd.getEmail() + "','" + NewUserToAdd.getBranchName()
 					+ "');");
 			stmt.executeUpdate();
 			con.close();
@@ -763,7 +779,26 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	
+	private static void UpdateCustomer(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		User userToUpdate = (User) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+userToUpdate.getUserName()+"'");
+			stmt.setString(1, message.getValueToUpdate());
+			stmt.executeUpdate();
+			con.close();
+	}
+	
+	private static void UpdateCustomerSettlMemberCreditInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Customer CustomerToUpdate = (Customer) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+		System.out.println(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"+CustomerToUpdate.getCreditCard() +"' WHERE 'customerID'="+CustomerToUpdate.getCustomerID()+";");
+		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"+CustomerToUpdate.getCreditCard() +"'"
+				+ " WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
+		stmt.executeUpdate();
+		con.close();
+	}
+	
 	public void cancel_order(Msg msg, Connection con, ConnectionToClient client) {
 		ArrayList<String> dir_result=new ArrayList <String>();
 		try {
@@ -789,8 +824,6 @@ public class EchoServer extends AbstractServer {
 					System.out.println(dir_result);
 				}
 				System.out.println(" debug= "+dir_result);
-
-				
 				float refund=0;
 				if (dir_result.get(2).equals("1"))refund=1;
 				if (dir_result.get(3).equals("1"))refund=1;
@@ -824,4 +857,15 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
+
+	private static void UpdateCustomerBalanceDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Customer customerToUpdate = (Customer) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+customerToUpdate.getUserName()+"'");
+			stmt.setString(1, message.getValueToUpdate());
+			stmt.executeUpdate();
+			con.close();
+	}
+	
+
 }
