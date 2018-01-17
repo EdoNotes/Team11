@@ -6,7 +6,9 @@ public class Customer extends User
 	private int customerID;
 	private int isSettlement;//if the currency is positive and there is not debt
 	private int isMember;
-	
+	private String creditCardNumber;
+	private double balance;
+	 
 	public Customer(int CusId,String CusUserName,int CusIsSettelemet,int CusIsMember)
 	{
 		super();//User Constructor
@@ -15,6 +17,7 @@ public class Customer extends User
 		super.setUserName(CusUserName);
 		this.isSettlement=CusIsSettelemet;
 		this.isMember=CusIsMember;
+		this.balance=0;
 	}
 	public Customer(String UserName)
 	{
@@ -22,7 +25,10 @@ public class Customer extends User
 	}
 	
 	public Customer() {}
-
+	public Customer(int CustomerId)
+	{
+		this.customerID=CustomerId;
+	}
 
 	public int getCustomerID() {
 		return customerID;
@@ -53,6 +59,18 @@ public class Customer extends User
 		this.isMember = isMember;
 	}
 	
+	public String getCreditCardNumber() {
+		return creditCardNumber;
+	}
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
+	}
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
 	@Override
 	public String toString() {
 		return "Customer [customerID=" + customerID + ", isSettlement=" + isSettlement + ", isMember=" + isMember + "]";

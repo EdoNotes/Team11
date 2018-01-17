@@ -184,8 +184,101 @@ public class EchoServer extends AbstractServer {
 		if (requestMsg.getqueryToDo().compareTo("insertNewComplaint") == 0) {
 			InsertComplaintToDB(msg, tableName, client, con);
 		}
+		else if(requestMsg.getqueryToDo().compareTo("getAllComplaints") == 0)
+		{
+			GetAllComplaintsIDsFromDB(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("checkComplaintExistence")==0)
+		{
+			SelectComplaintFromDB(msg, tableName, client, con);
+		}
+		else if(requestMsg.getqueryToDo().compareTo("UpdateComplaint")==0)
+		{
+			UpdateComplaintFromDB(msg, tableName, client, con);
+		}
+	}
+	private static void UpdateComplaintFromDB(Object msg, String tableName, ConnectionToClient client, Connection con)
+	{
+		
+		Msg message = (Msg) msg;
+		Complaint complaintToUpdate=((Complaint)message.getSentObj());
+		String Query=(message.getQueryQuestion() + " zerli."+tableName+" SET "+message.getColumnToUpdate()+"=?" +" WHERE complaintID=?;");
+		try {
+			PreparedStatement stmt=con.prepareStatement(Query);
+			stmt.setString(1,message.getValueToUpdate());
+			stmt.setString(2,""+complaintToUpdate.getComplaintId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	private static void SelectComplaintFromDB(Object msg, String tableName, ConnectionToClient client, Connection con)
+	{
+		Complaint tmpComplaint=new Complaint();
+		Msg message = (Msg) msg;
+		String Query=(message.getQueryQuestion() + " FROM  zerli." + tableName + " Where "+ message.getColumnToUpdate() + "=" + "?;");
+		try {
+			PreparedStatement stmt=con.prepareStatement(Query);
+			stmt.setString(1,message.getValueToUpdate());
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next())
+			{
+				tmpComplaint.setComplaintId(rs.getInt(1));
+				tmpComplaint.setCustomerId(rs.getInt(2));
+				tmpComplaint.setStoreId(rs.getInt(3));
+				tmpComplaint.setComplaintDetails(rs.getString(4));
+				tmpComplaint.setAssigningDate(rs.getString(5));
+				tmpComplaint.setGotTreatment(rs.getInt(6));
+				tmpComplaint.setGotRefund(rs.getInt(7));
+			}
+			con.close();
+			rs.close();
+			message.setReturnObj(tmpComplaint);
+			try {
+				client.sendToClient(message);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void GetAllComplaintsIDsFromDB(Object msg, String tableName, ConnectionToClient client, Connection con) 
+	{
+		Msg message = (Msg) msg;
+		ArrayList<Integer> ComplaintsIDS=new ArrayList<Integer>();
+		String Query=(message.getQueryQuestion()+" FROM zerli."+tableName+";");
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(Query);
+			while(rs.next())
+			{
+				if(rs.getInt(6)==0)//1 Means Complaint GotTreatment
+				{
+				ComplaintsIDS.add(rs.getInt(1));
+				}
+			}
+			rs.close();
+			con.close();
+			message.setReturnObj((Object)ComplaintsIDS);
+			try {
+				client.sendToClient(message);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	private static void customerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -196,9 +289,28 @@ public class EchoServer extends AbstractServer {
 			System.out.println("ppppppp");
 			CustomerToDB(msg, tableName, client, con);
 		}
+		else if(requestMsg.getqueryToDo().compareTo("UpdateCustomerDetails") == 0)
+		{
+			UpdateCustomerInDB(msg, tableName, client, con);
+		}
 
 	}
 
+	private static void UpdateCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
+	{
+		Msg message = (Msg) msg;
+		Customer customerToUpdate=((Customer)message.getSentObj());
+		String Query=(message.getQueryQuestion() + " zerli."+tableName+" SET "+message.getColumnToUpdate()+"=?" +" WHERE customerID=?;");
+		try {
+			PreparedStatement stmt=con.prepareStatement(Query);
+			stmt.setString(1,message.getValueToUpdate());
+			stmt.setString(2,""+customerToUpdate.getCustomerID());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/*---------------------------------------------------End----------------------*/
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		Msg requestMsg = (Msg) msg;
@@ -243,6 +355,8 @@ public class EchoServer extends AbstractServer {
 				tmpCustomer.setUserName(rs.getString(2));
 				tmpCustomer.setIsSettlement(rs.getInt(3));
 				tmpCustomer.setIsMember(rs.getInt(4));
+				tmpCustomer.setCreditCardNumber(rs.getString(5));
+				tmpCustomer.setBalance(rs.getDouble(6));
 			}
 			con.close();
 			rs.close();

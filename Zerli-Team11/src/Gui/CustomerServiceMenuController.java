@@ -1,25 +1,98 @@
 package Gui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import Entities.Complaint;
 import Entities.User;
 import Login.WelcomeController;
 import client.ClientConsole;
 import common.Msg;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class CustomerServiceMenuController {
+public class CustomerServiceMenuController implements Initializable {
 	
 	private Msg LogoutMsg=new Msg();
-	
-	
-	
+	@FXML
+	private ComboBox cmbComplaints;
+	private ClientConsole client;
+
+	public void OpenComplaintDetails(ActionEvent event)
+	{
+		Complaint toLoad;
+		Complaint complaintToGet=null;
+		if(cmbComplaints.getSelectionModel().getSelectedItem()!=null)
+		{
+			int selectedComplaint=(int) cmbComplaints.getSelectionModel().getSelectedItem();
+			complaintToGet=new Complaint(selectedComplaint);
+			Msg ComplaintToCheck=new Msg(Msg.qSELECTALL,"checkComplaintExistence");
+			ComplaintToCheck.setClassType("Complaint");
+			ComplaintToCheck.setColumnToUpdate("complaintID");
+			ComplaintToCheck.setValueToUpdate(""+selectedComplaint);
+			client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			try {
+				client.accept(ComplaintToCheck);
+				ComplaintToCheck= (Msg) client.get_msg();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				toLoad=(Complaint)(ComplaintToCheck.getReturnObj());
+				((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+				Stage OpenComplaintDetailsStage=new Stage();
+				FXMLLoader loader=new FXMLLoader();
+				Pane OpenComplaintDetailsRoot = loader.load(getClass().getResource("/Gui/CustomerServiceHandleComplaint.fxml").openStream());
+				CustomerServiceHandleComplaintController ComplaintHandlerWindow=(CustomerServiceHandleComplaintController)loader.getController();
+				ComplaintHandlerWindow.LoadComplaint(toLoad);
+				Scene ViewProfileScene = new Scene(OpenComplaintDetailsRoot);
+				ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/CustomerServiceHandleComplaint.css").toExternalForm());
+				OpenComplaintDetailsStage.setScene(ViewProfileScene);
+				OpenComplaintDetailsStage.show();
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		Msg dataForComboBox=new Msg(Msg.qSELECTALL,"getAllComplaints");
+		dataForComboBox.setClassType("Complaint");
+		try {
+			client.accept(dataForComboBox);
+			dataForComboBox = (Msg) client.get_msg();
+			ArrayList<Integer> ComplaintsIDS=new ArrayList<Integer>((ArrayList<Integer>)dataForComboBox.getReturnObj());
+			ObservableList<Integer> ComboBoxComplaintsList=FXCollections.observableArrayList();
+			for(Integer complaint:ComplaintsIDS)
+			{
+				ComboBoxComplaintsList.add(complaint);
+			}
+			cmbComplaints.setItems(ComboBoxComplaintsList);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@FXML
 	public void BuildSurveyBtn(ActionEvent event) throws IOException
 	{	
@@ -81,6 +154,7 @@ public class CustomerServiceMenuController {
 		}
 
 	}
+
 	
 	
 
