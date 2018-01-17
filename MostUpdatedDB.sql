@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `zerli` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `zerli`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: zerli
@@ -76,7 +74,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',150);
+INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',0);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,15 +204,13 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `productID` int(11) NOT NULL AUTO_INCREMENT,
   `productName` varchar(45) NOT NULL,
-  `productType` enum('CUSTOMIZED','BOUQUET') NOT NULL,
+  `productType` enum('bouquet','flowerpot','weddingBouquet','sweetbouquet') NOT NULL,
   `productDescription` varchar(100) DEFAULT NULL,
   `price` double DEFAULT '0',
   `quantity` int(11) DEFAULT '0',
   `dominantColor` enum('RED','GREEN','YELLOW','BLUE','BLACK','WHITE','PURPLE') DEFAULT NULL,
-  `StoreID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`productID`),
-  KEY `STORE_ID_PRODUCT_idx` (`StoreID`),
-  CONSTRAINT `STORE_ID_PRODUCT` FOREIGN KEY (`StoreID`) REFERENCES `store` (`storeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `BranchName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`productID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -224,7 +220,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Rose','CUSTOMIZED','beutiful flower',10.5,10,'RED',1),(2,'Dahlia ','CUSTOMIZED','I love this flower!',7.25,5,'PURPLE',3),(3,'Sunflower','CUSTOMIZED','shiny like sunshine',5,7,'YELLOW',2),(4,'Wedding','BOUQUET','for white widding',50,60,'WHITE',3),(5,'Girl Friend flowers','BOUQUET','for you girlfriend',40,0,'BLUE',1),(6,'be happy','BOUQUET','just for fun',100,4,'GREEN',1);
+INSERT INTO `product` VALUES (1,'Rose','bouquet','beutiful flower',20,0,'RED','Acre'),(2,'Dahlia ','flowerpot','I love this flower!',35,0,'PURPLE','Acre'),(3,'Sunflower','bouquet','shiny like sunshine',100,0,'YELLOW','Haifa'),(4,'white taste','weddingBouquet','for white widding',70,0,'WHITE','Karmiel'),(5,'Girl Friend flowers','flowerpot','for you girlfriend',150,0,'BLUE','Karmiel'),(6,'be happy','sweetbouquet','just for fun',200,0,'GREEN','Acre');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,11 +232,11 @@ DROP TABLE IF EXISTS `product_in_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_in_order` (
-  `ProductInOrderID` int(11) NOT NULL AUTO_INCREMENT,
-  `OrderID` int(11) DEFAULT NULL,
-  `productID` int(11) DEFAULT NULL,
+  `OrderID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT '0',
   `totalPrice` double DEFAULT '0',
-  PRIMARY KEY (`ProductInOrderID`),
+  PRIMARY KEY (`OrderID`,`productID`),
   KEY `OrderID_idx` (`OrderID`),
   KEY `IDProduct_idx` (`productID`),
   CONSTRAINT `IDProduct` FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -413,6 +409,7 @@ CREATE TABLE `user` (
   `Phone` varchar(10) DEFAULT NULL,
   `Gender` varchar(2) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
+  `branchName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`UserName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -423,7 +420,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il'),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL),('customer','123',305337990,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com'),('customer1','123',832947347,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com'),('CustomerService','123',123455432,'Elinor','faddol','Online','CustomerService','5468641818','F','Eli_nor@gmail.com'),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com'),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com'),('StoreManager','123',111222333,'Matan','sabag','Offline','StoreManager','0526514879','M','blabla@gmail.com'),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com');
+INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il','\'Haifa\''),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL,'\'Haifa\''),('customer','123',305337990,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com','\'Acre\''),('customer1','123',832947347,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com','\'Acre\''),('CustomerService','123',123455432,'Elinor','faddol','Offline','CustomerService','5468641818','F','Eli_nor@gmail.com','\'Acre\''),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com','\'Karmiel\''),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com','\'Karmiel\''),('StoreManager','123',111222333,'Matan','sabag','Offline','StoreManager','0526514879','M','blabla@gmail.com','\'Karmiel\''),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com','\'Karmiel\'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -436,4 +433,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-17  1:23:59
+-- Dump completed on 2018-01-17  2:47:13
