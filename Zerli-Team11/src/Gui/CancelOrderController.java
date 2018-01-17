@@ -75,7 +75,7 @@ public class CancelOrderController implements Initializable
 {		
 		
 		
-		
+		float refund = 0;
 		String cmd ="DELETE FROM zerli.`order` WHERE orderId=  ";
 		String val = (String) CBcancel.getValue();
 		String id = this.directory.get(val);
@@ -89,50 +89,26 @@ public class CancelOrderController implements Initializable
 		System.out.println(cmd);
 		ArrayList<String> dir_return = (ArrayList< String> )client.msg;
 		System.out.println(dir_return);
+		if (dir_return.get(2).equals("1"))refund=1;
+		if (dir_return.get(3).equals("1"))refund=1;
+		if (dir_return.get(4).equals("1"))refund=(float) 0.5;
+		if (dir_return.get(5).equals("1"))refund=0;
+		String cmd_refund= "update zerli.customer c,zerli.order o set c.balance=c.balance- o.orderPrice*"
+				+ refund+"  where c.customerID=\"2468\" and o.orderId ="+id+";";
+		System.out.println(cmd_refund);
+
 		
-		
-		//		//The report request create an sql question.
-//		//The code of Customers Complaints report is a bit different because of his table structure.
-//		TreeMap<String, String> directory = new TreeMap<String, String>();
-//		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
-//		userToCheck.setClassType("report");// create a new msg
-//		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
-//		String cmd = "";
-//		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
-//		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
-//		String cmd_complain = "SELECT month(date) as M ,count(*) as count FROM zerli.complaint  WHERE date BETWEEN";
-//		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
-//				+ "avg(answer6) FROM zerli.survey_answer where num_survey = 1;";
-//
-//			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
-//			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
-//			if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
-//		System.out.println((String)cmbQ1.getValue());
-//		int q2 =Integer.parseInt((String)cmbQ1.getValue());
-//		cmd += date[q2-1];
-//		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
-//		{cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";}
-//		else {cmd += "  group by month(date)";}
-//		System.out.println(cmd);
-//		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
-//		{userToCheck.setQueryQuestion(cmd);}
-//		else
-//		{userToCheck.setQueryQuestion(cmd_survey);
-//		userToCheck.setClassType("survey_report");	
-//		}
-//		System.out.println("cmd " +userToCheck.getQueryQuestion());
-//		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
-//		client.accept((Object)userToCheck);
-//		directory = (TreeMap<String, String> )client.msg;
-//		System.out.println("good 2" +directory);
-//		
+
 		Stage primaryStage=new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("ApprovalCancelation.fxml").openStream());
 		
-//		report_orderController report=loader.getController();
-//		report.setdirectory(directory);
-//		report.load_dir(directory);
+		ApprovalCancelationController report=loader.getController();
+		String msg = "nothing";
+		if (dir_return.get(2).equals("1")||dir_return.get(3).equals("1")) msg="The order was been canceled, the refund was 100% of the order price";
+		if (dir_return.get(4).equals("1")) msg="The order was been canceled, the refund was 50% of the order price because the order cancel was later than 3 hours before the date";
+		if (dir_return.get(5).equals("1")) msg="The order was been canceled, their is no refund because the order cancel was later than 1 hours before the date";
+		report.load_list(msg);
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("ApprovalCancelation.css").toExternalForm());
 		primaryStage.setScene(serverScene);

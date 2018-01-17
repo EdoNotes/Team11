@@ -15,6 +15,8 @@ import java.io.IOException;
 import com.mysql.jdbc.util.ServerController;
 
 import Entities.User;
+import Gui.ApprovalCancelationController;
+import Gui.CustomerMenuController;
 import Server.EchoServer;
 import client.ChatClient;
 import client.ClientConsole;
@@ -28,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class LoginController {
@@ -96,14 +99,27 @@ public class LoginController {
 							Stage CustomerStage=new Stage();
 							Parent CustomerRoot;
 							try {
-								CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
-								Scene CustomerScene = new Scene(CustomerRoot);
+								FXMLLoader loader = new FXMLLoader();
+								Pane root = loader.load(getClass().getResource("/Gui/CustomerMenu.fxml").openStream());
+								CustomerMenuController report=loader.getController();
+								report.load_costomer("2468");
+								
+								
+//								CustomerRoot = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+								Scene CustomerScene = new Scene(root);
 								CustomerScene.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
 								CustomerStage.setScene(CustomerScene);
 								CustomerStage.show();
+				
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
+								
+								
+								
+								
+								
+								
 							}
 							break;
 						}

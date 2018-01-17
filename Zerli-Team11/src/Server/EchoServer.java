@@ -651,13 +651,16 @@ public class EchoServer extends AbstractServer {
 	}
 
 	public void cancel_order(Msg msg, Connection con, ConnectionToClient client) {
-		System.out.println("great" + msg.getQueryQuestion());
 		ArrayList<String> dir_result=new ArrayList <String>();
 		try {
-			String cmd2="SELECT orderId, orderPrice,Date,orderTime , current_date()>Date as t1,current_date()=Date and current_time()-orderTime>30000 as t2,"
-				+ "current_date()=Date and current_time()-orderTime between 10000 and 30000 as t3, current_date()=Date and current_time()-orderTime between 0 and 10000 as t4,"
+			String cmd2="SELECT orderId, orderPrice,Date,orderTime , current_date()>Date as t1,current_date()=Date and orderTime-current_time()>30000 as t2,"
+				+ "current_date()=Date and orderTime-current_time() between 10000 and 30000 as t3, current_date()=Date and orderTime-current_time() between 0 and 10000 as t4,"
 				+" current_time()-ordertime from zerli.`order` where orderID = ";
 			cmd2+=msg.getqueryToDo()+" ;";
+
+
+			
+			System.out.println(cmd2);
 
 
 			Statement stmt1 = con.createStatement();
@@ -671,20 +674,38 @@ public class EchoServer extends AbstractServer {
 					dir_result.add(rs.getString(8));
 					System.out.println(dir_result);
 				}
-				Statement stmt = con.createStatement();
-				int returnValue = stmt.executeUpdate(msg.getQueryQuestion());
-				rs.close();
+				System.out.println(" debug= "+dir_result);
+
+				
+				float refund=0;
+				if (dir_result.get(2).equals("1"))refund=1;
+				if (dir_result.get(3).equals("1"))refund=1;
+				if (dir_result.get(4).equals("1"))refund=(float) 0.5;
+				if (dir_result.get(5).equals("1"))refund=0;
+				System.out.println(" dir_result.get(4)= "+dir_result.get(2)+dir_result.get(3)+dir_result.get(4)+dir_result.get(5));
+				System.out.println(" refund= "+refund);
+
 				try {
 					client.sendToClient(dir_result);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				String cmd_refund= "update zerli.customer c,zerli.order o set c.balance=c.balance- o.orderPrice*"
+						+ refund+"  where c.customerID=\"2468\" and o.orderId ="+msg.getqueryToDo()+";";
+				System.out.println(cmd_refund);
+				Statement stmt3 = con.createStatement();
+				int returnValue2 = stmt3.executeUpdate(cmd_refund);
+				
+				
+				
+				System.out.println("great" + msg.getQueryQuestion());
+				Statement stmt = con.createStatement();
+				int returnValue1 = stmt.executeUpdate(msg.getQueryQuestion());
+				rs.close();
+
 				con.close();
 
-			
-			
-			
-			
+				
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

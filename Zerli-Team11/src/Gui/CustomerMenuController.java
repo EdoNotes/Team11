@@ -28,6 +28,7 @@ public class CustomerMenuController
 	public ClientConsole client;
 	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
+	public String id="";
 	@FXML
 	public void viewCatalogBtn(ActionEvent event)
 	{
@@ -164,5 +165,9 @@ public class CustomerMenuController
 			e1.printStackTrace();
 		}
 
+	}
+	public void load_costomer(String id)
+	{this.id=id; 
+	System.out.println("good g       "+ id);
 	}
 }
