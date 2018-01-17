@@ -95,7 +95,9 @@ public class CustomerMenuController
 		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		
 		TreeMap<String, String> directory = new TreeMap<String, String>();
-		String cmd ="SELECT  o.orderId ,o.orderPrice ,o.Date FROM zerli.order o where o.customerID=2468;";
+		String cmd ="SELECT  o.orderId ,o.orderPrice ,o.Date FROM zerli.order o where o.customerID=";
+		int userid = User.currUser.getID();
+		cmd+=userid+";";
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("Ask_order");// create a new msg
 		userToCheck.setQueryQuestion(cmd);

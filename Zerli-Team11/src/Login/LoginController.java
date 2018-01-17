@@ -113,13 +113,7 @@ public class LoginController {
 				
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
-								
-								
-								
-								
-								
-								
+								e1.printStackTrace();	
 							}
 							break;
 						}
@@ -214,12 +208,8 @@ public class LoginController {
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}
-		
-							
-						}
-						
-
+							}	
+						}	
 					}
 				} 
 				else 
