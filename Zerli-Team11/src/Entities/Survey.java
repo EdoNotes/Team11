@@ -22,6 +22,8 @@ public class Survey implements Serializable {
 	private String Answer5;
 	private String Answer6;
 	
+	private String date;
+	
 //	public Survey(String question1,String question2,String question3,String question4,String question5,String question6,
 //			String answer1,String answer2,String answer3,String answer4,String answer5,String answer6) {
 //		
@@ -150,6 +152,14 @@ public class Survey implements Serializable {
 		Answer6 = answer6;
 	}
 	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	@Override
 	public String toString() {
 		return "Survey number: "+NumSurvey + " [Q1#=" + Question1 + ", Answer1#=" + Answer1 + ",\n Q2#=" + Question2 + ", Answer2#=" + Answer2

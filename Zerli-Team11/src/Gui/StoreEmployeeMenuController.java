@@ -41,7 +41,8 @@ public class StoreEmployeeMenuController {
 			Msg QuestionSurvey = new Msg(Msg.qSELECTALL, "select survey by numer survey"); // create a new msg
 			QuestionSurvey.setSentObj(txtNumSurvey.getText()); // put the user into msg
 			QuestionSurvey.setClassType("survey_question");
-			client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 			try {
 				client.accept((Object) QuestionSurvey);
 			} catch (InterruptedException e) {

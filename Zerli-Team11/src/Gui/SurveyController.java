@@ -12,6 +12,10 @@ package Gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import Entities.Survey;
@@ -71,6 +75,8 @@ public class SurveyController implements Initializable
 	@FXML
 	Label txtQuestion6;
 	
+	@FXML
+	Label txtDateOfTody;
 
 	@FXML
 	Label txtNumSurvey;
@@ -89,34 +95,17 @@ public class SurveyController implements Initializable
 		cmbSelectAnswer4.setItems(OneToTen);
 		cmbSelectAnswer5.setItems(OneToTen);
 		cmbSelectAnswer6.setItems(OneToTen);
-
 		
-		//txtNumSurvey.setText("Survey Number : " + Survey);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localDate = LocalDate.now();
+		txtDateOfTody.setText(dtf.format(localDate));
+
 
 	}
 	
-//	@FXML
-//	public void EditBtn(ActionEvent event) throws IOException
-//	{
-//		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-//		Stage primaryStage=new Stage();
-//		
-//		FXMLLoader loader=new FXMLLoader();
-//		Pane root=loader.load(getClass().getResource("/Gui/EditSurvey.fxml").openStream());
-//		EditSurveyController EditsurveyController = (EditSurveyController)loader.getController();
-//		EditsurveyController.getEditQues(txtQuestion1.getText(),txtQuestion2.getText(),txtQuestion3.getText(),txtQuestion4.getText(),txtQuestion5.getText(),txtQuestion6.getText());
-//		
-//
-//		//Parent root=FXMLLoader.load(getClass().getResource("/Gui/EditSurvey.fxml"));
-//
-//		Scene serverScene = new Scene(root);
-//		serverScene.getStylesheets().add(getClass().getResource("EditSurvey.css").toExternalForm());
-//		primaryStage.setScene(serverScene);
-//		primaryStage.show();
-//	}
 	
 	@FXML
-	public void SandBtn(ActionEvent event) throws InterruptedException
+	public void SandBtn(ActionEvent event) throws InterruptedException, IOException
 	{
 		Survey SendSurvey = new Survey();
 		
@@ -136,19 +125,28 @@ public class SurveyController implements Initializable
 				SendSurvey.setAnswer4(((String)(cmbSelectAnswer4.getValue())));
 				SendSurvey.setAnswer5(((String)(cmbSelectAnswer5.getValue())));
 				SendSurvey.setAnswer6(((String)(cmbSelectAnswer6.getValue())));
-				SendSurvey.setNumSurvey(Integer.parseInt(txtNumSurvey.getText()));
-			
+				SendSurvey.setNumSurvey(Integer.parseInt(txtNumSurvey.getText()));	
+				SendSurvey.setDate(txtDateOfTody.getText());
 		
 		
 				Msg SurveyToDB = new Msg(Msg.qINSERT, "SendAnswerSurveyToDB"); // create a new msg
 				SurveyToDB.setSentObj(SendSurvey); // put the Survey into msg
 				SurveyToDB.setClassType("survey_answer");
-				client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+				ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+				//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 				client.accept((Object) SurveyToDB); //adding the survey to DB
 				Alert al = new Alert(Alert.AlertType.INFORMATION);
 				al.setTitle("Survey number: "+ SendSurvey.getNumSurvey());
 				al.setContentText("Sand Succeed ");
 				al.showAndWait();
+				
+				((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+				Stage primaryStage=new Stage();
+				Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreEmployeeMenu.fxml"));
+				Scene serverScene = new Scene(root);
+				serverScene.getStylesheets().add(getClass().getResource("StoreEmployeeMenu.css").toExternalForm());
+				primaryStage.setScene(serverScene);
+				primaryStage.show();
 
 			}
 	}

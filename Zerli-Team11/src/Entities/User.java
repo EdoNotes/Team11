@@ -42,7 +42,9 @@ public class User implements Serializable {
 	private String Email;
 	private Premission UserType;
 	private ConnectionStatus ConnectionStatus;
-	private  int tryToConnectCounter;
+	private int tryToConnectCounter;
+	private String branchName;
+	
 	public static User currUser;
 	/***************************************************************************/
 	
@@ -68,7 +70,7 @@ public class User implements Serializable {
 	 * @param Email
 	 */
 	public User(String userName,String password,int ID, String FirstName, String LastName, ConnectionStatus ConnectionStatus, Premission UserType,
-			String Phone, String Gender, String Email) {
+			String Phone, String Gender, String Email,String branchName) {
 		this.userName=userName;
 		this.password=password;
 		this.ID = ID;
@@ -79,6 +81,7 @@ public class User implements Serializable {
 		this.Email = Email;
 		this.UserType = UserType;
 		this.ConnectionStatus = ConnectionStatus;
+		this.branchName=branchName;
 		tryToConnectCounter=0;
 	}
 	
@@ -289,6 +292,14 @@ public class User implements Serializable {
 		tryToConnectCounter++;
 	}
 	
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", ID=" + ID + ", FirstName=" + FirstName

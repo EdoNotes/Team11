@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Entities.Survey;
+import Login.WelcomeController;
 import client.ClientConsole;
 import common.Msg;
 import javafx.event.ActionEvent;
@@ -53,7 +54,8 @@ public class EditSurveyController
 		Msg NewSurveyToDB = new Msg(Msg.qINSERT, "SendNewQuestionSurveyToDB"); // create a new msg
 		NewSurveyToDB.setSentObj(SendNewSurvey); // put the Survey into msg
 		NewSurveyToDB.setClassType("survey_question");
-		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 		client.accept((Object) NewSurveyToDB); //adding the survey to DB
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
 		al.setTitle("New Survey");
