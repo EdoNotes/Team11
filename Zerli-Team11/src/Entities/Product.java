@@ -1,3 +1,13 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Entities;
 
 import java.io.Serializable;
@@ -5,7 +15,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
 	
 	/**
-	 * 
+	 * 			<Instance Variables>
 	 */
 	private static final long serialVersionUID = 2223997249565430501L;
 	private int productId;
@@ -16,9 +26,21 @@ public class Product implements Serializable {
 	private double price;
 	private int quantity;
 	private int storeId;
-	
+	/**
+	 * Empty Constructor
+	 */
 	public Product(){};
-	
+	/**
+	 * Product's Full Constructor
+	 * @param productId-Product ID
+	 * @param productName-Product Name
+	 * @param productColor-Product Color
+	 * @param productType-Product Type
+	 * @param productDescription-Product's Description 
+	 * @param price-Product's Price
+	 * @param quantity-Product' Quantity
+	 * @param storeId-Store ID
+	 */
 	public Product(int productId, String productName, String productColor, String productType,
 			String productDescription, double price, int quantity, int storeId) {
 		this.productId = productId;
@@ -30,7 +52,10 @@ public class Product implements Serializable {
 		this.quantity = quantity;
 		this.storeId = storeId;
 	}
-	
+	/**
+	 * Product Constructor For Catalog
+	 * @param c
+	 */
 	public Product(Catalog c) {
 		this.productId=c.getProductId();
 		this.productName=c.getProductName();
@@ -41,7 +66,10 @@ public class Product implements Serializable {
 		this.quantity=c.getQuantity();
 		this.storeId=c.getQuantity();
 	}
-
+	/**
+	 *<Getters And Setters Area>
+	 * 	
+	 */
 	public int getProductId() {
 		return productId;
 	}

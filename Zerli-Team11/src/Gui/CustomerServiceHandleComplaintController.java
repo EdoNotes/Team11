@@ -1,3 +1,13 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Gui;
 
 import javafx.fxml.FXML;
@@ -24,6 +34,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class CustomerServiceHandleComplaintController {
+	/**
+	 * <Instance Variables>
+	 */
 	@FXML
 	private Text txtComplaintDetails;
 	@FXML
@@ -34,7 +47,10 @@ public class CustomerServiceHandleComplaintController {
 	private TextField txtRefund;
 	private Complaint CurrentComplaint;
 	ClientConsole client;
-
+	/**
+	 * Assigns The Right Data Of The Current Complaint
+	 * @param complaint
+	 */
 	public void LoadComplaint(Complaint complaint) {
 		Customer customerToFind = new Customer(complaint.getCustomerId());
 		Msg CustomerToCheck = new Msg(Msg.qSELECTALL, "checkCustomerExistence");
@@ -60,6 +76,10 @@ public class CustomerServiceHandleComplaintController {
 	}
 
 	// Event Listener on Button.onAction
+	/**
+	 * Cancel Button -Back To The Previous Menu
+	 * @param event
+	 */
 	@FXML
 	public void CancelBtn(ActionEvent event)
 	{
@@ -80,6 +100,10 @@ public class CustomerServiceHandleComplaintController {
 	}
 
 	// Event Listener on Button.onAction
+	/**
+	 * Submit Complaint's Handel By Customer Service Employee
+	 * @param event
+	 */
 	@FXML
 	public void SubmitBtn(ActionEvent event)
 	{

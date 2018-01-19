@@ -23,22 +23,10 @@ import javafx.beans.property.SimpleStringProperty;
 public class Catalog implements Serializable
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/***************************************************************************/
-	/**					
-	 * 							<Instance Variables>
-	 * productId-Catalog Id
-	 * productName-Catalog Name
-	 * p_type-Catalog type
-	 */
-		//public enum dominantColor {RED,GREEN, YELLOW, BLUE, BLACK, WHITE, PURPLE};
-		//public enum productType {CUSTOMIZED, BOUQUET};
-		//private dominantColor dColor;
-		//private productType pType;
-	
+		/**
+		 * 	<Static Strings For Convenient Readable Coding Of The Catalog>
+		 */
 		public final static String CUSTOMIZED="CUSTOMIZED";
 		public final static String BOUQUET="BOUQUET";
 		public final static String RED="RED";
@@ -48,7 +36,18 @@ public class Catalog implements Serializable
 		public final static String BLACK="BLACK";
 		public final static String WHITE="WHITE";
 		public final static String PURPLE="PURPLE";
-		
+		/***************************************************************************/
+		/**					
+		 * 							<Instance Variables>
+		 * productId-Catalog Id
+		 * productName-Catalog Name
+		 * productColor-Catalog Color
+		 * productType-Catalog type
+		 * productDescription-Catalog Description
+		 * price-Catalog Price
+		 * quantity-Catalog Quantity
+		 * storeId-Catalog StoreId
+		 */
 		private SimpleIntegerProperty productId;
 		private SimpleStringProperty productName;
 		private SimpleStringProperty productColor;
@@ -59,7 +58,9 @@ public class Catalog implements Serializable
 		private SimpleIntegerProperty storeId;
 		
 		
-		/*Empty Constructor*/
+		/**
+		 * <Empty Constructor Of Catalog>
+		 */
 			public Catalog() {
 				super();
 				this.productId = new SimpleIntegerProperty();
@@ -71,8 +72,17 @@ public class Catalog implements Serializable
 				this.quantity = new SimpleIntegerProperty();
 				this.storeId=new SimpleIntegerProperty();
 			}
-
-
+		/**
+		 * <Full Constructor Of Catalog Entity>
+		 * @param productId-Catalog Id
+		 * @param productName-Catalog Name
+		 * @param productColor-Catalog Color
+		 * @param productType-Catalog type
+		 * @param productDescription-Catalog Description
+		 * @param price-Catalog Price
+		 * @param quantity-Catalog Quantity
+		 * @param storeId-Catalog StoreId
+		 */
 		public Catalog(Integer productId, String productName, String productColor, String productType,
 				String productDescription, Double price, Integer quantity,Integer storeId) {
 			super();
@@ -85,7 +95,10 @@ public class Catalog implements Serializable
 			this.quantity = new SimpleIntegerProperty(quantity);
 			this.storeId=new SimpleIntegerProperty(storeId);
 		}
-		
+		/**
+		 * Partial Constructor Of Catalog
+		 * @param p-Product On Catalog
+		 */
 		public Catalog(Product p) {
 			this.productId = new SimpleIntegerProperty(p.getProductId());
 			this.productName = new SimpleStringProperty(p.getProductName());
@@ -95,7 +108,10 @@ public class Catalog implements Serializable
 			this.price = new SimpleDoubleProperty(p.getPrice());
 			this.quantity = new SimpleIntegerProperty(p.getQuantity());
 		}
-
+		/**
+		 * <Getters And Setters Area>
+		 * 	
+		 */
 		public Integer getProductId() {
 			return productId.get();
 		}
@@ -159,18 +175,6 @@ public class Catalog implements Serializable
 		public void setQuantity(int qua) {
 			quantity.set(qua);
 		}
-		
-		
-
-		
-
-
-	
-
-
-
-		
-	/***************************************************************************/
 }
 
 

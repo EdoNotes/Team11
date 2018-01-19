@@ -1,3 +1,13 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Gui;
 
 import java.io.IOException;
@@ -26,14 +36,19 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class OpenDisputeController {
-
+/**
+ * <instance Variables>
+ */
 	@FXML
 	private TextArea txtAreaComplaintDetails;
 	@FXML
 	private TextField txtBranchID;
 	@FXML
 	private TextField txtUserName;
-
+	/**
+	 * Submit Button -Open New Dispute And Add It To DB
+	 * @param event
+	 */
 	@FXML
 	public void SubmitBtn(ActionEvent event) {
 		try {
@@ -134,6 +149,10 @@ public class OpenDisputeController {
 		}
 
 	}
+	/**
+	 * Cancel Button-Back To The Previous Menu
+	 * @param event
+	 */
 	public void CancelBtn(ActionEvent event)
 	{
 		((Node) event.getSource()).getScene().getWindow().hide();

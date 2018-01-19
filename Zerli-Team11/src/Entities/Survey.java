@@ -1,12 +1,24 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Entities;
 
 import java.io.Serializable;
 
 public class Survey implements Serializable {
 	
+	
+	/**
+	 * 			<Instance Variables>
+	 */
 	private  int NumSurvey=1;
-	
-	
 
 	private String Question1="";
 	private String Question2="";
@@ -43,11 +55,16 @@ public class Survey implements Serializable {
 //		
 //		
 //	}
-	
+	/**
+	 * Empty Constructor
+	 */
 	public Survey() {
 		// TODO Auto-generated constructor stub
 	}
-
+	/**
+	 *<Getters And Setters Area>
+	 * 	
+	 */
 	public int getNumSurvey() {
 		return NumSurvey;
 	}
@@ -151,7 +168,6 @@ public class Survey implements Serializable {
 	public void setAnswer6(String answer6) {
 		Answer6 = answer6;
 	}
-	
 	public String getDate() {
 		return date;
 	}
@@ -159,7 +175,9 @@ public class Survey implements Serializable {
 	public void setDate(String date) {
 		this.date = date;
 	}
-
+	/**
+	 * Survey ToString Method
+	 */
 	@Override
 	public String toString() {
 		return "Survey number: "+NumSurvey + " [Q1#=" + Question1 + ", Answer1#=" + Answer1 + ",\n Q2#=" + Question2 + ", Answer2#=" + Answer2

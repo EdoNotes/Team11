@@ -1,9 +1,21 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Entities;
 
 import java.io.Serializable;
 
 public class MyFile implements Serializable {
-	
+	/**
+	 * 			<Instance Variables>
+	 */
 	private String Description=null;
 	private String fileName=null;	
 	private int size=0;
@@ -14,12 +26,18 @@ public class MyFile implements Serializable {
 	{
 		mybytearray = new byte [size];	
 	}
-	
+	/**
+	 * MyFile Constructor
+	 * @param fileName-filename
+	 */
 	public MyFile( String fileName) {
 		this.fileName = fileName;
 	}
 	
-	
+	/**
+	 *<Getters And Setters Area>
+	 * 	
+	 */
 	public String getFileName() {
 		return fileName;
 	}

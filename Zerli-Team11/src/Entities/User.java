@@ -44,13 +44,8 @@ public class User implements Serializable {
 	private ConnectionStatus ConnectionStatus;
 	private int tryToConnectCounter;
 	private String branchName;
-	
 	public static User currUser;
 	/***************************************************************************/
-	
-	/***************************************************************************/
-	/**								<Methods>
-	 */
 	/**
 	 * Empty Constructor
 	 */
@@ -58,16 +53,16 @@ public class User implements Serializable {
 
 	/**
 	 * Full Constructor
-	 * @param userName
-	 * @param password
-	 * @param ID
-	 * @param FirstName
-	 * @param LastName
+	 * @param userName-User Name
+	 * @param password-Password
+	 * @param ID-User's ID
+	 * @param FirstName-First Name
+	 * @param LastName-Last Name
 	 * @param ConnectionStatus-{Online,Offline,Blocked}
 	 * @param UserType-Acess Permission for user
-	 * @param Phone
-	 * @param Gender
-	 * @param Email
+	 * @param Phone-Phone Number
+	 * @param Gender-Gender(Female Or Male)
+	 * @param Email-Email
 	 */
 	public User(String userName,String password,int ID, String FirstName, String LastName, ConnectionStatus ConnectionStatus, Premission UserType,
 			String Phone, String Gender, String Email,String branchName) {
@@ -87,8 +82,8 @@ public class User implements Serializable {
 	
 	/**
 	 * User Login Constructor
-	 * @param userName
-	 * @param password
+	 * @param userName-User Name
+	 * @param password-Password
 	 */
 	public User(String userName,String password)
 	{
@@ -99,13 +94,16 @@ public class User implements Serializable {
 	/**
 	 * a constructor that getting an instance of user and copying to 
 	 * currUser static variable
-	 * @param copyUser
+	 * @param copyUser-User's Data To Copy
 	 */
 	public User(User copyUser)
 	{
 		currUser=copyUser;
 	}
-
+	/**
+	 *<Getters And Setters Area>
+	 * 	
+	 */
 	public int getID() {
 		return ID;
 	}
@@ -153,10 +151,6 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		Email = email;
 	}
-/**
- * 
- * @return Premission Of User
- */
 	public String getUserType() 
 	{
 		
@@ -291,7 +285,6 @@ public class User implements Serializable {
 	{
 		tryToConnectCounter++;
 	}
-	
 	public String getBranchName() {
 		return branchName;
 	}
@@ -300,6 +293,10 @@ public class User implements Serializable {
 		this.branchName = branchName;
 	}
 
+
+	/**
+	 * Store ToString Method
+	 */
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", ID=" + ID + ", FirstName=" + FirstName
