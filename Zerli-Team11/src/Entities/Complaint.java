@@ -1,17 +1,42 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Entities;
 
 import java.io.Serializable;
 
+/**
+ * @author edoon
+ *This Class Handle Complaint Entity
+ */
 public class Complaint implements Serializable {
+	/**
+	 * 			<Instance Variables>
+	 * 
+	 */
 	private int ComplaintId;
 	private int CustomerId;
 	private int StoreId;
 	private String ComplaintDetails;
 	private String assigningDate;
-	private int gotTreatment;
-	private int gotRefund;
+	private int gotTreatment;/*The Complaint Handle Status(1=<Yes>,0=<No>)*/
+	private int gotRefund;/*The Complaint Refund Handle Status(1=<Yes>,0=<No>)*/
 	public static int ComplaintIndex=1;
-
+	/**
+	 * 
+	 * @param CompId-Complaint ID
+	 * @param cusId-Customer ID
+	 * @param StorId-Store ID
+	 * @param Details-Complaint Details
+	 * @param date-Complaint Assigning Date
+	 */
 	public Complaint(int CompId,int cusId, int StorId, String Details, String date) {
 		this.ComplaintId=CompId;
 		this.CustomerId = cusId;
@@ -22,11 +47,22 @@ public class Complaint implements Serializable {
 		this.gotRefund = 0;
 		ComplaintIndex++;
 	}
+	/**
+	 * Empty Constructor Of Complaint
+	 */
 	public Complaint() {}
+	/**
+	 * 
+	 * @param CompId-Complaint ID
+	 */
 	public Complaint(int CompId)
 	{
 		this.ComplaintId=CompId;
 	}
+	/**
+	 *<Getters And Setters Area>
+	 * 	
+	 */
 	public int getCustomerId() {
 		return CustomerId;
 	}

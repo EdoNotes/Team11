@@ -1,3 +1,13 @@
+/************************************************************************** 
+ * Copyright (©) Zerli System 2017-2018 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Edo Notes <Edoono24@gmail.com>
+ * 			  Tomer Arzuan <Tomerarzu@gmail.com>
+ * 			  Matan Sabag <19matan@gmail.com>
+ * 			  Ido Kalir <idotehila@gmail.com>
+ * 			  Elinor Faddoul<elinor.faddoul@gmail.com
+ **************************************************************************/
 package Gui;
 
 import java.io.IOException;
@@ -22,7 +32,9 @@ import javafx.scene.control.Button;
 public class ChangeUserDetailsController {
 	
 	public ClientConsole client;
-	
+	/**
+	 * 	<Instance Variables>
+	 */
 	@FXML
 	TextField txtUserName;
 	@FXML
@@ -45,7 +57,12 @@ public class ChangeUserDetailsController {
 	TextField txtConnectionStatus;
 	
 	
-	
+	/**
+	 * Save Button 
+	 * @param event-Save Button Click
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	@FXML
 	public void SaveBtn(ActionEvent event) throws InterruptedException, IOException 
 	{
@@ -79,7 +96,11 @@ public class ChangeUserDetailsController {
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
 	}
-	
+	/**
+	 * 
+	 * @param event
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event) throws InterruptedException 
 	{
@@ -101,7 +122,19 @@ public class ChangeUserDetailsController {
 	
 	}
 	
-	
+	/**
+	 * 
+	 * @param userName
+	 * @param pass
+	 * @param id
+	 * @param Fname
+	 * @param Lname
+	 * @param phone
+	 * @param gender
+	 * @param email
+	 * @param premission
+	 * @param connentionS
+	 */
 	public void getDetailsUser(String userName ,String pass,String id ,String Fname,String Lname
 			,String phone,String gender ,String email,String premission ,String connentionS) 
 	{
