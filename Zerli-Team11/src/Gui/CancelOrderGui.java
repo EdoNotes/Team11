@@ -23,9 +23,9 @@ public class CancelOrderGui extends Application
 	public void start(Stage primaryStage) throws Exception {
 		try 
 		{
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/CompanyManager.fxml"));
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/CancelOrder.fxml"));
 			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("CompanyManager.css").toExternalForm());
+			Scene.getStylesheets().add(getClass().getResource("CancelOrder.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		} 

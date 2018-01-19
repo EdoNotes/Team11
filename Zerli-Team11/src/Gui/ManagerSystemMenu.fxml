@@ -3,20 +3,27 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManagerSystemMenuController">
    <children>
-      <Label layoutX="98.0" layoutY="34.0" text="Manager System Menu">
+      <Label layoutX="76.0" layoutY="41.0" text="Manager System Menu">
          <font>
-            <Font size="20.0" />
+            <Font name="Lucida Calligraphy Italic" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="144.0" text="Please enter ID of User :" />
+      <Label layoutX="40.0" layoutY="144.0" text="Please enter ID User to edit :" />
       <Label layoutX="61.0" layoutY="98.0" />
       <Button layoutX="248.0" layoutY="405.0" mnemonicParsing="false" onAction="#ShowDetails" text="Next" />
-      <TextField fx:id="txtId" layoutX="185.0" layoutY="140.0" promptText="Enter ID" />
+      <TextField fx:id="txtId" layoutX="201.0" layoutY="140.0" promptText="Enter ID" />
       <Button layoutX="96.0" layoutY="405.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="104.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/Login.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

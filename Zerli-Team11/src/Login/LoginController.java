@@ -192,6 +192,19 @@ public class LoginController {
 							
 						case "Expert":
 							//Expert Menu;
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage ExpertStage=new Stage();
+							Parent Expertroot;
+							try {
+								Expertroot = FXMLLoader.load(getClass().getResource("/Gui/ExpertMenu.fxml"));
+								Scene Scene = new Scene(Expertroot);
+								Scene.getStylesheets().add(getClass().getResource("/Gui/ExpertMenu.css").toExternalForm());
+								ExpertStage.setScene(Scene);
+								ExpertStage.show();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							break;
 							
 						case "CompanyManager":

@@ -182,4 +182,17 @@ public class CustomerMenuController
 	{this.id=id; 
 	System.out.println("good g       "+ id);
 	}
+	
+	
+	@FXML
+	public void LoadingMoney(ActionEvent event) throws IOException 
+	{
+		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+		Stage primaryStage=new Stage();
+		Parent root=FXMLLoader.load(getClass().getResource("/Gui/LoadingMoney.fxml"));
+		Scene serverScene = new Scene(root);
+		serverScene.getStylesheets().add(getClass().getResource("LoadingMoney.css").toExternalForm());
+		primaryStage.setScene(serverScene);
+		primaryStage.show();
+	}
 }

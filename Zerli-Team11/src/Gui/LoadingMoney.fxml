@@ -8,16 +8,27 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.LoadingMoneyController">
    <children>
-      <Label layoutX="111.0" layoutY="30.0" text="Loading Money">
+      <Label layoutX="92.0" layoutY="36.0" text="Loading Money">
          <font>
-            <Font size="26.0" />
+            <Font name="Lucida Calligraphy Italic" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="54.0" layoutY="141.0" text="Your balance is :" />
-      <Label layoutX="87.0" layoutY="188.0" text="Amount :" />
-      <Label layoutX="83.0" layoutY="268.0" text="Label" />
-      <TextField fx:id="txtBalance" editable="false" layoutX="174.0" layoutY="137.0" />
-      <TextField fx:id="txtAmount" layoutX="174.0" layoutY="184.0" />
+      <Label layoutX="33.0" layoutY="142.0" text="Your balance is :">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="23.0" layoutY="209.0" text="Amount to load :">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <TextField fx:id="txtBalance" editable="false" layoutX="154.0" layoutY="137.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtAmount" layoutX="154.0" layoutY="203.0">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
       <Button layoutX="271.0" layoutY="415.0" mnemonicParsing="false" onAction="#ContinueBtn" text="Continue" />
       <Button layoutX="97.0" layoutY="415.0" mnemonicParsing="false" text="Back" />
    </children>

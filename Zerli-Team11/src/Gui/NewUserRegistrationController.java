@@ -58,6 +58,11 @@ public class NewUserRegistrationController
 	@FXML
 	private RadioButton Female;
 	
+	
+	/**
+	 * @param event Button that pass you back to Store Manager Menu
+	 * @throws IOException
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException
 	{
@@ -70,14 +75,20 @@ public class NewUserRegistrationController
 		primaryStage.show();
 	}
 	
+	
+	/**
+	 * This method create a new user and setting his details on User type 
+	 * @param event Button that Registering new user in the DB 
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws InterruptedException 
 	{
 		
 		if(txtUserName.getText().equals("")||txtUserPassword.getText().equals("")||txtID.getText().equals("") ||txtFirstName.getText().equals("")||txtLastName.equals("")||
-				txtPhone.getText().equals("")||txtEmail.getText().equals("")) {
+				txtPhone.getText().equals("")||txtEmail.getText().equals("")) { //check if one of the text fields details are empty
 			
-			Alert al = new Alert(Alert.AlertType.ERROR);
+			Alert al = new Alert(Alert.AlertType.ERROR);  //if one of the text fields details are empty ,jumping a alert error message
 			al.setTitle("Register problem");
 			al.setContentText("One of the feild are empty!");
 			al.showAndWait();
@@ -96,21 +107,20 @@ public class NewUserRegistrationController
 			NewUser.setUserType("Customer");
 			NewUser.setBranchName(txtBranchName.getText());
 		
-			if(Male.isSelected())
+			if(Male.isSelected())         //RadioButton - male selected or female selected
 				NewUser.setGender("M");
 			else NewUser.setGender("F");
 		
 		
 		
-			Msg NewUserAdding = new Msg(Msg.qSELECTALL, "checkUserExistence"); // create a new msg
+			Msg NewUserAdding = new Msg(Msg.qSELECTALL, "checkUserExistence"); // create a new msg for check if user exist already 
 			Msg UserAddingByID=new Msg(Msg.qSELECTALL, "check User By ID Existence");//for check if user exists by ID
 
 			UserAddingByID.setSentObj(NewUser);
-			NewUserAdding.setSentObj(NewUser); // put the Survey into msg
+			NewUserAdding.setSentObj(NewUser); // put the new user into msg
 			UserAddingByID.setClassType("user");
 			NewUserAdding.setClassType("user");
 			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-			//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 			client.accept((Object) NewUserAdding); //adding the new user to DB
 		
 			NewUserAdding = (Msg) client.get_msg();

@@ -87,7 +87,7 @@ public class SurveyController implements Initializable
 	
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) //initialize cmboBox and fields questions
+	public void initialize(URL location, ResourceBundle resources) //initialize cmboBox answers (1-10)
 	{
 		cmbSelectAnswer1.setItems(OneToTen);
 		cmbSelectAnswer2.setItems(OneToTen);
@@ -96,7 +96,7 @@ public class SurveyController implements Initializable
 		cmbSelectAnswer5.setItems(OneToTen);
 		cmbSelectAnswer6.setItems(OneToTen);
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //date of today
 		LocalDate localDate = LocalDate.now();
 		txtDateOfTody.setText(dtf.format(localDate));
 
@@ -104,6 +104,13 @@ public class SurveyController implements Initializable
 	}
 	
 	
+	/**
+	 * This method sanding to server question that saving the answers (1-10) of the survey of all 6 questions there is a Survey 
+	 * and pass you back to Store Employee Menu screen
+	 * @param event Button that save in the DB the Answers of the survey
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	@FXML
 	public void SandBtn(ActionEvent event) throws InterruptedException, IOException
 	{
@@ -133,9 +140,8 @@ public class SurveyController implements Initializable
 				SurveyToDB.setSentObj(SendSurvey); // put the Survey into msg
 				SurveyToDB.setClassType("survey_answer");
 				ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-				//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 				client.accept((Object) SurveyToDB); //adding the survey to DB
-				Alert al = new Alert(Alert.AlertType.INFORMATION);
+				Alert al = new Alert(Alert.AlertType.INFORMATION); //alert information that adding survey succeed
 				al.setTitle("Survey number: "+ SendSurvey.getNumSurvey());
 				al.setContentText("Sand Succeed ");
 				al.showAndWait();
@@ -152,7 +158,10 @@ public class SurveyController implements Initializable
 	}
 	
 	
-
+/**
+ * @param event Button that pass you back to Store Employee Menu
+ * @throws IOException
+ */
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException 
 	{
@@ -166,6 +175,16 @@ public class SurveyController implements Initializable
 	}
 	
 	
+	/**
+	 * The method getting the questions from the StoreEmployeeMenuCuntroller and setting them on the textFields questions 
+	 * @param numSurvey number survey that is in DB
+	 * @param ques1 the question number one in survey
+	 * @param ques2 the question number tow in survey
+	 * @param ques3 the question number three in survey
+	 * @param ques4 the question number four in survey
+	 * @param ques5 the question number Five in survey
+	 * @param ques6 the question number six in survey
+	 */
 	public void getQues(int numSurvey,String ques1,String ques2,String ques3,String ques4,String ques5,String ques6)
 	{
 		txtQuestion1.setText(ques1);
@@ -177,10 +196,12 @@ public class SurveyController implements Initializable
 		txtNumSurvey.setText(Integer.toString(numSurvey));
 	}
 	
-	
+	/**
+	 * The method getting the number survey from the StoreEmployeeMenuCuntroller and setting him in the textField NumSurvey 
+	 * @param numS Number survey that we field
+	 */
 	public void getNumSurvey(String numS) {
 		NumSurvey=numS;
-		System.out.println(NumSurvey);
 	}
 
 

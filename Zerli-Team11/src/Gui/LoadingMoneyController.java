@@ -52,13 +52,22 @@ public class LoadingMoneyController implements Initializable{
 		
 		
 	}
+	
+	/**
+	 * This method get the text field from the amount the customer entered 
+	 * and adding to the balance that already have the customer in the DB.
+	 * if the customer entered a negative amount, jump error massage 
+	 * @param event Button that update the balance customer in DB 
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	@FXML
 	public void ContinueBtn(ActionEvent event) throws InterruptedException, IOException {
 		
-		if(Double.parseDouble(txtAmount.getText())<=0)
+		if(Double.parseDouble(txtAmount.getText())<=0) //check if the customer entered a negative amount
 		{
 
-			Alert al = new Alert(Alert.AlertType.ERROR);
+			Alert al = new Alert(Alert.AlertType.ERROR); // jump error massage 
 			al.setTitle("Money Loading");
 			al.setContentText("Amount must be a positive amount!");
 			al.showAndWait();
@@ -69,43 +78,58 @@ public class LoadingMoneyController implements Initializable{
 			alert.setHeaderText("Confirm money loading");
 			alert.setContentText("Are you sure you want loading money?");
 
-			Optional<ButtonType> result = alert.showAndWait();
+			Optional<ButtonType> result = alert.showAndWait(); // Confirmation message
 			if (result.get() == ButtonType.OK){
-				// ... user chose OK
-				Msg pullBalance = new Msg(Msg.qSELECTALL, "pull the balance customer"); // create a new msg
+				// customer chose OK
+				Msg pullBalance = new Msg(Msg.qSELECTALL, "pull the balance customer"); //create a new massages
 				pullBalance.setSentObj(User.currUser); 
-				pullBalance.setClassType("customer");
+				pullBalance.setClassType("Customer");
 				pullBalance.setColumnToUpdate("UserName");
 				pullBalance.setValueToUpdate(User.currUser.getUserName());
 				ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-				client.accept((Object) pullBalance);
+				client.accept((Object) pullBalance); //sanding to server
 				pullBalance = (Msg) client.get_msg();
 				Customer returnCustomer = (Customer) pullBalance.getReturnObj();
-				double newSumBalance= (returnCustomer.getBalance() + Double.parseDouble(txtAmount.getText()));
+				double newSumBalance= (returnCustomer.getBalance() + Double.parseDouble(txtAmount.getText())); //  new balance = (old balance) + (amount that customer entered)
 			
 				returnCustomer.setBalance(newSumBalance);
-				Msg updateBalance = new Msg(Msg.qUPDATE, "updateBalance for loading money");
-				updateBalance.setClassType("customer");
+				Msg updateBalance = new Msg(Msg.qUPDATE, "update Balance for loading money");  //create a new massages
+				updateBalance.setSentObj(returnCustomer);
+				updateBalance.setClassType("Customer");
 				updateBalance.setColumnToUpdate("balance");
 				updateBalance.setValueToUpdate(Double.toString(newSumBalance));
-				client.accept((Object) returnCustomer);
+				client.accept((Object) updateBalance); //sanding to server
 			
-				Alert al2 = new Alert(Alert.AlertType.INFORMATION);
+				Alert al2 = new Alert(Alert.AlertType.INFORMATION); //Money loading summary message
 				al2.setTitle("Money Loading ");
-				al2.setContentText("Money Loading Succeed \n"+newSumBalance+"  NIS was added to youer account\n\nThank you "+User.currUser.getFirstName());
+				al2.setContentText("Money Loading Succeed \n\nCredit card number : "+returnCustomer.getCreditCard() +" , Have been charged for " +
+				Double.parseDouble(txtAmount.getText())+ " NIS\n\n\n"+Double.parseDouble(txtAmount.getText())+"  NIS was added to youer account and "+
+						"\n\nNow You have Total :"+newSumBalance+" NIS \n\nThank you "+User.currUser.getFirstName()+" ,And have a nice day ");
 				al2.showAndWait();
 			
 				((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 				Stage primaryStage=new Stage();
-				Parent root=FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+				Parent root=FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml")); //pass back to Customer Menu
 				Scene serverScene = new Scene(root);
 				serverScene.getStylesheets().add(getClass().getResource("CustomerMenu.css").toExternalForm());
 				primaryStage.setScene(serverScene);
 				primaryStage.show();
 			
 			} else {
-					// ... user chose CANCEL or closed the dialog
+					// customer chose CANCEL or closed the dialog
 			}
 		}
 	}
+	
+//	@FXML
+//	public void BackBtn(ActionEvent event) throws IOException 
+//	{
+//		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+//		Stage primaryStage=new Stage();
+//		Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreEmployeeMenu.fxml"));
+//		Scene serverScene = new Scene(root);
+//		serverScene.getStylesheets().add(getClass().getResource("StoreEmployeeMenu.css").toExternalForm());
+//		primaryStage.setScene(serverScene);
+//		primaryStage.show();
+//	}
 }

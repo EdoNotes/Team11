@@ -71,7 +71,10 @@ public class EchoServer extends AbstractServer {
 				cancel_order(msgRecived, conn, client);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("survey_report")) {
 				get_order_survey_report(msgRecived, conn, client);
-			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Customer")) {
+			}else if((msgRecived.getClassType()).equalsIgnoreCase("View satisfaction report")) {
+				get_order_survey_report(msgRecived, conn, client);
+			}
+			else if ((msgRecived.getClassType()).equalsIgnoreCase("Customer")) {
 				customerHandeler(msgRecived, "customer", client, conn);
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Complaint")) {
 				ComplaintHandeler(msgRecived, "complaint", client, conn);
@@ -288,13 +291,10 @@ public class EchoServer extends AbstractServer {
 		else if (requestMsg.getqueryToDo().compareTo("Save New Customer Settlement and Member") == 0) {
 			CustomerToDB(msg, tableName, client, con);
 		}
-
 		else if(requestMsg.getqueryToDo().compareTo("UpdateCustomerDetails") == 0)
 		{
 			UpdateCustomerInDB(msg, tableName, client, con);
 		}
-
-
 		else if(requestMsg.getqueryToDo().compareTo("Select DB customer") == 0) {
 			searchCustomerInDB(msg, tableName, client, con);
 		}
@@ -307,7 +307,7 @@ public class EchoServer extends AbstractServer {
 		else if(requestMsg.getqueryToDo().compareTo("pull the balance customer") == 0) {
 			searchCustomerInDB(msg, tableName, client, con);
 		}
-		else if(requestMsg.getqueryToDo().compareTo("updateBalance for loading money") == 0) {
+		else if(requestMsg.getqueryToDo().compareTo("update Balance for loading money") == 0) {
 			UpdateCustomerBalanceDB(msg, tableName, client, con);
 		}
 
@@ -353,6 +353,8 @@ public class EchoServer extends AbstractServer {
 			returnSurveyQues(msg, tableName, client, con);
 		else if (requestMsg.getqueryToDo().compareTo("SendNewQuestionSurveyToDB") == 0)
 			addNewSurveyToDB(msg, tableName, client, con);
+		else if(requestMsg.getqueryToDo().compareTo("View satisfaction report") == 0)
+			returnNumberSurveyQues(msg, tableName, client, con);
 	}// SurveyHandler
 
 
@@ -383,9 +385,6 @@ public class EchoServer extends AbstractServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		System.out.println(tmpCustomer);// works
-
 		((Msg) msg).setReturnObj(tmpCustomer);
 
 		try {
@@ -861,11 +860,39 @@ public class EchoServer extends AbstractServer {
 	private static void UpdateCustomerBalanceDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Customer customerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
-			PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+customerToUpdate.getUserName()+"'");
-			stmt.setString(1, message.getValueToUpdate());
-			stmt.executeUpdate();
-			con.close();
+		System.out.println("matannnnnnn");
+		System.out.println(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= "+message.getValueToUpdate()+" WHERE UserName='"+customerToUpdate.getUserName()+"'");
+		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+customerToUpdate.getUserName()+"'");
+		stmt.setString(1, message.getValueToUpdate());
+		stmt.executeUpdate();
+		con.close();
 	}
 	
 
+	public static void returnNumberSurveyQues(Object msg, String tableName, ConnectionToClient client, Connection con) {
+		Msg message = (Msg) msg;
+		ArrayList<Integer> directory = new ArrayList<Integer>();
+		try {
+			int i=1;
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(message.getQueryQuestion() + " numSurvey FROM  zerli." + tableName+ "';");
+			while (rs.next()) {
+				directory.add(rs.getInt(i));
+				i++;
+			}
+
+			rs.close();
+			try {
+				((Msg) msg).setReturnObj(directory);
+				client.sendToClient(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
 }

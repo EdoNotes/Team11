@@ -48,10 +48,18 @@ public class EditSurveyController
 	@FXML
 	TextField txtQuestion6;
 	
+	
+	/**
+	 * This button getting the information from the textField and setting in new Survey
+	 * and sanding question to the server that save the new Survey in the DB 
+	 * @param event Button that save in the DB the new survey we build 
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void SaveBtn(ActionEvent event) throws InterruptedException
 	{
 		Survey SendNewSurvey = new Survey();
+		
 		
 		SendNewSurvey.setQuestion1(txtQuestion1.getText());
 		SendNewSurvey.setQuestion2(txtQuestion2.getText());
@@ -65,7 +73,6 @@ public class EditSurveyController
 		NewSurveyToDB.setSentObj(SendNewSurvey); // put the Survey into msg
 		NewSurveyToDB.setClassType("survey_question");
 		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 		client.accept((Object) NewSurveyToDB); //adding the survey to DB
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
 		al.setTitle("New Survey");
@@ -75,8 +82,12 @@ public class EditSurveyController
 	}
 		
 		
-		//toDo Send To DB//
-
+	
+	/**
+	 * 
+	 * @param event Button that pass you back to Customer Service Menu
+	 * @throws IOException
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException
 	{
@@ -97,6 +108,16 @@ public class EditSurveyController
 	
 	}
 	
+	
+	/**
+	 * The method getting the questions from the SurveyCuntroller and setting them on the textFields questions 
+	 * @param ques1 the question number one in survey
+	 * @param ques2 the question number tow in survey
+	 * @param ques3 the question number three in survey
+	 * @param ques4 the question number four in survey
+	 * @param ques5 the question number Five in survey
+	 * @param ques6 the question number six in survey
+	 */
 	public void getEditQues(String ques1,String ques2,String ques3,String ques4,String ques5,String ques6)
 	{
 		txtQuestion1.setText(ques1);

@@ -39,7 +39,12 @@ public class CustomerServiceMenuController implements Initializable {
 	@FXML
 	private ComboBox cmbComplaints;
 	private ClientConsole client;
-
+	
+/**
+ * 
+ * @param event Button that open and show complaint details
+ * 
+ */
 	public void OpenComplaintDetails(ActionEvent event)
 	{
 		Complaint toLoad;
@@ -101,8 +106,15 @@ public class CustomerServiceMenuController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
+		
+
+	
+	/**
+	 * 
+	 * @param event Button that open screen that where we can build a new survey 
+	 * @throws IOException
+	 */
 	@FXML
 	public void BuildSurveyBtn(ActionEvent event) throws IOException
 	{	
@@ -129,6 +141,7 @@ public class CustomerServiceMenuController implements Initializable {
 		primaryStage.show();}
 
 	}
+	
 	
 	
 	@FXML
