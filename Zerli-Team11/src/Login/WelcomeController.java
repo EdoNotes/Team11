@@ -29,7 +29,11 @@ public class WelcomeController {
 	
 	public static int port;
 	public static String IP;
-	
+	/**
+	 * This Fucntion Connect Client To The Specific Server (Host And Port Needed)
+	 * If Nothing Entered The Program Will Laund Default Port(5555) And Host=LocalHost(127.0.0.1)
+	 * @param e
+	 */
 	@FXML
 	public void ConnectBtn(ActionEvent e)
 	{

@@ -33,9 +33,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class LoginController {
-	
-	
+public class LoginController 
+{
+	/**
+	 * <Instance Variables>
+	 */
 	@FXML
 	TextField txtUsername;
 	@FXML
@@ -43,7 +45,10 @@ public class LoginController {
 
 	private ClientConsole client;
 	public ChatClient chat;
-
+	/**
+	 * This Fucntion Acts When User Clicks On "Exit" Button
+	 * @param e
+	 */
 	@FXML
 	public void ExitBtn(ActionEvent e) {
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
@@ -52,7 +57,12 @@ public class LoginController {
 		al.showAndWait();
 		System.exit(0);
 	}
-
+	/**
+	 * This Fucntion Acts When The User Enters Connection Details(UserName+Password)
+	 * On Login Window
+	 * @param event
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void LoginButton(ActionEvent event) throws InterruptedException {
 		String uName = txtUsername.getText();
@@ -61,14 +71,13 @@ public class LoginController {
 		Msg userToCheck = new Msg(Msg.qSELECTALL, "checkUserExistence"); // create a new msg
 		userToCheck.setSentObj(userToConnect); // put the user into msg
 		userToCheck.setClassType("User");
-		//client=new ClientConsole(EchoServer.HOST, EchoServer.DEFAULT_PORT);
 		client = new ClientConsole(WelcomeController.IP,WelcomeController.port);
-		client.accept((Object) userToCheck);
+		client.accept((Object) userToCheck);//Get Specific User From DB If Exists
 		userToCheck = (Msg) client.get_msg();
 		User returnUsr = (User) userToCheck.getReturnObj();
-		if (returnUsr.getUserName() != null) 
+		if (returnUsr.getUserName() != null) //returnUsr=null means not existing On DB
 		{
-			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) 
+			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) //Multiply connection is not allowed
 			{
 				if (returnUsr.getUserName().compareTo(userToConnect.getUserName()) == 0) 
 				{
@@ -87,7 +96,6 @@ public class LoginController {
 						al.setContentText("Welcome " + returnUsr.getFirstName());
 						al.showAndWait();
 						User.currUser=returnUsr;
-						//new User(returnUsr);//Fill static User
 						//Open Appropriate menu
 						String userType=returnUsr.getUserType();
 						userToCheck=null;

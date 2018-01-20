@@ -49,7 +49,10 @@ public class EchoServer extends AbstractServer {
 	public EchoServer(int port) {
 		super(port);
 	}
-
+	/**
+	 * All The Communication Between Client To server Is Moving Through This Function,And Here We Filter 
+	 * To Specific Type
+	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
 			Msg msgRecived = (Msg) msg;
@@ -94,7 +97,14 @@ public class EchoServer extends AbstractServer {
 	}
 
 	
-	
+	/**
+	 * 
+	 * @param msg
+	 * @param client
+	 * @param conn
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	private static void productHandler(Msg msg, ConnectionToClient client, Connection conn) throws SQLException, IOException {
 		String queryToDo = msg.getqueryToDo();
 		if(queryToDo.compareTo("load Bouqeut to catalog")==0)
@@ -103,7 +113,15 @@ public class EchoServer extends AbstractServer {
 		}
 		
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param prodtype
+	 * @param client
+	 * @param conn
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	private static void loadProductsToCatalogByType(Msg msg,String prodtype ,ConnectionToClient client, Connection conn) throws SQLException, IOException {
 		ArrayList<Product> productList= new ArrayList<Product>();
 		int i=0, storeId=((Product)msg.getSentObj()).getStoreId();
@@ -136,7 +154,13 @@ public class EchoServer extends AbstractServer {
 
 		
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private void StoreHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -145,7 +169,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private void searchStoreInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Store tmpStore = new Store();
 		Msg message = (Msg) msg;
@@ -179,7 +209,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void ComplaintHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -199,6 +235,13 @@ public class EchoServer extends AbstractServer {
 			UpdateComplaintFromDB(msg, tableName, client, con);
 		}
 	}
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void UpdateComplaintFromDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
 		
@@ -215,7 +258,13 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void SelectComplaintFromDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
 		Complaint tmpComplaint=new Complaint();
@@ -249,7 +298,13 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void GetAllComplaintsIDsFromDB(Object msg, String tableName, ConnectionToClient client, Connection con) 
 	{
 		Msg message = (Msg) msg;
@@ -281,7 +336,14 @@ public class EchoServer extends AbstractServer {
 		
 		
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void customerHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -312,7 +374,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void UpdateCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con)
 	{
 		Msg message = (Msg) msg;
@@ -329,6 +397,15 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	/*---------------------------------------------------End----------------------*/
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public static void userHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		Msg requestMsg = (Msg) msg;
 		if (requestMsg.getqueryToDo().compareTo("checkUserExistence") == 0) // If we want to check if user is exist															// e.g to logIn
@@ -344,6 +421,13 @@ public class EchoServer extends AbstractServer {
 		
 
 	}// userHandler
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void SurveyHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String queryToDo = ((Msg) msg).getQueryQuestion();
 		Msg requestMsg = (Msg) msg;
@@ -357,7 +441,13 @@ public class EchoServer extends AbstractServer {
 			returnNumberSurveyQues(msg, tableName, client, con);
 	}// SurveyHandler
 
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void searchCustomerInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Customer tmpCustomer = new Customer();
 		Msg message = (Msg) msg;
@@ -394,8 +484,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
-	////////////////////////////////////////////////////
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void UpadateUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User userToUpdate = (User) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -418,9 +513,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
-	/////////////////////////////////////////////////////////////
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void searchUserbyID(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User toSearch = (User) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -454,6 +553,14 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void updateUserDetails(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		User userToUpdate = (User) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
@@ -462,7 +569,15 @@ public class EchoServer extends AbstractServer {
 			stmt.executeUpdate();
 			con.close();
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public static void searchUserInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		User toSearch = (User) (((Msg) msg).getSentObj());
 		User tmpUsr = new User();
@@ -514,7 +629,13 @@ public class EchoServer extends AbstractServer {
 	 * =============================================================================
 	 * ==
 	 */
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void CustomerToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Customer CustomerDB = (Customer) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -616,7 +737,14 @@ public class EchoServer extends AbstractServer {
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param con
+	 * @param client
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public void get_order_report(Msg msg, Connection con, ConnectionToClient client) throws SQLException, IOException {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
@@ -635,7 +763,12 @@ public class EchoServer extends AbstractServer {
 
 			con.close();
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public void get_order_survey_report(Msg msg, Connection con, ConnectionToClient client) {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
@@ -665,6 +798,12 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
+	/**
+	 * 
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public void get_consumer_order(Msg msg, Connection con, ConnectionToClient client) {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
@@ -694,7 +833,13 @@ public class EchoServer extends AbstractServer {
 	// '2011-10-01' AND '2011-12-31' and orders.shop = 'Ako' group by orders.type ;
 
 	
-	
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void returnSurveyQues(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		String NumSurvey = (String) (((Msg) msg).getSentObj());
 		Survey surveyques = new Survey();
@@ -727,7 +872,13 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void addNewSurveyToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Survey NewSurveyToAdd = (Survey) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -750,7 +901,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void InsertComplaintToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Complaint userToUpdate = (Complaint) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -778,7 +935,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void UpdateCustomer(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		User userToUpdate = (User) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
@@ -787,7 +951,14 @@ public class EchoServer extends AbstractServer {
 			stmt.executeUpdate();
 			con.close();
 	}
-	
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void UpdateCustomerSettlMemberCreditInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Customer CustomerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
@@ -797,7 +968,12 @@ public class EchoServer extends AbstractServer {
 		stmt.executeUpdate();
 		con.close();
 	}
-	
+	/**
+	 * 
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public void cancel_order(Msg msg, Connection con, ConnectionToClient client) {
 		ArrayList<String> dir_result=new ArrayList <String>();
 		try {
@@ -856,7 +1032,14 @@ public class EchoServer extends AbstractServer {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void UpdateCustomerBalanceDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Customer customerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
@@ -867,8 +1050,13 @@ public class EchoServer extends AbstractServer {
 		stmt.executeUpdate();
 		con.close();
 	}
-	
-
+	/**
+	 * 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	public static void returnNumberSurveyQues(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Msg message = (Msg) msg;
 		ArrayList<Integer> directory = new ArrayList<Integer>();

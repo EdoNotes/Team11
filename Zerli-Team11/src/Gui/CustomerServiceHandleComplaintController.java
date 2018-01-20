@@ -115,7 +115,7 @@ public class CustomerServiceHandleComplaintController {
 		Optional<ButtonType> result=Confirmation.showAndWait();
 		if(result.get()==ButtonType.OK)
 		{
-			if(txtRefund.getText().compareTo("")==0)
+			if(txtRefund.getText().compareTo("")==0)//Empty Field -Refund(Not Acceptable)
 			{
 				Alert al=new Alert(Alert.AlertType.ERROR);
 				al.setContentText("Refund field cannot remain Empty");
@@ -134,7 +134,6 @@ public class CustomerServiceHandleComplaintController {
 				try {
 					client.accept(ComplaintToUpdate);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if(refund!=0.0)
@@ -143,7 +142,6 @@ public class CustomerServiceHandleComplaintController {
 					try {
 						client.accept(ComplaintToUpdate);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					//Customer's Balance Update
@@ -156,7 +154,6 @@ public class CustomerServiceHandleComplaintController {
 					try {
 						client.accept(CustomerToFind);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					CustomerToFind=(Msg) client.get_msg();
@@ -168,9 +165,8 @@ public class CustomerServiceHandleComplaintController {
 					CustomerToUpdate.setValueToUpdate(""+updatedBalance);
 					CustomerToUpdate.setSentObj(sentCustomer);
 					try {
-						client.accept(CustomerToUpdate);
+						client.accept(CustomerToUpdate);//Update Customer's Balance On DB
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -190,7 +186,6 @@ public class CustomerServiceHandleComplaintController {
 					CustomerStage.setScene(CustomerScene);
 					CustomerStage.show();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

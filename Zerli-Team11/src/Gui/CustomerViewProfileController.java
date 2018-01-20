@@ -18,7 +18,9 @@ import javafx.stage.Stage;
 
 public class CustomerViewProfileController
 {
-
+	/**
+	 * 			<Instance Variables>
+	 */
 	@FXML
 	private Label lblUserName;
 	@FXML
@@ -34,7 +36,12 @@ public class CustomerViewProfileController
 	@FXML
 	private Label lblEmail;
 
-
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks 
+	 * on "Back" Button
+	 * @param event
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event)
 	{
@@ -52,6 +59,11 @@ public class CustomerViewProfileController
 			e1.printStackTrace();
 		}
 	}
+	/**'
+	 * Prepares Units On Screen Before Showing 
+	 * All The Data Is A Specific Customer's Data
+	 * @param user
+	 */
 	public void getUserDetails(User user)
 	{
 

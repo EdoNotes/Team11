@@ -39,6 +39,12 @@ public class CustomerMenuController
 	public ChatClient chat;
 	private Msg LogoutMsg=new Msg();
 	public String id="";
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks 
+	 * on "View Catalog" Button
+	 * @param event
+	 */
 	@FXML
 	public void viewCatalogBtn(ActionEvent event)
 	{
@@ -58,11 +64,15 @@ public class CustomerMenuController
 			e1.printStackTrace();
 		}
 	}
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks 
+	 * on "View My Profile" Button
+	 * @param event
+	 */
 	@FXML
 	public void viewMyProfileBtn(ActionEvent event)
 	{
-
-
 		try {
 			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 			Stage ViewProfileStage=new Stage();
@@ -76,10 +86,14 @@ public class CustomerMenuController
 			ViewProfileStage.show();
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Open Dispute" Button
+	 * @param event
+	 */
 	@FXML
 	public void OpenDisputeBtn(ActionEvent event)
 	{
@@ -98,7 +112,11 @@ public class CustomerMenuController
 			e1.printStackTrace();
 		}
 	}
-	
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Cancel Order" Button
+	 * @param event
+	 */
 	@FXML
 	public void OpenCancelOrder(ActionEvent event) throws InterruptedException, IOException
 	{
@@ -118,7 +136,7 @@ public class CustomerMenuController
 		System.out.println("good 2" +directory);
 		
 		
-		
+		//Load Cancel Order Window
 		Stage primaryStage=new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/Gui/CancelOrder.fxml").openStream());
@@ -130,13 +148,12 @@ public class CustomerMenuController
 		primaryStage.show();
 		
 		}
-
 	}
-	
-	
-	
-	
-	
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Exit" Button
+	 * @param event
+	 */
 	@FXML
 	public void ExitBtn(ActionEvent event) {
 		Alert al = new Alert(Alert.AlertType.INFORMATION);
@@ -145,6 +162,11 @@ public class CustomerMenuController
 		al.showAndWait();
 		System.exit(0);
 	}
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Logout" Button
+	 * @param event
+	 */
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{
@@ -158,7 +180,6 @@ public class CustomerMenuController
 		try {
 			client.accept(LogoutMsg);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} /* Update the connection status of the user from online  to offline */
 		
