@@ -977,7 +977,7 @@ public class EchoServer extends AbstractServer {
 	public void cancel_order(Msg msg, Connection con, ConnectionToClient client) {
 		ArrayList<String> dir_result=new ArrayList <String>();
 		try {
-			String cmd2="SELECT orderId, orderPrice,Date,orderTime , current_date()>Date as t1,current_date()=Date and orderTime-current_time()>30000 as t2,"
+			String cmd2="SELECT orderId, orderPrice,Date,orderTime , current_date()<Date as t1,current_date()=Date and orderTime-current_time()>30000 as t2,"
 				+ "current_date()=Date and orderTime-current_time() between 10000 and 30000 as t3, current_date()=Date and orderTime-current_time() between 0 and 10000 as t4,"
 				+" current_time()-ordertime from zerli.`order` where orderID = ";
 			cmd2+=msg.getqueryToDo()+" ;";
