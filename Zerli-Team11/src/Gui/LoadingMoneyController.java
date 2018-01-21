@@ -121,15 +121,15 @@ public class LoadingMoneyController implements Initializable{
 		}
 	}
 	
-//	@FXML
-//	public void BackBtn(ActionEvent event) throws IOException 
-//	{
-//		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-//		Stage primaryStage=new Stage();
-//		Parent root=FXMLLoader.load(getClass().getResource("/Gui/StoreEmployeeMenu.fxml"));
-//		Scene serverScene = new Scene(root);
-//		serverScene.getStylesheets().add(getClass().getResource("StoreEmployeeMenu.css").toExternalForm());
-//		primaryStage.setScene(serverScene);
-//		primaryStage.show();
-//	}
+	@FXML
+	public void BackBtn(ActionEvent event) throws IOException 
+	{
+		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+		Stage primaryStage=new Stage();
+		Parent root=FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+		Scene serverScene = new Scene(root);
+		serverScene.getStylesheets().add(getClass().getResource("CustomerMenu.css").toExternalForm());
+		primaryStage.setScene(serverScene);
+		primaryStage.show();
+	}
 }

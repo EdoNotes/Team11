@@ -99,7 +99,7 @@ public class OpenDisputeController {
 								al.setTitle("Complaint Submission");
 								int complaintNumber = Complaint.ComplaintIndex - 1;
 								al.setContentText(
-										"Complaint Was Successfully Added\nYour Complaint Number is:" + complaintNumber);
+										"Complaint Was Successfully Added");
 								al.showAndWait();
 								((Node) event.getSource()).getScene().getWindow().hide();
 								Stage CustomerStage = new Stage();

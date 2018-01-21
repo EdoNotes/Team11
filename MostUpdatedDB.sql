@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `zerli` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `zerli`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: zerli
@@ -74,7 +76,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (2468,'customer1',0,0,'',0),(5326,'Customer',1,1,'',0);
+INSERT INTO `customer` VALUES (2468,'customer1',0,0,'53261003188833',0),(5326,'Customer',1,1,'41735522331134',0);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,8 +121,11 @@ DROP TABLE IF EXISTS `expertconclusions`;
 CREATE TABLE `expertconclusions` (
   `concID` int(11) NOT NULL AUTO_INCREMENT,
   `conclusionTxt` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`concID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `numSurvey` int(11) NOT NULL,
+  PRIMARY KEY (`concID`),
+  KEY `surveyNum_idx` (`numSurvey`),
+  CONSTRAINT `surveyNum` FOREIGN KEY (`numSurvey`) REFERENCES `survey_question` (`numSurvey`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,6 +134,7 @@ CREATE TABLE `expertconclusions` (
 
 LOCK TABLES `expertconclusions` WRITE;
 /*!40000 ALTER TABLE `expertconclusions` DISABLE KEYS */;
+INSERT INTO `expertconclusions` VALUES (1,'hgfhgf',1),(2,'hgfhgfhg',1),(3,'dfgfdgfdgfd',1),(4,'dfgfdgfdgfd',3),(5,'lkgfklgfhlkgfhlgfklh',1),(6,'aaaaabbbbccc',1),(7,'gfhgfhfghf',1),(8,'dfgdfgdfgfd3233',1);
 /*!40000 ALTER TABLE `expertconclusions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +169,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,2468,'PICKUP',68,'hi','2018-02-18','10:00:00',0,1),(2,5326,'DELIVERY',202,NULL,'2018-02-07','20:00:00',0,2),(3,2468,'PICKUP',55,'To Mrs Bracha','2018-02-22','03:00:00',0,3),(4,5326,'DELIVERY',99,NULL,'2018-03-01','11:00:00',0,1),(5,2468,'PICKUP',103,NULL,'2018-04-01','18:00:00',0,3);
+INSERT INTO `order` VALUES (1,2468,'PICKUP',68,'hi','2018-02-18','10:00:00',0,1),(2,5326,'DELIVERY',202,NULL,'2018-02-07','20:00:00',0,2),(4,5326,'DELIVERY',99,NULL,'2018-03-01','11:00:00',0,1);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -348,7 +354,7 @@ CREATE TABLE `survey_answer` (
   `answer4` int(11) DEFAULT NULL,
   `answer5` int(11) DEFAULT NULL,
   `answer6` int(11) DEFAULT NULL,
-  `date` date NOT NULL
+  `date` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,7 +364,7 @@ CREATE TABLE `survey_answer` (
 
 LOCK TABLES `survey_answer` WRITE;
 /*!40000 ALTER TABLE `survey_answer` DISABLE KEYS */;
-INSERT INTO `survey_answer` VALUES (1,4,6,6,7,8,10,'0000-00-00'),(1,1,2,5,5,2,3,'0000-00-00');
+INSERT INTO `survey_answer` VALUES (1,4,5,6,1,8,7,'21/01/2018'),(1,4,5,9,2,10,1,'21/01/2018'),(1,1,2,2,4,5,2,'21/01/2018'),(2,8,4,4,6,7,6,'21/01/2018'),(2,4,3,1,2,10,1,'21/01/2018'),(3,1,10,8,8,9,10,'21/01/2018');
 /*!40000 ALTER TABLE `survey_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +384,7 @@ CREATE TABLE `survey_question` (
   `question5` text,
   `question6` text,
   PRIMARY KEY (`numSurvey`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -387,7 +393,7 @@ CREATE TABLE `survey_question` (
 
 LOCK TABLES `survey_question` WRITE;
 /*!40000 ALTER TABLE `survey_question` DISABLE KEYS */;
-INSERT INTO `survey_question` VALUES (1,'bla bla1','bla bla2','bla bla3','bla bla4','bla bla 5','bla bla6'),(2,'abc','cdb','ahj','iao','oqpe','lfad'),(3,'shela1','shela2','shela3','shela4','shela5','shela6');
+INSERT INTO `survey_question` VALUES (1,'bla bla1','bla bla2','bla bla3','bla bla4','bla bla 5','bla bla6'),(2,'abc','cdb','ahj','iao','oqpe','lfad'),(3,'shela1','shela2','shela3','shela4','shela5','shela6'),(4,'ma kora1','shalom2','bla 3','shalom4','shalom5','shalom6');
 /*!40000 ALTER TABLE `survey_question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,7 +426,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il','\'Haifa\''),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL,'\'Haifa\''),('customer','123',305337990,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com','\'Acre\''),('customer1','123',832947347,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com','\'Acre\''),('CustomerService','123',123455432,'Elinor','faddol','Offline','CustomerService','5468641818','F','Eli_nor@gmail.com','\'Acre\''),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com','\'Karmiel\''),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com','\'Karmiel\''),('StoreManager','123',111222333,'Matan','sabag','Offline','StoreManager','0526514879','M','blabla@gmail.com','\'Karmiel\''),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com','\'Karmiel\'');
+INSERT INTO `user` VALUES ('CompanyEmployee','123',187346837,'Od','Misho','Offline','CompanyEmployee','1984891878','M','psods@walla.co.il','Haifa'),('CompanyManager','1',444444,'Hector','Notes','Offline','CompanyManager','54754754',NULL,NULL,'Haifa'),('customer','123',5326,'Tomer','Arzuan','Offline','Customer','0526751403','M','Tomerarzu@gmail.com','Acre'),('customer1','123',2468,'walla','sababa','Offline','Customer','508867884','M','irir@yahoo.com','Acre'),('CustomerService','123',123455432,'Elinor','faddol','Offline','CustomerService','5468641818','F','Eli_nor@gmail.com','Acre'),('Expert','123',777888999,'Ido','Kalir','Offline','Expert','0245645665','M','IdoKal@gmail.com','Karmiel'),('StoreEmployee','123',444555666,'Edo','Notes','Offline','StoreEmployee','0532394820','M','EdoNotes@gmail.com','Karmiel'),('StoreManager','123',111222333,'Matan','sabag','Online','StoreManager','0526514879','M','blabla@gmail.com','Karmiel'),('SystemManager','123',567899876,'stam','misho','Offline','SystemManager','8948565184','F','sdasd@gmail.com','Karmiel');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -433,4 +439,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-17  2:47:13
+-- Dump completed on 2018-01-21 20:19:30

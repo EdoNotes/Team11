@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="520.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ExpertConclusionController">
+   <children>
+      <TextArea fx:id="txtAreaConclusionDetails" layoutY="125.0" prefHeight="345.0" prefWidth="400.0" />
+      <Label layoutX="60.0" layoutY="43.0" text="Expert Conclustion">
+         <font>
+            <Font name="Lucida Calligraphy Italic" size="26.0" />
+         </font>
+      </Label>
+      <Button layoutX="29.0" layoutY="483.0" mnemonicParsing="false" onAction="#BackBtn" text="Back" />
+      <Button layoutX="270.0" layoutY="481.0" mnemonicParsing="false" onAction="#SubmitBtn" text="Submit" />
+      <Label fx:id="lblSurveyNum" layoutX="92.0" layoutY="102.0" text="Label" />
+      <Label fx:id="lblDate" layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="154.0" text="Label" />
+      <Label layoutX="8.0" layoutY="102.0" text="Survey Num:" />
+   </children>
+</AnchorPane>

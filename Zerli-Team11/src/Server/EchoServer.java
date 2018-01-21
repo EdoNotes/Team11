@@ -439,8 +439,29 @@ public class EchoServer extends AbstractServer {
 			addNewSurveyToDB(msg, tableName, client, con);
 		else if(requestMsg.getqueryToDo().compareTo("View satisfaction report") == 0)
 			returnNumberSurveyQues(msg, tableName, client, con);
+		else if(requestMsg.getqueryToDo().compareTo("get all surveys") == 0)
+			GetAllSurveysQuestionsNum(msg, tableName, client, con);
+		else if(requestMsg.getqueryToDo().compareTo("InsertExpertConclusions") == 0)
+			InsertExpertConclusion(msg, "expertconclusions", client, con);
+			
+		
 	}// SurveyHandler
 
+	private static void InsertExpertConclusion(Object msg, String tableName, ConnectionToClient client,
+			Connection con) {
+		
+		Msg message = (Msg) msg;
+		int surveyNum=Integer.parseInt(message.getValueToUpdate());
+		String Query=message.getQueryQuestion()+" zerli."+tableName+"(conclusionTxt,numSurvey) Values(?,?);";
+		try {
+			PreparedStatement stmt = con.prepareStatement(Query);
+			stmt.setString(1,(String)message.getSentObj());
+			stmt.setInt(2,surveyNum);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 
 	 * @param msg
@@ -771,6 +792,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public void get_order_survey_report(Msg msg, Connection con, ConnectionToClient client) {
 		System.out.println("great" + msg.getQueryQuestion());
+		Msg message= (Msg)msg;
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		try {
 			Statement stmt = con.createStatement();
@@ -785,11 +807,13 @@ public class EchoServer extends AbstractServer {
 				i += 1;
 
 			}
-
+			
 			rs.close();
 			System.out.println(directory);
+			message.setReturnObj(directory);
 			try {
-				client.sendToClient(directory);
+				client.sendToClient(message);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -807,6 +831,7 @@ public class EchoServer extends AbstractServer {
 	public void get_consumer_order(Msg msg, Connection con, ConnectionToClient client) {
 		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
+		Msg message = (Msg) msg;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
@@ -817,6 +842,7 @@ public class EchoServer extends AbstractServer {
 			}
 			rs.close();
 			System.out.println(directory);
+			message.setReturnObj(directory);
 			try {
 				client.sendToClient(directory);
 			} catch (IOException e) {
@@ -1080,6 +1106,34 @@ public class EchoServer extends AbstractServer {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	private static void GetAllSurveysQuestionsNum(Object msg, String tableName, ConnectionToClient client, Connection con) 
+	{
+		Msg message = (Msg) msg;
+		ArrayList<Integer> SurveysQuestionsNum=new ArrayList<Integer>();
+		String Query=(message.getQueryQuestion()+" FROM zerli."+tableName+";");
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(Query);
+			while(rs.next())
+			{
+				SurveysQuestionsNum.add(rs.getInt(1));
+			}
+			rs.close();
+			con.close();
+			message.setReturnObj((Object)SurveysQuestionsNum);
+			try {
+				client.sendToClient(message);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	
