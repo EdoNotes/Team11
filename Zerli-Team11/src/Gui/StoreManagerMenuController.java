@@ -52,12 +52,14 @@ public class StoreManagerMenuController implements Initializable
 	@FXML
 	Button Breport1;
 	@FXML
+	ComboBox<String> year1;
+	@FXML
 	Button BNU;
 	@FXML
 	TextField CustomerIDtext;
 	@FXML
 	Button SettelementAccount;
-	
+	ObservableList<String> yearlist=FXCollections.observableArrayList("2009","2010","2011","2012","2013","2014","2015","2016","2017","2018");
 	ObservableList <String >quarterly = FXCollections.observableArrayList("1","2","3","4");
 	ObservableList<String> ReportsList=FXCollections.observableArrayList("Quarter's Incomes","Quarter's Order","Customers Complaints","Customer Satisfication");
 	ObservableList<String> ShopList=FXCollections.observableArrayList("Haifa","Ako","Tel Aviv");
@@ -70,6 +72,7 @@ public class StoreManagerMenuController implements Initializable
 	{
 		cmbSelectReport1.setItems(ReportsList);
 		cmbQ1.setItems(quarterly);
+		year1.setItems(yearlist);
 		//cmbS1.setItems(ShopList);
 	}
 	@FXML
@@ -90,6 +93,12 @@ public class StoreManagerMenuController implements Initializable
 {		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("report");// create a new msg
+		
+		int qutere =Integer.parseInt((String)cmbQ1.getValue());  //build the computable string for the chosen quarterly.
+		int monthStart= (qutere*3) -2;
+		int monthEnd= (qutere*3);
+		String qutr="'"+(String)year1.getValue()+"-"+monthStart+"-01' AND '"+(String)year1.getValue()+"-"+monthEnd+"-31'";
+		
 		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
 		String cmd = "";
 		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
@@ -99,7 +108,7 @@ public class StoreManagerMenuController implements Initializable
 
 		System.out.println((String)cmbQ1.getValue());
 		int q2 =Integer.parseInt((String)cmbQ1.getValue());
-		cmd += date[q2-1];
+		cmd +=qutr;
 		cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";
 		System.out.println(cmd);
 		

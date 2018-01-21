@@ -13,7 +13,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Button layoutX="40.0" layoutY="173.0" mnemonicParsing="false" onAction="#LogoutBtn" prefHeight="25.0" prefWidth="113.0" text="back" />
+      <Button fx:id="backB" layoutX="40.0" layoutY="173.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="25.0" prefWidth="113.0" text="back" />
       <ComboBox fx:id="CBcancel" layoutX="40.0" layoutY="101.0" prefHeight="25.0" prefWidth="396.0" promptText="choose order" />
       <Button fx:id="Breport1" layoutX="369.0" layoutY="173.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>

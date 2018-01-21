@@ -120,8 +120,6 @@ public class CustomerMenuController
 	@FXML
 	public void OpenCancelOrder(ActionEvent event) throws InterruptedException, IOException
 	{
-		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		String cmd ="SELECT  o.orderId ,o.orderPrice ,o.Date FROM zerli.order o where o.customerID=";
 		//int userid = User.currUser.getID();
@@ -135,6 +133,16 @@ public class CustomerMenuController
 		client.accept((Object)userToCheck);
 		directory = (TreeMap<String, String> )client.msg;
 		System.out.println("good 2" +directory);
+		if (directory.size()==0)
+		{
+			Alert al = new Alert(Alert.AlertType.INFORMATION);
+			al.setTitle("No Orders ");
+			al.setContentText("There isn't currently orders for you.");
+			al.showAndWait();
+		}
+		else {
+		
+		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		
 		
 		//Load Cancel Order Window
@@ -147,7 +155,7 @@ public class CustomerMenuController
 		serverScene.getStylesheets().add(getClass().getResource("CancelOrder.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
-		
+		}
 		}
 	}
 	/**

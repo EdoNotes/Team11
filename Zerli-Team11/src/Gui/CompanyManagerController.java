@@ -100,6 +100,16 @@ public class CompanyManagerController implements Initializable
 	
 	public void askReport(ActionEvent event) throws Exception
 {		
+		if(cmbSelectReport1.getValue()==null||cmbQ1.getValue()==null||cmbS1.getValue()==null||year1.getValue()==null) {
+			Alert al = new Alert(Alert.AlertType.ERROR);
+			al.setTitle("misses details ");
+			al.setContentText("misses order request details ");
+			al.showAndWait();}
+		else {
+		
+		
+		
+		
 		//The report request create an sql question.
 		//The code of Customers Complaints report is a bit different because of his table structure.
 		TreeMap<String, String> directory = new TreeMap<String, String>();
@@ -148,11 +158,18 @@ public class CompanyManagerController implements Initializable
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
 		primaryStage.setScene(serverScene);
-		primaryStage.show();
+		primaryStage.show();}
+		
 	}
 
 	public void askReport2(ActionEvent event) throws Exception
 {		//This method makes the second report.
+		if(cmbSelectReport2.getValue()==null||cmbQ2.getValue()==null||cmbS2.getValue()==null||year2.getValue()==null) {
+			Alert al = new Alert(Alert.AlertType.ERROR);
+			al.setTitle("misses details ");
+			al.setContentText("misses order request details ");
+			al.showAndWait();}
+		else {
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("report");// create a new msg
@@ -199,7 +216,7 @@ public class CompanyManagerController implements Initializable
 		Scene serverScene = new Scene(root);
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
 		primaryStage.setScene(serverScene);
-		primaryStage.show();
+		primaryStage.show();}
 	}
 	@FXML
 	public void LogoutBtn(ActionEvent event)

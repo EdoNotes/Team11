@@ -108,11 +108,13 @@ public class CancelOrderController implements Initializable
 		if (dir_return.get(2).equals("1")||dir_return.get(3).equals("1")) msg="The order was been canceled, the refund was 100% of the order price";
 		if (dir_return.get(4).equals("1")) msg="The order was been canceled, the refund was 50% of the order price because the order cancel was later than 3 hours before the date";
 		if (dir_return.get(5).equals("1")) msg="The order was been canceled, their is no refund because the order cancel was later than 1 hours before the date";
+		if (msg.equals("nothing"))msg = "The Order time was passed.";
 		report.load_list(msg);
-		Scene serverScene = new Scene(root);
-		serverScene.getStylesheets().add(getClass().getResource("ApprovalCancelation.css").toExternalForm());
-		primaryStage.setScene(serverScene);
-		primaryStage.show();
+		Alert al = new Alert(Alert.AlertType.INFORMATION);
+		al.setTitle("Refund ");
+		al.setContentText(msg);
+		al.showAndWait();
+
 	}
 
 	@FXML
@@ -155,6 +157,24 @@ public class CancelOrderController implements Initializable
 		this.orderList.add(s);
 	}
 	 
+	}
+	
+	/**
+	 * @param event
+	 * Button that pass you back to Store Manager Menu
+	 * @throws IOException
+	 */
+	@FXML
+	public void BackBtn(ActionEvent event) throws IOException {
+		((Node) event.getSource()).getScene().getWindow().hide();// Hide Menu
+		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("/Gui/CustomerMenu.fxml"));
+		Scene Scene = new Scene(root);
+		Scene.getStylesheets().add(getClass().getResource("CustomerMenu.css").toExternalForm());
+		primaryStage.setScene(Scene);
+		primaryStage.show();
+		
+
 	}
 	
 }

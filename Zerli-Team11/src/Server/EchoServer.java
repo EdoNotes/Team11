@@ -811,7 +811,7 @@ public class EchoServer extends AbstractServer {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
 			while (rs.next()) {
-				String order=rs.getString(1)+", price: "+rs.getString(2)+", date: "+rs.getString(3);
+				String order="Order ID- "+rs.getString(1)+" , price: "+rs.getString(2)+" , date: "+rs.getString(3);
 				System.out.println(order);
 				directory.put(order,rs.getString(1));
 			}
