@@ -422,7 +422,7 @@ public class EchoServer extends AbstractServer {
 
 	}// userHandler
 	/**
-	 * 
+	 * This method filter the questions to specific type Survey  that go to the DB
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -591,7 +591,7 @@ public class EchoServer extends AbstractServer {
 			con.close();
 	}
 	/**
-	 * 
+	 * This method search User in DB, sanding User Name and password and get all information from table "User" in DB 
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -682,10 +682,12 @@ public class EchoServer extends AbstractServer {
 
 	}
 
-	/*
-	 * Methods that insert a new survey to DB
-	 * =============================================================================
-	 * ==
+	/**
+	 * Methods that insert answer survey to DB, sending the number survey question and the answers to the questions 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
 	 */
 	public static void InsertAnswerSurveyToDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		Survey surveyDB = (Survey) (((Msg) msg).getSentObj());
