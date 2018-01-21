@@ -43,7 +43,6 @@ public class report_orderController {
 	NumberAxis y;
 
 
-
 	public void setdirectory(TreeMap<String, String> d,String type)
 	{
 		this.directory=d;
@@ -53,9 +52,7 @@ public class report_orderController {
 	public void load_dir(TreeMap<String, String> directory)
 	{this.directory=directory;
 	x.setLabel(this.type);
-	
 	 XYChart.Series set1 = new XYChart.Series<>();
-
 	 for (String key: directory.keySet())
 	 {System.out.println(key+ directory.get(key));
 	 set1.getData().add(new XYChart.Data(key,Float.parseFloat(directory.get(key)))); 
