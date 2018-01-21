@@ -124,8 +124,9 @@ public class CustomerMenuController
 		
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		String cmd ="SELECT  o.orderId ,o.orderPrice ,o.Date FROM zerli.order o where o.customerID=";
-		int userid = User.currUser.getID();
-		cmd+=userid+";";
+		//int userid = User.currUser.getID();
+		int tmp =2468;
+		cmd+=tmp+";";
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("Ask_order");// create a new msg
 		userToCheck.setQueryQuestion(cmd);

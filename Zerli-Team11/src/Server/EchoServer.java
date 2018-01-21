@@ -738,7 +738,7 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 	/**
-	 * 
+	 * This function execute SQL query that get the orders detailes according to specific date.
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -764,7 +764,7 @@ public class EchoServer extends AbstractServer {
 			con.close();
 	}
 	/**
-	 * 
+	 * This function execute SQL query that get the survey detailes.
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -799,7 +799,7 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	/**
-	 * 
+	 * This function execute SQL query that get all the customer orders.
 	 * @param msg
 	 * @param con
 	 * @param client

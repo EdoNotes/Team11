@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.StoreManagerMenuController">
    <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="400.0">
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="456.0" prefWidth="400.0">
          <children>
             <Label layoutX="74.0" layoutY="28.0" text="Shop Manager Menu">
                <font>
@@ -24,8 +24,8 @@
                </font>
             </Label>
             <ComboBox fx:id="cmbSelectReport1" layoutX="14.0" layoutY="329.0" prefWidth="150.0" promptText="Select Report Type" />
-            <Button fx:id="Breport1" layoutX="314.0" layoutY="329.0" mnemonicParsing="false" onAction="#askReport" text="View Report" />
-            <ComboBox fx:id="cmbQ1" layoutX="200.0" layoutY="329.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />
+            <Button fx:id="Breport1" layoutX="155.0" layoutY="364.0" mnemonicParsing="false" onAction="#askReport" text="View Report" />
+            <ComboBox fx:id="cmbQ1" layoutX="185.0" layoutY="329.0" prefHeight="25.0" prefWidth="92.0" promptText="Quarterly" />
             <Button layoutX="265.0" layoutY="230.0" mnemonicParsing="false" onAction="#SettelementAccountBut" text="Settlement Account" />
             <Label layoutX="14.0" layoutY="108.0" text="Register New User">
                <font>
@@ -39,6 +39,7 @@
             </Label>
             <TextField fx:id="CustomerIDtext" layoutX="138.0" layoutY="230.0" prefHeight="25.0" prefWidth="114.0" />
             <Label layoutX="20.0" layoutY="234.0" text="Customer Nuber ID :" />
+            <ComboBox fx:id="year1" layoutX="295.0" layoutY="329.0" prefHeight="25.0" prefWidth="81.0" promptText="Year" />
          </children>
       </AnchorPane>
    </children>
