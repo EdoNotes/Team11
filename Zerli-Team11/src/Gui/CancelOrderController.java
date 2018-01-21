@@ -84,6 +84,8 @@ public class CancelOrderController implements Initializable
 		userToCheck.setClassType("CancelO");// create a new msg
 		userToCheck.setQueryQuestion(cmd);
 		userToCheck.setqueryToDo(id);
+		int userid = User.currUser.getID();
+		userToCheck.setColumnToUpdate(""+userid);
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
 		System.out.println(cmd);

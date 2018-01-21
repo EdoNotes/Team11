@@ -1012,8 +1012,8 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				String cmd_refund= "update zerli.customer c,zerli.order o set c.balance=c.balance- o.orderPrice*"
-						+ refund+"  where c.customerID=\"2468\" and o.orderId ="+msg.getqueryToDo()+";";
+				String cmd_refund= "update zerli.customer c,zerli.order o set c.balance=c.balance+ o.orderPrice*"
+						+ refund+"  where c.customerID='"+msg.getColumnToUpdate()+"' and o.orderId ="+msg.getqueryToDo()+";";
 				System.out.println(cmd_refund);
 				Statement stmt3 = con.createStatement();
 				int returnValue2 = stmt3.executeUpdate(cmd_refund);
