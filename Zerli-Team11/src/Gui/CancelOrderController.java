@@ -96,7 +96,7 @@ public class CancelOrderController implements Initializable
 		if (dir_return.get(4).equals("1"))refund=(float) 0.5;
 		if (dir_return.get(5).equals("1"))refund=0;
 		String cmd_refund= "update zerli.customer c,zerli.order o set c.balance=c.balance- o.orderPrice*"
-				+ refund+"  where c.customerID=\"2468\" and o.orderId ="+id+";";
+				+ refund+"  where c.customerID='"+userid+"' and o.orderId ="+id+";";
 		System.out.println(cmd_refund);
 
 		
