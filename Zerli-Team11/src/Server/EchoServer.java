@@ -604,7 +604,8 @@ public class EchoServer extends AbstractServer {
 		User tmpUsr = new User();
 			Statement stmt = con.createStatement();
 			// Case 1: Username and Password Correct
-
+System.out.println(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
+					+ toSearch.getUserName() + "' AND Password='" + toSearch.getPassword() + "';");
 			ResultSet rs = stmt.executeQuery(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHERE UserName='"
 					+ toSearch.getUserName() + "' AND Password='" + toSearch.getPassword() + "';");
 			if (rs.next()) {

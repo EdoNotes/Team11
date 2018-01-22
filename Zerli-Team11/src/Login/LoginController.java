@@ -74,7 +74,6 @@ public class LoginController
 		client = new ClientConsole(WelcomeController.IP,WelcomeController.port);
 		client.accept((Object) userToCheck);//Get Specific User From DB If Exists
 		userToCheck = (Msg) client.get_msg();
-		System.out.println(""+userToCheck);
 		User returnUsr = (User) userToCheck.getReturnObj();
 		if (returnUsr.getUserName() != null) //returnUsr=null means not existing On DB
 		{
