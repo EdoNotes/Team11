@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="621.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.OrderDetailsController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Order Details:" textFill="RED" underline="true">
+         <font>
+            <Font name="Cambria" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="80.0" text="ID:" />
+      <Label layoutX="14.0" layoutY="108.0" text="Full Name:" />
+      <Label layoutX="14.0" layoutY="140.0" text="Credit Card:" />
+      <Label layoutX="49.0" layoutY="51.0" text="Customer:" underline="true" />
+      <Label fx:id="cusIdlbl" layoutX="43.0" layoutY="80.0" prefHeight="17.0" prefWidth="63.0" text="Label" />
+      <Label fx:id="cusNamelbl" layoutX="83.0" layoutY="108.0" prefHeight="17.0" prefWidth="138.0" text="Label" />
+      <Label fx:id="cusCreditCardlbl" layoutX="89.0" layoutY="140.0" prefHeight="17.0" prefWidth="140.0" text="Label" />
+      <Label layoutX="15.0" layoutY="172.0" text="Subscriber:" />
+      <Label fx:id="cusSubslbl" layoutX="79.0" layoutY="172.0" prefHeight="17.0" prefWidth="54.0" text="Label" />
+      <AnchorPane layoutX="17.0" layoutY="206.0">
+         <children>
+            <Label layoutX="48.0" text="Supply:" underline="true" />
+            <Label layoutY="38.0" text="Store:" />
+            <Label fx:id="supDate" layoutX="1.0" layoutY="89.0" text="Supply Date:" />
+            <Label fx:id="supMethodlbl" layoutX="60.0" layoutY="65.0" text="Label" />
+            <Label layoutY="65.0" text="Method:" />
+            <Label fx:id="supStoreNamelbl" layoutX="42.0" layoutY="38.0" text="Label" />
+            <Label fx:id="supDatelbl" layoutX="81.0" layoutY="89.0" text="Label" />
+            <Label fx:id="supTime" layoutX="2.0" layoutY="116.0" text="Supply Time:" />
+            <Label fx:id="supTimelbl" layoutX="81.0" layoutY="116.0" text="Label" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="dlvrInfo" layoutX="11.0" layoutY="370.0" prefHeight="120.0" prefWidth="140.0">
+         <children>
+            <Label layoutX="29.0" text="Delivery Info:" underline="true" />
+            <Label fx:id="dlvPhonelbl" layoutX="92.0" layoutY="102.0" prefHeight="17.0" prefWidth="117.0" text="Label" />
+            <Label fx:id="dlvAdrslbl" layoutY="76.0" prefHeight="17.0" prefWidth="216.0" text="Label" />
+            <Label fx:id="dlvNamelbl" layoutX="83.0" layoutY="30.0" prefHeight="17.0" prefWidth="123.0" text="Label" />
+            <Label layoutY="102.0" text="Contact Phone:" />
+            <Label layoutX="2.0" layoutY="30.0" text="Contact Name:" />
+            <Label layoutX="2.0" layoutY="51.0" text="Contact Address:" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="260.0" layoutY="302.0" text="Order Info:" underline="true" />
+      <Label layoutX="246.0" layoutY="339.0" text="Total Cost:" />
+      <Label fx:id="orderTotallbl" layoutX="339.0" layoutY="339.0" text="Label" />
+      <RadioButton fx:id="cashRb" layoutX="245.0" layoutY="398.0" mnemonicParsing="false" text="Cash">
+         <toggleGroup>
+            <ToggleGroup fx:id="cashCreditGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="CreditRb" layoutX="339.0" layoutY="398.0" mnemonicParsing="false" text="Credit" toggleGroup="$cashCreditGroup" />
+      <Label layoutX="246.0" layoutY="370.0" text="Pay By:" />
+      <Label fx:id="balancelbl" layoutX="339.0" layoutY="440.0" text="Label" />
+      <Label layoutX="246.0" layoutY="440.0" text="Credit Balace:" />
+      <ListView fx:id="itemList" layoutX="239.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button layoutX="339.0" layoutY="539.0" mnemonicParsing="false" onAction="#payBtn" prefHeight="37.0" prefWidth="138.0" text="PAY">
+         <font>
+            <Font name="Arial Black" size="23.0" />
+         </font>
+      </Button>
+      <Button layoutX="38.0" layoutY="551.0" mnemonicParsing="false" onAction="#backBtn" prefHeight="28.0" prefWidth="77.0" text="Back" />
+   </children>
+</AnchorPane>

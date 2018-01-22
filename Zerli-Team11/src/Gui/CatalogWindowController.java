@@ -34,12 +34,8 @@ public class CatalogWindowController {
 		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		try {
 			Stage bouStage=new Stage();
-			//FXMLLoader loader=new FXMLLoader();
 			Parent bouRoot =FXMLLoader.load(getClass().getResource("/Gui/BouqeutCatalog.fxml"));
-			//BouqeutCatalogController BouqeutCatalogController=(BouqeutCatalogController)loader.getController();
-			//BouqeutCatalogController.
 			Scene bouScene = new Scene(bouRoot);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			bouStage.setScene(bouScene);
 			bouStage.show();
 		} 
@@ -48,9 +44,4 @@ public class CatalogWindowController {
 		}
 	}
 
-	
-	public void showCustomizeCatalog(ActionEvent event)
-	{
-		
-	}
 }

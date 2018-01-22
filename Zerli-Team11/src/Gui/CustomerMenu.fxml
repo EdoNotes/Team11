@@ -15,6 +15,10 @@
       <Button layoutX="66.0" layoutY="382.0" mnemonicParsing="false" onAction="#LogoutBtn" text="LogOut" />
       <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="View Catalog" />
       <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
+
+      <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" onAction="#viewCatalogBtn" prefHeight="25.0" prefWidth="92.0" text="View Catalog" />
+      <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
+
       <Button layoutX="307.0" layoutY="382.0" mnemonicParsing="false" onAction="#ExitBtn" prefHeight="25.0" prefWidth="56.0" text="Exit" />
       <Button layoutX="154.0" layoutY="225.0" mnemonicParsing="false" onAction="#OpenDisputeBtn" prefHeight="25.0" prefWidth="92.0" text="Open Dispute" />
       <Button layoutX="149.0" layoutY="286.0" mnemonicParsing="false" onAction="#viewMyProfileBtn" prefHeight="25.0" prefWidth="99.0" text="View My Profile" />

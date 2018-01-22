@@ -15,9 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TreeMap;
-
 import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,6 +30,7 @@ import ocsf.server.ConnectionToClient;
 public class EchoServer extends AbstractServer {
 	/*
 	 * Attributes Area
+	 * 
 	 * =============================================================================
 	 * ==
 	 */
@@ -84,6 +84,10 @@ public class EchoServer extends AbstractServer {
 			} else if ((msgRecived.getClassType()).equalsIgnoreCase("Store")) {
 				StoreHandeler(msgRecived, "store", client, conn);
 			}
+			else if((msgRecived.getClassType()).equalsIgnoreCase("Order"))
+			{
+				orderHandler(msgRecived, "order", client, conn);
+			}
 			
 		} 
 		catch (SQLException ex) {/* handle any errors */
@@ -97,6 +101,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	
+
 	/**
 	 * 
 	 * @param msg
@@ -105,13 +110,209 @@ public class EchoServer extends AbstractServer {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
+	public static void orderHandler(Msg msg, String tableName, ConnectionToClient client, Connection con) throws IOException, SQLException {
+		String queryToDo = msg.getqueryToDo();
+		if(queryToDo.compareTo("Insert new order")==0)
+		{
+			insertNewOrder(msg,tableName, client, con);
+		}
+		else if(queryToDo.compareTo("Insert Products In Order")==0) {
+			insertProductInOrder(msg,"product_in_order", client, con);
+		}
+		else if(queryToDo.compareTo("Insert Supply Order Method")==0)
+		{
+			insertOrderSupply(msg,"delivery_details", client, con);
+		}
+	}
+
+	private static void insertOrderSupply(Msg msg, String tableName, ConnectionToClient client, Connection con) {
+		OrderSupply supToInset=(OrderSupply)msg.getSentObj();
+		String query= msg.getQueryQuestion()+" zerli."+tableName+" (`IDOrder`, `StoreID`, `supplyMethod`, `dateOfSupply`, `TimeOfSupply`, `contactName`, `Contact address`, `contacPhonet`, `isInstant`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, supToInset.getOrderId());//order id
+			stmt.setInt(2, supToInset.getStoreId());//store id
+			stmt.setString(3, supToInset.getSupplyMethod());//supply method
+			stmt.setString(4, supToInset.getDateToSupp());//date
+			stmt.setString(5, supToInset.getTimeToSupp());//time
+			stmt.setString(6, supToInset.getContactName());//Contact name 
+			stmt.setString(7,supToInset.getContactAddress()); //Contact address
+			stmt.setString(8,supToInset.getContactPhone());//Contact phone
+			stmt.setInt(9,supToInset.getIsInstant());//is instant
+			stmt.executeUpdate();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void insertProductInOrder(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		ProductInOrder productToInset=(ProductInOrder)msg.getSentObj();
+		String query= msg.getQueryQuestion()+" zerli."+tableName+"(`OrderID`, `productID`, `quantity`, `totalPrice`) VALUES (?,?,?,?);";
+		PreparedStatement stmt = con.prepareStatement(query);
+		try {
+			stmt.setInt(1,productToInset.getOrderId()); //order id
+			stmt.setInt(2, productToInset.getProductId());
+			stmt.setInt(3, productToInset.getPIOquantity());
+			stmt.setDouble(4, productToInset.getPrice()*productToInset.getPIOquantity());
+			stmt.executeUpdate();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	private static void insertNewOrder(Msg msg, String tableName, ConnectionToClient client, Connection con) throws IOException {
+		Order OrderToSet=(Order)msg.getSentObj();
+		String query=msg.getQueryQuestion()+" zerli."+tableName+" (`customerID`, `supplyMethod`, `orderPrice`, `greeting`, `Date`, `orderTime`, `isPaid`, `storeID`) VALUES (?,?,?,?,?,?,?,?);";
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, OrderToSet.getCustomerId());//customer id
+			stmt.setString(2, OrderToSet.getSupplyMethod());//supply method
+			stmt.setDouble(3, OrderToSet.getOrderPrice());//order Price
+			stmt.setString(4, OrderToSet.getGreeting());//greeting
+			stmt.setString(5, OrderToSet.getOrderDate());//order date
+			stmt.setString(6, OrderToSet.getOrferTime());//order time
+			stmt.setInt(7,OrderToSet.getIsPaid()); //is Paid
+			stmt.setInt(8,OrderToSet.getStoreId());//store id
+			stmt.executeUpdate();
+			//con.close();
+			Order orderId=new Order();
+			String nextQuery="SELECT * FROM zerli.order WHERE customerID= ? AND Date= ? AND orderTime= ?";
+			PreparedStatement stmt1 = con.prepareStatement(nextQuery);
+			stmt1.setInt(1, OrderToSet.getCustomerId());
+			stmt1.setString(2, OrderToSet.getOrderDate());//order date
+			stmt1.setString(3, OrderToSet.getOrferTime());//order time
+			ResultSet rs=stmt1.executeQuery();
+			if(rs.next())
+			{
+				orderId.setOrderId(rs.getInt("orderId"));
+			}
+			rs.close();
+			con.close();
+			msg.setReturnObj(orderId);
+			client.sendToClient(msg);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
 	private static void productHandler(Msg msg, ConnectionToClient client, Connection conn) throws SQLException, IOException {
 		String queryToDo = msg.getqueryToDo();
-		if(queryToDo.compareTo("load Bouqeut to catalog")==0)
+		if(queryToDo.compareTo("load all flowers")==0)
 		{
-			loadProductsToCatalogByType(msg,"BOUQEUT",client,conn);
+			loadProductsToCatalogByType(msg,client,conn);
 		}
+		else if(queryToDo.compareTo("Search Products")==0)
+		{
+			SearchProductInCatalog(msg,client,conn);
+		}
+	}
 		
+
+	private static void SearchProductInCatalog(Msg msg, ConnectionToClient client, Connection con) throws SQLException, IOException {
+		Product parmsToSearch=((Product)msg.getSentObj());
+		ArrayList<Product> productsFounded=new ArrayList<Product>();
+		int rangeStart=parmsToSearch.getStartPrice(), rangeEnd=parmsToSearch.getEndPrice(),i=0;
+		Blob img;
+		InputStream input=null;
+		img=con.createBlob();
+		String Type=parmsToSearch.getProductType();
+		String color=parmsToSearch.getProductColor();
+		String query;
+		boolean emptyResFlag=true; //this flag is go down when result of the query is null of not found
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		if(rangeStart!=0 && Type!=null && color!=null) /*if all search field are filled*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND `productType`= ? AND (price>= ? AND price<= ? ) AND `dominantColor` = ?;";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setString(2,Type);
+			stmt.setInt(3,rangeStart);
+			stmt.setInt(4,rangeEnd);
+			stmt.setString(5,color);
+		}
+		else if(rangeStart==0 && Type!=null && color!=null) /*If the user search only by Type and Color*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND `productType`= ? AND `dominantColor` = ?;";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setString(2,Type);
+			stmt.setString(3,color);
+		}
+		else if(rangeStart==0 && Type==null && color!=null)/*if the user search only by color*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND `dominantColor` = ?;";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setString(2,color);
+		}
+		else if(rangeStart==0 && Type!=null && color==null) /*if user search only by type*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND `productType`= ?;";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setString(2,Type);
+		}
+		else if(rangeStart!=0 && Type==null && color==null) /*search by price*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND (price>= ? AND price<= ? );";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setInt(2,rangeStart);
+			stmt.setInt(3,rangeEnd);
+		}
+		else if(rangeStart!=0 && Type==null && color!=null) /*search by price and color*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND (price>= ? AND price<= ? ) AND `dominantColor` = ?;";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setInt(2,rangeStart);
+			stmt.setInt(3,rangeEnd);
+			stmt.setString(4,color);
+		}
+		else if(rangeStart!=0 && Type!=null && color==null) /*search by type and price*/
+		{
+			query=msg.getQueryQuestion()+" FROM zerli.product WHERE branchName= ? AND `productType`= ? AND (price>= ? AND price<= ? );";
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, User.currUser.getBranchName());
+			stmt.setString(2,Type);
+			stmt.setInt(3,rangeStart);
+			stmt.setInt(4,rangeEnd);
+		}
+		else if(rangeStart==0 && Type==null && color==null)
+		{
+			emptyResFlag=false;
+		}
+		if(emptyResFlag)
+		{
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				productsFounded.add(new Product());
+				productsFounded.get(i).setProductId(rs.getInt("productID"));
+				productsFounded.get(i).setProductName(rs.getString("productName"));
+				productsFounded.get(i).setProductType(rs.getString("productType"));
+				productsFounded.get(i).setProductDescription(rs.getString("productDescription"));
+				productsFounded.get(i).setPrice(rs.getDouble("price"));
+				productsFounded.get(i).setProductColor(rs.getString("dominantColor"));
+				productsFounded.get(i).setStoreName(rs.getString("BranchName"));
+				if(rs.getBlob("image")!=null)
+				{
+					img=rs.getBlob("image");
+					input=img.getBinaryStream();
+					byte[] imgToConv=ImageConverter.convertInputStreamToByteArray(input);
+					productsFounded.get(i).setProductImage(imgToConv);
+				}
+				i++;
+			}
+			rs.close();
+			con.close();
+		}
+		msg.setReturnObj(productsFounded);
+		client.sendToClient(msg);
 	}
 	/**
 	 * 
@@ -122,17 +323,15 @@ public class EchoServer extends AbstractServer {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private static void loadProductsToCatalogByType(Msg msg,String prodtype ,ConnectionToClient client, Connection conn) throws SQLException, IOException {
+	private static void loadProductsToCatalogByType(Msg msg,ConnectionToClient client, Connection conn) throws SQLException, IOException {
 		ArrayList<Product> productList= new ArrayList<Product>();
-		int i=0, storeId=((Product)msg.getSentObj()).getStoreId();
-		String que="SELECT productID,productName,productType,productDescription,price,quantity,dominantColor FROM zerli.product WHERE StoreID=3 AND `productType`='BOUQUET';";
-		System.out.println(storeId);
-		//Statement stmt = conn.createStatement();
-		PreparedStatement stmt=conn.prepareStatement("SELECT productID,productName,productType,productDescription,price,quantity,dominantColor FROM zerli.product WHERE `productType`= 'BOUQEUT' AND StoreID= 3;");
-		/*The PreparedStatment is not so good i dont know why but i need to fix it :( */
-		//stmt.setString(1, prodtype);
-		//stmt.setInt(2,storeId);/*I need to put here storeID that i will send from client with combobox*/
-		
+		int i=0;
+		Blob img;
+		InputStream input=null;
+		img=conn.createBlob();
+		String storeName=((Product)msg.getSentObj()).getStoreName(); /*I need to put here storeID that i will send from client with combobox*/
+		String que=msg.getQueryQuestion()+" FROM zerli.product WHERE BranchName= '" + storeName+"';";
+		Statement stmt = conn.createStatement();		
 		ResultSet rs=stmt.executeQuery(que);
 		while(rs.next())
 		{
@@ -142,17 +341,21 @@ public class EchoServer extends AbstractServer {
 			productList.get(i).setProductType(rs.getString("productType"));
 			productList.get(i).setProductDescription(rs.getString("productDescription"));
 			productList.get(i).setPrice(rs.getDouble("price"));
-			productList.get(i).setQuantity(rs.getInt("quantity"));
 			productList.get(i).setProductColor(rs.getString("dominantColor"));
-			System.out.println(productList.get(i).getProductName());
+			productList.get(i).setStoreName(rs.getString("BranchName"));
+			if(rs.getBlob("image")!=null)
+			{
+				img=rs.getBlob("image");
+				input=img.getBinaryStream();
+				byte[] imgToConv=ImageConverter.convertInputStreamToByteArray(input);
+				productList.get(i).setProductImage(imgToConv);
+			}
 			i++;
 		}
 		rs.close();
 		conn.close();
 		msg.setReturnObj(productList);
 		client.sendToClient(msg);
-
-		
 	}
 	/**
 	 * 
@@ -372,7 +575,10 @@ public class EchoServer extends AbstractServer {
 		else if(requestMsg.getqueryToDo().compareTo("update Balance for loading money") == 0) {
 			UpdateCustomerBalanceDB(msg, tableName, client, con);
 		}
-
+		else if(requestMsg.getqueryToDo().compareTo("Upadate Customer Field") == 0)
+		{
+			UpdateCustomeR(msg, tableName, client, con);
+		}
 	}
 	/**
 	 * 
@@ -395,6 +601,16 @@ public class EchoServer extends AbstractServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static void UpdateCustomeR(Object msg, String tableName, ConnectionToClient client, Connection con) throws NumberFormatException, SQLException {
+		Msg deatilsToUpdate=(Msg)msg;
+		String query=deatilsToUpdate.getQueryQuestion()+" `zerli`."+tableName+" SET "+deatilsToUpdate.getColumnToUpdate()+"= ? WHERE customerID= ?;";
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setDouble(1, Double.parseDouble(deatilsToUpdate.getValueToUpdate()));
+		stmt.setInt(2, Customer.curCustomer.getCustomerID());
+		stmt.executeUpdate();
+		con.close();
 	}
 	/*---------------------------------------------------End----------------------*/
 	/**
@@ -482,12 +698,12 @@ public class EchoServer extends AbstractServer {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				tmpCustomer.setCustomerID(rs.getInt(1));
+				tmpCustomer.setCustomerID(rs.getInt("customerID"));
 				tmpCustomer.setUserName(rs.getString(2));
 				tmpCustomer.setIsSettlement(rs.getInt(3));
 				tmpCustomer.setIsMember(rs.getInt(4));
-				tmpCustomer.setCreditCard(rs.getString(5));
-				tmpCustomer.setBalance(rs.getDouble(6));
+				tmpCustomer.setBalance(rs.getDouble("balance"));
+				tmpCustomer.setCreditCard(rs.getString("creditCardNumber"));
 			}
 			con.close();
 			rs.close();

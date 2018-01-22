@@ -48,19 +48,15 @@ public class CustomerMenuController
 	@FXML
 	public void viewCatalogBtn(ActionEvent event)
 	{
-		//load catalog products images
 		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage CatalogStage=new Stage();
-		Parent CatalogRoot;
 		try {
-			CatalogRoot = FXMLLoader.load(getClass().getResource("/Gui/CatalogWindow.fxml"));
-			Scene CatalogScene = new Scene(CatalogRoot);
-			CatalogScene.getStylesheets().add(getClass().getResource("/Gui/CatalogWindow.css").toExternalForm());
-			CatalogStage.setScene(CatalogScene);
-			//load catalog products images
-			CatalogStage.show();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			Stage bouStage=new Stage();
+			Parent bouRoot =FXMLLoader.load(getClass().getResource("/Gui/BouqeutCatalog.fxml"));
+			Scene bouScene = new Scene(bouRoot);
+			bouStage.setScene(bouScene);
+			bouStage.show();
+		} 
+		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -85,7 +81,8 @@ public class CustomerMenuController
 			ViewProfileStage.setScene(ViewProfileScene);
 			ViewProfileStage.show();
 
-		} catch (IOException e1) {
+		}
+		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
