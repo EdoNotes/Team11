@@ -37,6 +37,12 @@ public class ManagerSystemMenuController {
 	TextField txtId;
 	
 	
+	
+	/**
+	 * This method get ID user from text field and show in the next window the details of this user 
+	 * @param event Button that show the details user
+	 * @throws IOException
+	 */
 	@FXML
 	public void ShowDetails(ActionEvent event) throws IOException
 	{

@@ -121,6 +121,10 @@ public class LoadingMoneyController implements Initializable{
 		}
 	}
 	
+	/**
+	 * @param event Button that pass you back to Customer Menu
+	 * @throws IOException
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event) throws IOException 
 	{
