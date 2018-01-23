@@ -815,7 +815,7 @@ System.out.println(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHE
 			System.out.println(directory);
 			message.setReturnObj(directory);
 			try {
-				client.sendToClient(message);
+				client.sendToClient(directory);
 				
 			} catch (IOException e) {
 				e.printStackTrace();

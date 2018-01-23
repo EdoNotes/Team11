@@ -10,23 +10,26 @@
  **************************************************************************/
 package Entities;
 
+import java.io.Serializable;
+
 /**
  * This Class Presents Customer Details On The System
  * @author edoon
  *
  */
-public class Customer extends User 
+
+public class Customer extends User implements Serializable
 {
-	/**
-	 * 			<Instance Variables>
-	 */
+
+	public final static double memberDiscount= 0.1;
+	
 	private int customerID;
 	private int isSettlement;//if the currency is positive and there is not debt
 	private int isMember;
 	private String CreditCard;
 	private double Balance;
-
-
+	public static Customer curCustomer;
+	
 	 /**
 	  * 
 	  * @param CusId-customerID
@@ -86,6 +89,7 @@ public class Customer extends User
 	public void setIsMember(int isMember) {
 		this.isMember = isMember;
 	}
+
 
 	public String getCreditCard() {
 		return CreditCard;

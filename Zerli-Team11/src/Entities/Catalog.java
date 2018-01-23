@@ -10,11 +10,16 @@
  **************************************************************************/
 package Entities;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+
+
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.ImageView;
 
 /**
  * @author IdoKalir
@@ -24,11 +29,23 @@ public class Catalog implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-		/**
-		 * 	<Static Strings For Convenient Readable Coding Of The Catalog>
-		 */
-		public final static String CUSTOMIZED="CUSTOMIZED";
-		public final static String BOUQUET="BOUQUET";
+	/***************************************************************************/
+	/**					
+	 * 							<Instance Variables>
+	 * productId-Catalog Id
+	 * productName-Catalog Name
+	 * p_type-Catalog type
+	 */
+		//public enum dominantColor {RED,GREEN, YELLOW, BLUE, BLACK, WHITE, PURPLE};
+		//public enum productType {CUSTOMIZED, BOUQUET};
+		//private dominantColor dColor;
+		//private productType pType;
+	
+		public final static String sweetbouquet="sweetbouquet";
+		public final static String weddingBouquet="weddingBouquet";
+		public final static String flowerpot="flowerpot";
+		public final static String bouquet="bouquet";
+
 		public final static String RED="RED";
 		public final static String GREEN="GREEN";
 		public final static String YELLOW="YELLOW";
@@ -54,8 +71,8 @@ public class Catalog implements Serializable
 		private SimpleStringProperty productType;
 		private SimpleStringProperty productDescription;
 		private SimpleDoubleProperty price;
-		private SimpleIntegerProperty quantity;	
-		private SimpleIntegerProperty storeId;
+		private SimpleStringProperty storeName;
+		private ImageView catlogImage;
 		
 		
 		/**
@@ -69,8 +86,7 @@ public class Catalog implements Serializable
 				this.productType = new SimpleStringProperty();
 				this.productDescription = new SimpleStringProperty();
 				this.price = new SimpleDoubleProperty();
-				this.quantity = new SimpleIntegerProperty();
-				this.storeId=new SimpleIntegerProperty();
+				this.storeName=new SimpleStringProperty();
 			}
 		/**
 		 * <Full Constructor Of Catalog Entity>
@@ -84,7 +100,7 @@ public class Catalog implements Serializable
 		 * @param storeId-Catalog StoreId
 		 */
 		public Catalog(Integer productId, String productName, String productColor, String productType,
-				String productDescription, Double price, Integer quantity,Integer storeId) {
+				String productDescription, Double price,String storeName) {
 			super();
 			this.productId = new SimpleIntegerProperty(productId);
 			this.productName = new SimpleStringProperty(productName);
@@ -92,8 +108,7 @@ public class Catalog implements Serializable
 			this.productType = new SimpleStringProperty(productType);
 			this.productDescription = new SimpleStringProperty(productDescription);
 			this.price = new SimpleDoubleProperty(price);
-			this.quantity = new SimpleIntegerProperty(quantity);
-			this.storeId=new SimpleIntegerProperty(storeId);
+			this.storeName=new SimpleStringProperty(storeName);
 		}
 		/**
 		 * Partial Constructor Of Catalog
@@ -106,7 +121,8 @@ public class Catalog implements Serializable
 			this.productType = new SimpleStringProperty(p.getProductType());
 			this.productDescription = new SimpleStringProperty(p.getProductDescription());
 			this.price = new SimpleDoubleProperty(p.getPrice());
-			this.quantity = new SimpleIntegerProperty(p.getQuantity());
+			this.storeName=new SimpleStringProperty(p.getStoreName());
+			this.catlogImage=p.getImageOfproduct();
 		}
 		/**
 		 * <Getters And Setters Area>
@@ -136,16 +152,13 @@ public class Catalog implements Serializable
 			return price.get();
 		}
 
-		public Integer getQuantity() {
-			return quantity.get();
-		}	
-		
-		public Integer getStoreId() {
-			return storeId.get();
+
+		public String getstoreName() {
+			return storeName.get();
 		}
 		
-		public void setStoreId(int StoreId) {
-			this.storeId.set(StoreId);
+		public void setstoreName(String storeName) {
+			this.storeName.set(storeName);
 		}
 		
 		public void setProductId(int id) {
@@ -172,9 +185,24 @@ public class Catalog implements Serializable
 			this.price.set(price);
 		}
 		
-		public void setQuantity(int qua) {
-			quantity.set(qua);
+
+		public ImageView getCatlogImage() {
+			return catlogImage;
 		}
+
+
+		public void setCatlogImage(ImageView catlogImage) {
+			this.catlogImage = catlogImage;
+		}
+
+
+		@Override
+		public String toString() {
+			return "Catalog [productId=" + productId + ", productName=" + productName + ", productColor=" + productColor
+					+ ", productType=" + productType + ", productDescription=" + productDescription + ", price=" + price
+					+ ", storeName=" + storeName + "]";
+		}
+
 }
 
 

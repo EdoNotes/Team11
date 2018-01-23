@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.BouqeutCatalogController">
+<AnchorPane prefHeight="529.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.BouqeutCatalogController">
    <children>
-      <TableView fx:id="prodTable" layoutX="270.0" layoutY="61.0" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="prodTable" layoutY="-1.0" prefHeight="460.0" prefWidth="808.0">
         <columns>
           <TableColumn fx:id="prodId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="prodtName" prefWidth="103.0" text="Name" />
@@ -14,8 +18,34 @@
             <TableColumn fx:id="prodDesc" prefWidth="137.0" text="Decription" />
             <TableColumn fx:id="prodType" prefWidth="75.0" text="Type" />
             <TableColumn fx:id="prodPrice" minWidth="0.0" prefWidth="99.0" text="Price" />
-            <TableColumn fx:id="quantity" minWidth="0.0" prefWidth="107.0" text="Quantity" />
+            <TableColumn fx:id="Image" prefWidth="227.0" text="Image" />
         </columns>
       </TableView>
+      <Button layoutX="14.0" layoutY="485.0" mnemonicParsing="false" onAction="#backToCustomerMenu" text="Back" />
+      <Button layoutX="709.0" layoutY="464.0" mnemonicParsing="false" onAction="#addToCartBtn" text="Add To Cart" />
+      <ComboBox fx:id="sColor" layoutX="253.0" layoutY="485.0" prefWidth="150.0" promptText="Choose Color..." />
+      <ComboBox fx:id="sType" layoutX="91.0" layoutY="485.0" prefWidth="150.0" promptText="Choose Type..." />
+      <ComboBox fx:id="sPrice" layoutX="414.0" layoutY="485.0" prefWidth="150.0" promptText="Choose Price..." />
+      <Label layoutX="91.0" layoutY="459.0" text="Type:" underline="true">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="253.0" layoutY="459.0" text="Color:" underline="true">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="414.0" layoutY="459.0" text="Price Range:" underline="true">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Label>
+      <Button layoutX="710.0" layoutY="498.0" mnemonicParsing="false" onAction="#showCartBtn" prefHeight="25.0" prefWidth="84.0" text="Show Cart">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="607.0" layoutY="485.0" mnemonicParsing="false" onAction="#searchCustomizedItem" text="Search" underline="true" />
    </children>
 </AnchorPane>

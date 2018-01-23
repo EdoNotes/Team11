@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.CartWindowController">
+   <children>
+      <ListView fx:id="productView" layoutX="231.0" layoutY="60.0" onMouseClicked="#showSelectedProductDetails" prefHeight="315.0" prefWidth="256.0" />
+      <AnchorPane layoutX="27.0" layoutY="395.0">
+         <children>
+            <TextField fx:id="nametxt" editable="false" layoutY="25.0" prefHeight="26.0" prefWidth="115.0" />
+            <Label text="Name:" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="27.0" layoutY="367.0" text="Item Details:" underline="true">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="14.0" layoutY="14.0">
+         <children>
+            <Label text="Your Bouqeuts..." textFill="#b81c1cfb">
+               <font>
+                  <Font name="Vivaldi Italic" size="34.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="66.0" text="Order Details:" underline="true">
+               <font>
+                  <Font name="Arial Black" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="23.0" layoutY="482.0">
+         <children>
+            <Label text="Price For Unit" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="unitprctxt" editable="false" layoutX="1.0" layoutY="25.0" prefHeight="26.0" prefWidth="115.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="159.0" layoutY="395.0" prefHeight="51.0" prefWidth="84.0">
+         <children>
+            <TextField fx:id="colortxt" editable="false" layoutY="25.0" prefHeight="26.0" prefWidth="115.0" />
+            <Label text="Color:" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="162.0" layoutY="482.0">
+         <children>
+            <TextField fx:id="typetxt" editable="false" layoutY="25.0" prefHeight="26.0" prefWidth="115.0" />
+            <Label text="Type:" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="294.0" layoutY="395.0">
+         <children>
+            <TextField fx:id="dscrptxt" editable="false" layoutY="25.0" prefHeight="115.0" prefWidth="182.0" />
+            <Label text="Description:" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="16.0" layoutY="141.0" prefHeight="147.0" prefWidth="182.0">
+         <children>
+            <Label text="Total Products:" underline="true" />
+            <Label fx:id="totalprdcslbl" layoutX="101.0" layoutY="1.0" prefWidth="33.0" text="Label" />
+            <Label layoutY="38.0" text="Total Price:" underline="true">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font></Label>
+            <Label layoutY="77.0" text="Price For Members:" textFill="#2f00eb" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="totalprclbl" layoutX="87.0" layoutY="38.0" prefHeight="18.0" prefWidth="62.0" text="Label">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font></Label>
+            <Label fx:id="totalmbmrlbl" layoutX="118.0" layoutY="77.0" prefHeight="18.0" prefWidth="62.0" text="Label" textFill="#331cff">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="23.0" layoutY="548.0" prefHeight="26.0" prefWidth="228.0">
+         <children>
+            <Label layoutY="8.0" text="Quantity" underline="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="qtytxt" editable="false" layoutX="76.0" layoutY="4.0" prefHeight="26.0" prefWidth="91.0" />
+         </children>
+      </AnchorPane>
+      <Button layoutX="139.0" layoutY="308.0" mnemonicParsing="false" onAction="#deleteProduct" text="Delete Item" />
+      <Button layoutX="294.0" layoutY="562.0" mnemonicParsing="false" onAction="#OrderConfirmtion" prefHeight="32.0" prefWidth="182.0" text="Confirm" />
+      <Button layoutX="12.0" layoutY="308.0" mnemonicParsing="false" onAction="#backToCatalogBtn" text="Back To Catalog" />
+   </children>
+</AnchorPane>

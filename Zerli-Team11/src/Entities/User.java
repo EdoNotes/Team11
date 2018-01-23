@@ -42,7 +42,7 @@ public class User implements Serializable {
 	private String Email;
 	private Premission UserType;
 	private ConnectionStatus ConnectionStatus;
-	private int tryToConnectCounter;
+	private  int tryToConnectCounter;
 	private String branchName;
 	public static User currUser;
 	/***************************************************************************/
@@ -75,6 +75,7 @@ public class User implements Serializable {
 		this.Gender = Gender;
 		this.Email = Email;
 		this.UserType = UserType;
+		this.branchName=branchName;
 		this.ConnectionStatus = ConnectionStatus;
 		this.branchName=branchName;
 		tryToConnectCounter=0;
@@ -292,6 +293,7 @@ public class User implements Serializable {
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
+
 
 
 	/**

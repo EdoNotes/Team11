@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="397.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.DeliveryAndGreetingController1">
+   <children>
+      <AnchorPane fx:id="allOthers" layoutX="14.0" layoutY="26.0">
+         <children>
+            <RadioButton fx:id="pckUpRb" layoutX="18.0" layoutY="29.0" mnemonicParsing="false" onAction="#RbSelected" text="Pick Up">
+               <toggleGroup>
+                  <ToggleGroup fx:id="supplyGroup" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="dlvryRb" layoutX="139.0" layoutY="29.0" mnemonicParsing="false" onAction="#RbSelected" text="Delivery" toggleGroup="$supplyGroup" />
+            <Label text="*How Do You Want To Get Your Bouqeut:" underline="true" />
+            <Label layoutX="4.0" layoutY="332.0" text="* Is This A Required Fields" textFill="RED" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Button layoutX="52.0" layoutY="198.0" mnemonicParsing="false" onAction="#writeGriting" prefHeight="40.0" prefWidth="99.0" text="Add Greeting" underline="true">
+               <font>
+                  <Font name="Rockwell" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label layoutX="322.0" layoutY="14.0" text="Your Bouqet Is Almost Ready..." textFill="#e83131">
+         <font>
+            <Font name="Vivaldi Italic" size="29.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="pickupgroup" layoutX="32.0" layoutY="89.0">
+         <children>
+            <Label layoutY="4.0" text="*Supply Date:" />
+            <Label layoutY="45.0" text="*Supply Time:" />
+            <TextField fx:id="minTxt" layoutX="132.0" layoutY="41.0" prefHeight="25.0" prefWidth="30.0" promptText="mm">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="hourTxt" layoutX="79.0" layoutY="42.0" prefHeight="25.0" prefWidth="30.0" promptText="HH">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </TextField>
+            <Label layoutX="120.0" layoutY="41.0" text=":">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="datePck" layoutX="75.0" onAction="#pickDate" prefHeight="25.0" prefWidth="136.0" promptText="Choose Date..." />
+            <RadioButton fx:id="amRb" layoutX="177.0" layoutY="39.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="30.0" text="AM">
+               <font>
+                  <Font size="9.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="ampmGroup" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="pmRb" layoutX="177.0" layoutY="58.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="30.0" text="PM" toggleGroup="$ampmGroup">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </AnchorPane>
+      <Button fx:id="paybtn" layoutX="506.0" layoutY="342.0" mnemonicParsing="false" onAction="#paymentBtn" prefHeight="25.0" prefWidth="136.0" text="Next To Payment" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font></Button>
+      <AnchorPane fx:id="dlvrgroup" layoutX="295.0" layoutY="81.0">
+         <children>
+            <Label layoutX="4.0" layoutY="4.0" text="*Address:" />
+            <Label layoutX="1.0" layoutY="45.0" text="*Receiver name:" />
+            <Label layoutX="1.0" layoutY="84.0" text="*Receiver Phone:" />
+            <TextField fx:id="addrsTxt" layoutX="61.0" prefHeight="25.0" prefWidth="271.0" promptText="example: Rotchild 17, Tel Aviv" />
+            <TextField fx:id="nameTxt" layoutX="105.0" layoutY="41.0" promptText="Israel Isaeli" />
+            <TextField fx:id="prePhoneTxt" layoutX="98.0" layoutY="80.0" prefHeight="25.0" prefWidth="37.0" promptText="052" />
+            <Label layoutX="135.0" layoutY="80.0" text="-">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="sufPhoneText" layoutX="142.0" layoutY="81.0" prefHeight="25.0" prefWidth="110.0" promptText="6751402" />
+            <Label layoutX="2.0" layoutY="124.0" text="Immediate Supply?">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="yesRb" layoutY="166.0" mnemonicParsing="false" text="Yes">
+               <toggleGroup>
+                  <ToggleGroup fx:id="Immediate" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="noRb" layoutX="62.0" layoutY="166.0" mnemonicParsing="false" text="No" toggleGroup="$Immediate" />
+            <Label layoutX="161.0" layoutY="129.0" prefHeight="17.0" prefWidth="186.0" text="Immediate- The company promise" />
+            <Label layoutX="161.0" layoutY="150.0" text="to supply order until 3 hours" />
+         </children>
+      </AnchorPane>
+      <Button layoutX="230.0" layoutY="342.0" mnemonicParsing="false" onAction="#backBtn" text="Back" />
+      <Button fx:id="nextBtn" layoutX="314.0" layoutY="342.0" mnemonicParsing="false" onAction="#nextBtn" text="next &gt;&gt;" />
+   </children>
+</AnchorPane>

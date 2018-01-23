@@ -98,21 +98,34 @@ public class StoreManagerMenuController implements Initializable
 		int monthStart= (qutere*3) -2;
 		int monthEnd= (qutere*3);
 		String qutr="'"+(String)year1.getValue()+"-"+monthStart+"-01' AND '"+(String)year1.getValue()+"-"+monthEnd+"-31'";
-		
-		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
+		int userid = User.currUser.getID();
 		String cmd = "";
-		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
-		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
-			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
-			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
-
-		System.out.println((String)cmbQ1.getValue());
+		String cmd_count ="SELECT  p.productType, count(*) FROM zerli.order o, zerli.product_in_order pid, zerli.product p ,zerli.store st, zerli.user us where o.Date BETWEEN";
+		String cmd_sum = "SELECT  p.productType, sum(p.price) FROM zerli.order o, zerli.product_in_order pid, zerli.product p ,zerli.store st, zerli.user us where o.Date BETWEEN";
+		String cmd_complain = "SELECT month(c.assigningDate) as M ,count(*) as count FROM zerli.complaint c, zerli.store st, zerli.user us WHERE c.assigningDate  BETWEEN";
+		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
+				+ "avg(answer6) FROM zerli.survey_answer where numSurvey = 1;";
+		if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
+		if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
+		if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
 		int q2 =Integer.parseInt((String)cmbQ1.getValue());
 		cmd +=qutr;
-		cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";
+		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
+		{		cmd+="and o.storeID = st.storeID and st.branchName= us.branchName and us.userID= "+ userid;
+		cmd+=" and o.orderId=pid.OrderID and pid.productID = p.productID group by p.productType;";}
+		
+		else {cmd += "and c.storeID = st.storeID and st.branchName= us.branchName and us.userID="+userid+" group by month(c.assigningDate);";}
+		
+		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
+		{userToCheck.setQueryQuestion(cmd);}
+		else
+		{userToCheck.setQueryQuestion(cmd_survey);
+		userToCheck.setClassType("survey_report");	
+		}
+		
+
 		System.out.println(cmd);
 		
-		userToCheck.setQueryQuestion(cmd);
 //		userToCheck.setQueryExist(true);
 		
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
