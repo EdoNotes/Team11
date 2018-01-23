@@ -216,6 +216,21 @@ public class LoginController
 							}
 							break;
 							
+						case "CompanyEmployee":{
+							((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+							Stage CEStage=new Stage();
+							Parent CEroot;
+							try {
+								CEroot = FXMLLoader.load(getClass().getResource("/Gui/EditCatalog.fxml"));
+								Scene CEScene = new Scene(CEroot);
+								CEStage.setScene(CEScene);
+								CEStage.show();
+							} 
+							catch (IOException e1) {
+								e1.printStackTrace();
+							}
+							break;
+						}
 						case "CompanyManager":
 							Stage primaryStage=new Stage();
 							Parent root;
@@ -230,7 +245,8 @@ public class LoginController
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}	
+							}
+							
 						}	
 					}
 				} 

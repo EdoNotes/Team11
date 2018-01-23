@@ -46,7 +46,7 @@ public class ClientConsole implements ChatIF {
 	  public void accept(Object msg) throws InterruptedException
 	  {  
 		  client.handleMessageFromClientUI(msg);
-		  Thread.sleep(1000);
+		  Thread.sleep(1500);
 		  this.msg=client.msg;
 	  }
 

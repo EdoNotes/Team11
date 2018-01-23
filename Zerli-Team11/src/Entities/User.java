@@ -215,7 +215,7 @@ public class User implements Serializable {
 		}
 		else if(userType.equalsIgnoreCase("CompanyEmployee"))
 		{
-			this.UserType=Premission.StoreEmployee;
+			this.UserType=Premission.CompanyEmployee;
 		}
 		else
 			this.UserType=Premission.CompanyManager;

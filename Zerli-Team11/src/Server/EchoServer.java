@@ -209,7 +209,75 @@ public class EchoServer extends AbstractServer {
 		{
 			SearchProductInCatalog(msg,client,conn);
 		}
+		else if(queryToDo.compareTo("Update Product")==0) {
+			updateProduct(msg,"product",client,conn);
+		}
+		else if(queryToDo.compareTo("Add Product")==0) {
+			addProduct(msg,"product",client,conn);
+		}
+		else if(queryToDo.compareTo("Delete Product")==0) {
+			DeleteProduct(msg,"product",client,conn);
+		}
 	}
+	
+	//DELETE FROM `zerli`.`product` WHERE `productID`='6';
+	private static void DeleteProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Product toDelete=(Product)msg.getSentObj();
+		String query= msg.getQueryQuestion()+" FROM zerli."+tableName +" WHERE productID = ? " ;
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setInt(1, toDelete.getProductId()); //product ID
+		stmt.executeUpdate();
+		con.close();
+	}
+	
+	private static void addProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Product toAdd=(Product)msg.getSentObj();
+		String query= msg.getQueryQuestion()+" zerli."+tableName +" (productName, productType, productDescription, price, dominantColor, BranchName, image) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, toAdd.getProductName()); //name
+		stmt.setString(2, toAdd.getProductType()); //type
+		stmt.setString(3, toAdd.getProductDescription()); //desc
+		stmt.setDouble(4, toAdd.getPrice()); //price
+		stmt.setString(5, toAdd.getProductColor()); //color
+		stmt.setString(6, toAdd.getStoreName()); //store name
+		stmt.setBlob(7,ImageConverter.convertByteArrayToInputStream(toAdd.getProductImage())); //image
+		stmt.executeUpdate();
+		con.close();
+		
+	}
+	private static void updateProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Product pToUpdate=(Product)msg.getSentObj();
+		String query;
+		int indexProductId=8;
+		PreparedStatement stmt;
+		if(msg.getValueToUpdate().compareTo("With image")==0) {
+			query=msg.getQueryQuestion()+" zerli."+tableName+" SET productName= ? ,productType= ? , productDescription= ? ,price= ? , dominantColor = ? , BranchName= ? , image = ? WHERE productID = ? ;";
+			stmt = con.prepareStatement(query);
+			stmt.setBlob(7,ImageConverter.convertByteArrayToInputStream(pToUpdate.getProductImage()));
+		}
+		else {
+			query=msg.getQueryQuestion()+" zerli."+tableName+" SET productName= ? ,productType= ? , productDescription= ? ,price= ? , dominantColor = ? , BranchName= ? WHERE productID = ? ;";
+			indexProductId=7;
+			stmt = con.prepareStatement(query);
+		}
+
+		stmt.setString(1, pToUpdate.getProductName()); //name
+		stmt.setString(2, pToUpdate.getProductType()); //type
+		stmt.setString(3, pToUpdate.getProductDescription()); //desc
+		stmt.setDouble(4, pToUpdate.getPrice()); //price
+		stmt.setString(5, pToUpdate.getProductColor()); //color
+		stmt.setString(6, pToUpdate.getStoreName()); //store name
+		//stmt.setBlob(7,ImageConverter.convertByteArrayToInputStream(pToUpdate.getProductImage()));
+		stmt.setInt(indexProductId, pToUpdate.getProductId());
+		stmt.executeUpdate();
+		con.close();
+	}
+	/*
+	 * path->setProductImage(String imagePath)->setProductImage
+	 * setblob(6,ImageConverter.ConvertByteArrayToInputStream(getProductImage-->of byte array));
+	 * 
+	 * 
+	 */
 		
 
 	private static void SearchProductInCatalog(Msg msg, ConnectionToClient client, Connection con) throws SQLException, IOException {
@@ -329,8 +397,12 @@ public class EchoServer extends AbstractServer {
 		Blob img;
 		InputStream input=null;
 		img=conn.createBlob();
+		String que;
 		String storeName=((Product)msg.getSentObj()).getStoreName(); /*I need to put here storeID that i will send from client with combobox*/
-		String que=msg.getQueryQuestion()+" FROM zerli.product WHERE BranchName= '" + storeName+"';";
+		if(storeName.compareTo("all")!=0) /*load from specific store */
+			 que=msg.getQueryQuestion()+" FROM zerli.product WHERE BranchName= '" + storeName+"';";
+		else /*load from all stores*/
+			que=msg.getQueryQuestion()+" FROM zerli.product;";
 		Statement stmt = conn.createStatement();		
 		ResultSet rs=stmt.executeQuery(que);
 		while(rs.next())
@@ -363,14 +435,33 @@ public class EchoServer extends AbstractServer {
 	 * @param tableName
 	 * @param client
 	 * @param con
+	 * @throws SQLException 
+	 * @throws IOException 
 	 */
-	private void StoreHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) {
-		String queryToDo = ((Msg) msg).getQueryQuestion();
+	private void StoreHandeler(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
+		String queryToDo = ((Msg) msg).getqueryToDo();
 		Msg requestMsg = (Msg) msg;
 		if (requestMsg.getqueryToDo().compareTo("checkStoreExistence") == 0) {
 			searchStoreInDB(msg, tableName, client, con);
 		}
+		else if(queryToDo.compareTo("bring all stores")==0) {
+			getStoresName(requestMsg, tableName, client, con);
+		}
 
+	}
+	private void getStoresName(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
+		ArrayList<String> storesName=new ArrayList<String>();
+		String query=msg.getQueryQuestion()+" branchName From zerli."+ tableName;
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		while(rs.next())
+		{
+			storesName.add(rs.getString("branchName"));
+		}
+		rs.close();
+		con.close();
+		msg.setReturnObj(storesName);
+		client.sendToClient(msg);
 	}
 	/**
 	 * 

@@ -224,38 +224,48 @@ public class Product implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (ProductColor == null) {
+		if (ProductColor == null) 
+		{
 			if (other.ProductColor != null)
 				return false;
-		} else if (!ProductColor.equals(other.ProductColor))
+		} 
+		else if (!ProductColor.equals(other.ProductColor))
 			return false;
-		if (ProductType == null) {
+		if (ProductType == null) 
+		{
 			if (other.ProductType != null)
 				return false;
-		} else if (!ProductType.equals(other.ProductType))
+		} 
+		else if (!ProductType.equals(other.ProductType))
 			return false;
 		if (endPrice != other.endPrice)
 			return false;
 		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
-		if (productDescription == null) {
+		if (productDescription == null)
+		{
 			if (other.productDescription != null)
 				return false;
-		} else if (!productDescription.equals(other.productDescription))
+		} 
+		else if (!productDescription.equals(other.productDescription))
 			return false;
 		if (productId != other.productId)
 			return false;
-		if (productName == null) {
+		if (productName == null)
+		{
 			if (other.productName != null)
 				return false;
-		} else if (!productName.equals(other.productName))
+		} 
+		else if (!productName.equals(other.productName))
 			return false;
 		if (startPrice != other.startPrice)
 			return false;
-		if (storeName == null) {
+		if (storeName == null) 
+		{
 			if (other.storeName != null)
 				return false;
-		} else if (!storeName.equals(other.storeName))
+		} 
+		else if (!storeName.equals(other.storeName))
 			return false;
 		return true;
 	}
