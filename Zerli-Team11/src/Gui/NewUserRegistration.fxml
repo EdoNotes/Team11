@@ -10,9 +10,9 @@
 
 <AnchorPane prefHeight="541.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.NewUserRegistrationController">
    <children>
-      <Label layoutX="77.0" layoutY="27.0" text="New User Registration">
+      <Label layoutX="60.0" layoutY="28.0" text="New User Registration" textFill="#250fe8">
          <font>
-            <Font size="25.0" />
+            <Font name="Lucida Calligraphy Italic" size="25.0" />
          </font>
       </Label>
       <Button layoutX="280.0" layoutY="485.0" mnemonicParsing="false" onAction="#RegisterBtn" text="Register" />

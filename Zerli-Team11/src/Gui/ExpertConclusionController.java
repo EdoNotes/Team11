@@ -40,6 +40,10 @@ public class ExpertConclusionController implements Initializable {
 		lblDate.setText(dtf.format(localDate));
 	}
 	
+	
+	/**
+	 * @param event Button that save in DB the conclusion Expert
+	 */
 	@FXML
 	public void SubmitBtn(ActionEvent event) 
 	{
@@ -83,6 +87,11 @@ public class ExpertConclusionController implements Initializable {
 		}
 
 	}
+	
+	/**
+	 *
+	 * @param event Button that pass you back to ExpertMenu
+	 */
 	@FXML
 	public void BackBtn(ActionEvent event)
 	{
@@ -103,6 +112,11 @@ public class ExpertConclusionController implements Initializable {
 		}
 	}
 	
+	
+	/**
+	 * 
+	 * @param surveyNum number survey question
+	 */
 	public void loadDetails(int surveyNum)
 	{
 		lblSurveyNum.setText(""+surveyNum);

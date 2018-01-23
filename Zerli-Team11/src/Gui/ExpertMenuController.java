@@ -20,17 +20,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ExpertMenuController implements Initializable  {
+public class ExpertMenuController implements Initializable 
+{
 	public ClientConsole client;
 	private Msg LogoutMsg=new Msg();
 	
 	@FXML
 	ComboBox SurveyNumCM;
+	
 	public static Scene serverScene;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
@@ -53,43 +57,61 @@ public class ExpertMenuController implements Initializable  {
 		SurveyNumCM.setItems(SurveyNumComboBox);
 	}
 
+	
+	/**
+	 * This method show Satisfaction Report after we insert number survey
+	 * and at the same time open window whit Text Area for conclusion Expert 
+	 * @param event Button that show the Satisfaction Report 
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void ReportBtn(ActionEvent event) throws IOException, InterruptedException {
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg SatisficationReport=new Msg();
-		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
-				+ "avg(answer6) FROM zerli.survey_answer where numSurvey ="+SurveyNumCM.getSelectionModel().getSelectedItem()+";";
-		SatisficationReport.setClassType("View satisfaction report");
-		SatisficationReport.setQueryQuestion(cmd_survey);
 		
-		client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		client.accept((Object)SatisficationReport);
-		//directory = (TreeMap<String, String> )client.msg;
-		SatisficationReport = (Msg) client.get_msg();
-		directory = (TreeMap<String, String>)SatisficationReport.getReturnObj();
+		if(SurveyNumCM.getValue()==null)//Empty
+		{
+			Alert al=new Alert(Alert.AlertType.ERROR);
+			al.setTitle("Error");
+			al.setContentText("Combo Box Cannot Remain Empty");
+			al.showAndWait();
+		}
+		else {
+			String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
+					+ "avg(answer6) FROM zerli.survey_answer where numSurvey ="+SurveyNumCM.getSelectionModel().getSelectedItem()+";";
+			SatisficationReport.setClassType("View satisfaction report");
+			SatisficationReport.setQueryQuestion(cmd_survey);
 		
-		//((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-		Stage primaryStage=new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
-		report_orderController report=loader.getController();
-		report.setdirectory(directory, "Satisfaction Report");
-		report.load_dir(directory);
-		serverScene = new Scene(root);
-		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
-		primaryStage.setScene(serverScene);
-		primaryStage.show();
+			client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			client.accept((Object)SatisficationReport);
+			//directory = (TreeMap<String, String> )client.msg;
+			SatisficationReport = (Msg) client.get_msg();
+			directory = (TreeMap<String, String>)SatisficationReport.getReturnObj();
+		
+			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+			Stage primaryStage=new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("report_order.fxml").openStream());
+			report_orderController report=loader.getController();
+			report.setdirectory(directory, "Satisfaction Report");
+			report.load_dir(directory);
+			serverScene = new Scene(root);
+			serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
+			primaryStage.setScene(serverScene);
+			primaryStage.show();
 		
 		
-		Stage ExpertConStage=new Stage();
-		FXMLLoader Conloader = new FXMLLoader();
-		Pane Expertconroot = Conloader.load(getClass().getResource("ExpertConclusion.fxml").openStream());
-		ExpertConclusionController ExpertCon=Conloader.getController();
-		ExpertCon.loadDetails((int) SurveyNumCM.getSelectionModel().getSelectedItem());
-		Scene ExpertconScene = new Scene(Expertconroot);
-		ExpertconScene.getStylesheets().add(getClass().getResource("ExpertConclusion.css").toExternalForm());
-		ExpertConStage.setScene(ExpertconScene);
-		ExpertConStage.show();
+			Stage ExpertConStage=new Stage();
+			FXMLLoader Conloader = new FXMLLoader();
+			Pane Expertconroot = Conloader.load(getClass().getResource("ExpertConclusion.fxml").openStream());
+			ExpertConclusionController ExpertCon=Conloader.getController();
+			ExpertCon.loadDetails((int) SurveyNumCM.getSelectionModel().getSelectedItem());
+			Scene ExpertconScene = new Scene(Expertconroot);
+			ExpertconScene.getStylesheets().add(getClass().getResource("ExpertConclusion.css").toExternalForm());
+			ExpertConStage.setScene(ExpertconScene);
+			ExpertConStage.show();
+			}
 		
 	}
 	

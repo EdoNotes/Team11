@@ -75,6 +75,12 @@ public class StoreManagerMenuController implements Initializable
 		year1.setItems(yearlist);
 		//cmbS1.setItems(ShopList);
 	}
+	
+	/**
+	 * 
+	 * @param event Button that pass you to New User Registration
+	 * @throws IOException
+	 */
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
 	{	
@@ -151,6 +157,12 @@ public class StoreManagerMenuController implements Initializable
 		
 	}
 	
+	/**
+	 * This method get customer from DB by ID customer and if customer exits than show in the next window 
+	 * the details of settlement and if is member and number credit card 
+	 * @param event Button that check if the customer exits and if exits move to Settlement Account window 
+	 * @throws Exception
+	 */
 	@FXML
 	public void SettelementAccountBut(ActionEvent event) throws Exception
 	{
@@ -158,15 +170,15 @@ public class StoreManagerMenuController implements Initializable
 		CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
 		
 		Msg exsitCustomer = new Msg(Msg.qSELECT, "searchCustomerInDB"); // create a new msg
-		exsitCustomer.setSentObj(CustomerDB); // put the Survey into msg
+		exsitCustomer.setSentObj(CustomerDB); // put the customer into msg
 		exsitCustomer.setClassType("customer");
 		
-		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
-		client.accept((Object) exsitCustomer); //adding the survey to DB
+		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		client.accept((Object) exsitCustomer); 
 		
 		exsitCustomer = (Msg) client.get_msg();
 		Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
-		if(returnCustomer.getCustomerID()!=0) 
+		if(returnCustomer.getCustomerID()!=0) //check if the customer exist by ID check
 		{
 			
 			Stage primaryStage=new Stage();

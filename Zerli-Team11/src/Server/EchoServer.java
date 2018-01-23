@@ -447,6 +447,14 @@ public class EchoServer extends AbstractServer {
 		
 	}// SurveyHandler
 
+	
+	/**
+	 * Method that insert the text of conclusion Expert
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void InsertExpertConclusion(Object msg, String tableName, ConnectionToClient client,
 			Connection con) {
 		
@@ -902,7 +910,7 @@ System.out.println(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHE
 		}
 	}
 	/**
-	 * 
+	 * Method that add new survey to DB, survey that include 6 questions
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1110,6 +1118,14 @@ System.out.println(((Msg) msg).getQueryQuestion() + " FROM " + tableName + " WHE
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Method get all surveys questions number from table "survey_question" 
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 */
 	private static void GetAllSurveysQuestionsNum(Object msg, String tableName, ConnectionToClient client, Connection con) 
 	{
 		Msg message = (Msg) msg;
