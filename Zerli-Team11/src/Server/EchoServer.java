@@ -379,7 +379,6 @@ public class EchoServer extends AbstractServer {
 	/**
 	 * 
 	 * @param msg
-	 * @param prodtype
 	 * @param client
 	 * @param conn
 	 * @throws SQLException

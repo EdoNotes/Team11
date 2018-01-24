@@ -75,12 +75,6 @@ public class StoreManagerMenuController implements Initializable
 		year1.setItems(yearlist);
 		//cmbS1.setItems(ShopList);
 	}
-	
-	/**
-	 * 
-	 * @param event Button that pass you to New User Registration
-	 * @throws IOException
-	 */
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
 	{	
@@ -93,7 +87,7 @@ public class StoreManagerMenuController implements Initializable
 		primaryStage.show();}
 
 	}
-	
+
 	@FXML
 	public void askReport(ActionEvent event) throws Exception
 {		TreeMap<String, String> directory = new TreeMap<String, String>();
@@ -104,22 +98,33 @@ public class StoreManagerMenuController implements Initializable
 		int monthStart= (qutere*3) -2;
 		int monthEnd= (qutere*3);
 		String qutr="'"+(String)year1.getValue()+"-"+monthStart+"-01' AND '"+(String)year1.getValue()+"-"+monthEnd+"-31'";
-		
-		String[] date= {"'2011-01-01' AND '2011-3-31'", "'2011-4-01' AND '2011-12-06'","'2011-07-01' AND '2011-09-31'", "'2011-10-01' AND '2011-12-31'"}; 
+		int userid = User.currUser.getID();
 		String cmd = "";
-		String cmd_count ="SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN";
-		String cmd_sum = "SELECT orders.type,sum(price) as sum FROM zerli.orders WHERE date BETWEEN";
-			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
-			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
-
-		System.out.println((String)cmbQ1.getValue());
+		String cmd_count ="SELECT  p.productType, count(*) FROM zerli.order o, zerli.product_in_order pid, zerli.product p ,zerli.store st, zerli.user us where o.Date BETWEEN";
+		String cmd_sum = "SELECT  p.productType, sum(p.price) FROM zerli.order o, zerli.product_in_order pid, zerli.product p ,zerli.store st, zerli.user us where o.Date BETWEEN";
+		String cmd_complain = "SELECT month(c.assigningDate) as M ,count(*) as count FROM zerli.complaint c, zerli.store st, zerli.user us WHERE c.assigningDate  BETWEEN";
+		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
+				+ "avg(answer6) FROM zerli.survey_answer where numSurvey = 1;";
+		if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
+		if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
+		if((String)cmbSelectReport1.getValue()=="Customers Complaints") cmd=cmd_complain; 
 		int q2 =Integer.parseInt((String)cmbQ1.getValue());
 		cmd +=qutr;
-		cmd +=" and orders.shop = '" + cmbS1.getValue() +"' group by orders.type ;";
-		System.out.println(cmd);
+		if ((String)cmbSelectReport1.getValue()!="Customers Complaints")
+		{		cmd+="and o.storeID = st.storeID and st.branchName= us.branchName and us.userID= "+ userid;
+		cmd+=" and o.orderId=pid.OrderID and pid.productID = p.productID group by p.productType;";}
 		
-		userToCheck.setQueryQuestion(cmd);
-//		userToCheck.setQueryExist(true);
+		else {cmd += "and c.storeID = st.storeID and st.branchName= us.branchName and us.userID="+userid+" group by month(c.assigningDate);";}
+		
+		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
+		{userToCheck.setQueryQuestion(cmd);}
+		else
+		{userToCheck.setQueryQuestion(cmd_survey);
+		userToCheck.setClassType("survey_report");	
+		}
+		
+
+		System.out.println(cmd);
 		
 		client=new ClientConsole(EchoServer.HOST,EchoServer.DEFAULT_PORT);
 		client.accept((Object)userToCheck);
@@ -143,13 +148,7 @@ public class StoreManagerMenuController implements Initializable
 		
 		
 	}
-	
-	/**
-	 * This method get customer from DB by ID customer and if customer exits than show in the next window 
-	 * the details of settlement and if is member and number credit card 
-	 * @param event Button that check if the customer exits and if exits move to Settlement Account window 
-	 * @throws Exception
-	 */
+
 	@FXML
 	public void SettelementAccountBut(ActionEvent event) throws Exception
 	{
@@ -157,15 +156,15 @@ public class StoreManagerMenuController implements Initializable
 		CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
 		
 		Msg exsitCustomer = new Msg(Msg.qSELECT, "searchCustomerInDB"); // create a new msg
-		exsitCustomer.setSentObj(CustomerDB); // put the customer into msg
+		exsitCustomer.setSentObj(CustomerDB); // put the Survey into msg
 		exsitCustomer.setClassType("customer");
 		
-		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		client.accept((Object) exsitCustomer); 
+		client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
+		client.accept((Object) exsitCustomer); //adding the survey to DB
 		
 		exsitCustomer = (Msg) client.get_msg();
 		Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
-		if(returnCustomer.getCustomerID()!=0) //check if the customer exist by ID check
+		if(returnCustomer.getCustomerID()!=0) 
 		{
 			
 			Stage primaryStage=new Stage();
