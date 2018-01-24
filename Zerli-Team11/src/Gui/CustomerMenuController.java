@@ -86,29 +86,7 @@ public class CustomerMenuController
 			e1.printStackTrace();
 		}
 	}
-//	/**
-//	 * this function implementing the sequence of actions
-//	 * that happens after customer clicks "Open Dispute" Button
-//	 * @param event
-//	 */
-//	@FXML
-//	public void OpenDisputeBtn(ActionEvent event)
-//	{
-//		try {
-//			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-//			Stage OpenDisputeStage=new Stage();
-//			FXMLLoader loader=new FXMLLoader();
-//			Pane OpenDisputeRoot = loader.load(getClass().getResource("/Gui/OpenDispute.fxml").openStream());
-//			Scene ViewProfileScene = new Scene(OpenDisputeRoot);
-//			ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/OpenDispute.css").toExternalForm());
-//			OpenDisputeStage.setScene(ViewProfileScene);
-//			OpenDisputeStage.show();
-//
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//	}
+
 	/**
 	 * this function implementing the sequence of actions
 	 * that happens after customer clicks "Cancel Order" Button
@@ -137,8 +115,7 @@ public class CustomerMenuController
 			al.setContentText("There isn't currently orders for you.");
 			al.showAndWait();
 		}
-		else {
-		
+		else {		
 		{((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		
 		

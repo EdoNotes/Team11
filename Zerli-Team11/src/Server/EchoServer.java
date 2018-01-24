@@ -569,8 +569,9 @@ public class EchoServer extends AbstractServer {
 				tmpComplaint.setStoreId(rs.getInt(3));
 				tmpComplaint.setComplaintDetails(rs.getString(4));
 				tmpComplaint.setAssigningDate(rs.getString(5));
-				tmpComplaint.setGotTreatment(rs.getInt(6));
-				tmpComplaint.setGotRefund(rs.getInt(7));
+				tmpComplaint.setAssigningTime(rs.getString(6));
+				tmpComplaint.setGotTreatment(rs.getInt(7));
+				tmpComplaint.setGotRefund(rs.getInt(8));
 			}
 			con.close();
 			rs.close();
@@ -603,7 +604,7 @@ public class EchoServer extends AbstractServer {
 			ResultSet rs = stmt.executeQuery(Query);
 			while(rs.next())
 			{
-				if(rs.getInt(6)==0)//1 Means Complaint GotTreatment
+				if(rs.getInt(7)==0)//1 Means Complaint GotTreatment
 				{
 				ComplaintsIDS.add(rs.getInt(1));
 				}
@@ -1250,8 +1251,8 @@ public class EchoServer extends AbstractServer {
 		Msg message = (Msg) msg;
 		
 		
-		String Query = message.getQueryQuestion() + " " + tableName+" (customerID , storeID,complaintDetails ,assigningDate ,gotTreatment,gotRefund)" 
-		+ " VALUES (?,?,?,?,?,?);";
+		String Query = message.getQueryQuestion() + " " + tableName+" (customerID , storeID,complaintDetails ,assigningDate ,assigningTime,gotTreatment,gotRefund)" 
+		+ " VALUES (?,?,?,?,?,?,?);";
 		
 		System.out.println(Query);
 		
@@ -1261,8 +1262,9 @@ public class EchoServer extends AbstractServer {
 			stmt.setInt(2, userToUpdate.getStoreId());
 			stmt.setString(3, userToUpdate.getComplaintDetails());
 			stmt.setString(4, userToUpdate.getAssigningDate());
-			stmt.setInt(5, userToUpdate.getGotTreatment());
-			stmt.setInt(6, userToUpdate.getGotRefund());
+			stmt.setString(5, userToUpdate.getAssigningTime());
+			stmt.setInt(6, userToUpdate.getGotTreatment());
+			stmt.setInt(7, userToUpdate.getGotRefund());
 			stmt.executeUpdate();
 
 			con.close();

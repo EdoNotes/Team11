@@ -88,8 +88,9 @@ public class OpenDisputeController {
 									.compareTo(customerToFind.getUserName().toLowerCase()) == 0) {
 
 								String date = LocalDate.now().toString();
-								Complaint newComplaint = new Complaint(Complaint.ComplaintIndex,
-										returnCustomer.getCustomerID(), BranchID, txtAreaComplaintDetails.getText(), date);
+								LocalTime time=LocalTime.now();
+								String time1=time.toString().substring(0,5);
+								Complaint newComplaint = new Complaint(Complaint.ComplaintIndex,returnCustomer.getCustomerID(), BranchID, txtAreaComplaintDetails.getText(), date,time1);
 								Msg ComplaintToCheck = new Msg(Msg.qINSERT, "insertNewComplaint");
 								ComplaintToCheck.setSentObj(newComplaint);
 								ComplaintToCheck.setClassType("Complaint");
