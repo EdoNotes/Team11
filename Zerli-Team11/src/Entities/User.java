@@ -44,6 +44,9 @@ public class User implements Serializable {
 	private ConnectionStatus ConnectionStatus;
 	private  int tryToConnectCounter;
 	private String branchName;
+	/**
+	 * this variable keep the current user all the time that id i get him from DB once it stay with easy access
+	 */
 	public static User currUser;
 	/***************************************************************************/
 	/**

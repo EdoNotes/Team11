@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,7 +37,14 @@ import javafx.stage.Stage;
 import javafx.scene.control.RadioButton;
 
 import javafx.scene.control.DatePicker;
-
+/**
+ * the controller get from the user the details of supply method and the deatils of the pick up
+ * or delivery also user can add a greeting.
+ * if the method already chosen and user want to back to catalog there is a prompt msg if he want to update
+ * supply method or just go back ( or next-but just id the supply way was chosen earlier)
+ * @author Tomer Arzuan
+ *
+ */
 public class DeliveryAndGreetingController1 implements Initializable{
 	
 	ClientConsole clientSender = new ClientConsole(WelcomeController.IP,WelcomeController.port);
@@ -90,6 +98,10 @@ public class DeliveryAndGreetingController1 implements Initializable{
 	private String tmpRcvName;
 	private String tmpRcvPhone;
 	
+	/**
+	 * make the correct required fields visible
+	 * @param event
+	 */
 	public void RbSelected(ActionEvent event) {
 		if(pckUpRb.isSelected()) { /*Pick up selected*/
 			paybtn.setVisible(true);
@@ -102,7 +114,10 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			pickupgroup.setVisible(true);
 		}	
 }
-	
+	/**
+	 * open an greeting window
+	 * @param event
+	 */
 	public void writeGriting(ActionEvent event)
 	{
 		try {
@@ -116,12 +131,35 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			e1.printStackTrace();
 		}
 	}
-	
+	/**
+	 * user can pick a date by date picker, there is input check if the date didnt passed
+	 * if he passed prompt msg
+	 * @param event
+	 */
 	public void pickDate(ActionEvent event)
 	{
+		LocalDate todayDate=LocalDate.now();
+		System.out.println(todayDate);
+		System.out.println(datePck.getValue());
 		tmpSupplyDate=datePck.getValue().format(Order.formtDateLocal); /*collect the date*/
+		if(datePck.getValue().isBefore(todayDate))
+		{
+			datePck.getEditor().clear();
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Wrong Date Input");
+			alert.setHeaderText("Please Insert A Valid Date");
+			alert.setContentText("The date you inserted is passed");
+			alert.showAndWait();
+			
+		}
 	}
-	
+	/**
+	 * get from the user the time that go throw input check (as the date checked)
+	 * and go to handle each one of the situations: pick up or delivery 
+	 * and then goto the next window
+	 * @param event
+	 * @see getSupTime, pickUpSelected, deliverySelected.
+	 */
 	public void paymentBtn(ActionEvent event)
 	{
 		tmpSupplyTime=getSupTime();
@@ -134,8 +172,6 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			alert.showAndWait();
 			return;
 		}
-		System.out.println(tmpSupplyTime);
-		System.out.println(tmpSupplyDate);
 		if(pckUpRb.isSelected()) /*if we talk about self pick up*/
 		{
 			try {
@@ -162,10 +198,6 @@ public class DeliveryAndGreetingController1 implements Initializable{
 				e.printStackTrace();
 			}
 		}
-		System.out.println(User.currUser);
-		System.out.println(Customer.curCustomer);
-		System.out.println(Order.curOrder);
-		System.out.println(OrderSupply.curSupply);
 		/*Open next window*/
 		try {
 			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
@@ -182,12 +214,15 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
-		/*ENTER THE ORDER AND DELEVERY--->OPEN THE PAYMENT WINDOW-ALL ORDERS DETAILS*/
 	}
 	
 	
-
+/**
+ * check if the all text fields are fully filled get the store id from DB and init the delivery
+ * if the order is instant we rising the price (cost 12.5) (also delivery as is cost 20)
+ * @return boolean
+ * @throws InterruptedException
+ */
 	private boolean deliverySelected() throws InterruptedException {
 		tmpAdrs=addrsTxt.getText();
 		tmpRcvName=nameTxt.getText();
@@ -232,7 +267,11 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			return false;
 		}
 	}
-
+/**
+ * check if the all text fields are fully filled
+ * init the pick up
+ * @throws InterruptedException
+ */
 	private void pickUpSelected() throws InterruptedException {
 		OrderSupply supOrder=new OrderSupply();
 		Msg supMsg = new Msg();
@@ -255,6 +294,12 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		OrderSupply.curSupply=supOrder;
 	}
 
+	
+	/**
+	 * func that checks the user input of time and convert him to 24H from AM/PM time
+	 * also puts 0 where it need
+	 * @return
+	 */
 	private String getSupTime() {
 		String tmpHour=hourTxt.getText(),tmpMin=minTxt.getText();
 		String supTime;
@@ -285,10 +330,6 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		return supTime;
 	}
 	
-	public void payBtn() {
-		
-	}
-	
 	
 	
 	public void backBtn(ActionEvent event) {
@@ -309,6 +350,10 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		}
 	}
 	
+	/**
+	 * this button will appear only if orderSupply is empty
+	 * @param event
+	 */
 	public void nextBtn(ActionEvent event)
 	{
 		try {
@@ -328,6 +373,11 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		}
 	}
 
+	/**
+	 * in the initialize we check if the Order supply is exist (the user have chosen) and if no so we keep as usual
+	 * if it isn't null we prompt user msg if he want to change something
+	 * if the user chosen to upadate supply details we update the total price of order to the original without the delivery (or what was there before)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		paybtn.setVisible(false);
@@ -342,7 +392,12 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			alert.setContentText("To Change Click 'OK' else Click 'Cancel'");
 
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){ /* goto change...*/}
+			if (result.get() == ButtonType.OK){
+				if(OrderSupply.curSupply.getSupplyMethod().compareTo(OrderSupply.delivery)==0)
+					Order.curOrder.setOrderPrice(Order.curOrder.getOrderPrice()-OrderSupply.deliveryPrice);
+				if(OrderSupply.curSupply.getIsInstant()==1)
+					Order.curOrder.setOrderPrice(Order.curOrder.getOrderPrice()-OrderSupply.instantPrice);
+			}
 			else { 
 				allOthers.setVisible(false);
 				paybtn.setVisible(false);

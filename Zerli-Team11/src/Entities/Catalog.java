@@ -22,25 +22,17 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
 /**
- * @author IdoKalir
- *This Class presents Catalog Details That Stored In Our System
+ * Catalog class represent all the Product in catalog that present by tableView.
+ * this class is the same as Product class but all the variables are from type SimpleProperty
+ * to use in the tableView
+ * @author Tomer Arzuan
+ *@see Product
  */
-public class Catalog implements Serializable
+public class Catalog
 {
 
-	private static final long serialVersionUID = 1L;
-	/***************************************************************************/
-	/**					
-	 * 							<Instance Variables>
-	 * productId-Catalog Id
-	 * productName-Catalog Name
-	 * p_type-Catalog type
-	 */
-		//public enum dominantColor {RED,GREEN, YELLOW, BLUE, BLACK, WHITE, PURPLE};
-		//public enum productType {CUSTOMIZED, BOUQUET};
-		//private dominantColor dColor;
-		//private productType pType;
-	
+		private static final long serialVersionUID = 1L;
+
 		public final static String sweetbouquet="sweetbouquet";
 		public final static String weddingBouquet="weddingBouquet";
 		public final static String flowerpot="flowerpot";
@@ -111,7 +103,7 @@ public class Catalog implements Serializable
 			this.storeName=new SimpleStringProperty(storeName);
 		}
 		/**
-		 * Partial Constructor Of Catalog
+		 * Contractor that copies Product type to Catalog type
 		 * @param p-Product On Catalog
 		 */
 		public Catalog(Product p) {

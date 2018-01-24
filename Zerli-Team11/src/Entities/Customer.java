@@ -28,6 +28,9 @@ public class Customer extends User implements Serializable
 	private int isMember;
 	private String CreditCard;
 	private double Balance;
+	/**
+	 * this variable keep the current customer all the time that id i get him from DB once it stay with easy access
+	 */
 	public static Customer curCustomer;
 	
 	 /**

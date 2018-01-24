@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
+/**
+ * Order class saves data on the customer's order
+ * @author Tomer Arzuan
+ *
+ */
 public class Order implements Serializable{
 	
 	public final static String pickUp="PICKUP";
@@ -29,11 +33,16 @@ public class Order implements Serializable{
 	private int isPaid;
 	private int storeId;
 	private ArrayList<ProductInOrder> PIO;
+	/**
+	 * this variable keep the current order all the time that id i get him from DB once it stay with easy access
+	 */
 	public static Order curOrder;
 	private Date d;
 	private Date t; /* I need this two Date vars to init the date of the order with the formater d-date t-time*/
 	
-	
+	/**
+	 * partial empty constructor that create order cart and set the order time and date
+	 */
 	public Order(){
 		d=new Date();
 		t=new Date();
@@ -41,7 +50,15 @@ public class Order implements Serializable{
 		this.orderTime=formtTime.format(t);
 		this.PIO= new ArrayList<ProductInOrder>();
 	}
-	
+	/**
+	 * full constructor that set the time and the date of the order
+	 * @param customerId
+	 * @param supplyMethod
+	 * @param orderPrice
+	 * @param greeting
+	 * @param isPaid
+	 * @param storeId
+	 */
 	public Order(int customerId, String supplyMethod, double orderPrice, String greeting, int isPaid, int storeId) {
 		d=new Date();
 		t=new Date();
@@ -56,7 +73,11 @@ public class Order implements Serializable{
 		this.PIO= new ArrayList<ProductInOrder>();
 
 	}
-
+/**
+ * getters and setters
+ * 
+ */
+	
 	public int getCustomerId() {
 		return customerId;
 	}

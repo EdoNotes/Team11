@@ -1,7 +1,11 @@
 package Entities;
 
 import java.io.Serializable;
-
+/**
+ * OrderSupply saves all the data about the supply data of order no.(orderId)
+ * @author tomer
+ *
+ */
 public class OrderSupply implements Serializable{
 	
 	public final static String pickUp="pickUp";
@@ -19,8 +23,13 @@ public class OrderSupply implements Serializable{
 	private String contactAddress;
 	private String contactPhone;
 	private int isInstant;
+	/**
+	 * this variable keep the current supply all the time that id i get him from DB once it stay with easy access
+	 */
 	public static OrderSupply curSupply;
-
+/**
+ * Empty constryctor
+ */
 	public OrderSupply() {}
 	
 	public OrderSupply(int orderId, int storeId, String supplyMethod, String dateToSupp, String timeToSupp,

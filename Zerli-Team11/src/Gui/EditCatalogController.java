@@ -41,7 +41,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
-
+/**
+ * EditCatalogController conttroler that with him we can add update and delete product from catalog and from DB as well
+ * @author tomer
+ *
+ */
 public class EditCatalogController implements Initializable{
 	
 	ClientConsole clientSender = new ClientConsole(WelcomeController.IP,WelcomeController.port);
@@ -88,7 +92,13 @@ public class EditCatalogController implements Initializable{
 	ObservableList<String> lType=FXCollections.observableArrayList(Catalog.bouquet,Catalog.flowerpot,Catalog.weddingBouquet,Catalog.sweetbouquet);
 	ObservableList<String> lColor=FXCollections.observableArrayList(Catalog.BLACK,Catalog.BLUE,Catalog.GREEN,Catalog.PURPLE,Catalog.RED,Catalog.WHITE,Catalog.YELLOW);
 
-	
+	/**
+	 * 
+	 * this func load all product from DB to edit catalog menu and accept from server ArrayList<Product>
+	 * and then convert images to catalog
+	 *
+	 * @return ObservableList<Product>
+	 */
 	public ObservableList<Product> getProducts()
 	{
 		try {
@@ -111,6 +121,11 @@ public class EditCatalogController implements Initializable{
 		return null; /*If we can arrive until here there is some problem*/
 	}
 	
+	
+	/**
+	 * accept from DB the names of store to combo box
+	 * @return
+	 */
 	public ObservableList<String> getStore()
 	{
 		Msg allStore=new Msg(Msg.qSELECT,"bring all stores");
@@ -127,6 +142,11 @@ public class EditCatalogController implements Initializable{
 		return stores;
 	}
 	
+	/**
+	 * Expect to ArrayList<Product> and for each product set his image
+	 * @param products
+	 * @return  ArrayList<Product>
+	 */
 	private ArrayList<Product> ConvertAllProductImage(ArrayList<Product> products) {
 		for(Product p:products)
 		{
@@ -138,7 +158,10 @@ public class EditCatalogController implements Initializable{
 		}
 		return products;
 	}
-	
+	/**
+	 * set all text field to be details of the selected item at the table view
+	 * @param click
+	 */
 	public void loadDetailsToTxtBox(MouseEvent click) {
 		Product toShow=pTable.getSelectionModel().getSelectedItem();
 		clrBtn.setVisible(true);
@@ -151,6 +174,10 @@ public class EditCatalogController implements Initializable{
 		storeCb.setPromptText(toShow.getStoreName());
 	}
 	
+	/**
+	 * show the file chooser
+	 * @param event
+	 */
 	public void imgPath(ActionEvent event) {
 		FileChooser fc =new FileChooser();
 		File selectedFile=fc.showOpenDialog(null);
@@ -161,7 +188,12 @@ public class EditCatalogController implements Initializable{
 			imagePathtxt.setText(pathToImg);
 		}
 	}
-	/*****************************UPDATE CATALOG*******************/
+	/**UPDATE CATALOG
+	 * get from text field the updated details the user change just one detail he don't need to set all other he just change him and press update
+	 * user can update without new image
+	 * there is check if one or more field is empty and also if item didn't selected from table view
+	 * @throws InterruptedException
+	 */
 	public void UpdateProduct() throws InterruptedException{
 		Product toUpdate=new Product();
 		Msg updateProductMsg=new Msg(Msg.qUPDATE,"Update Product");
@@ -212,7 +244,10 @@ public class EditCatalogController implements Initializable{
 			pTable.setItems(getProducts());
 		}
 	}
-	
+	/**
+	 * if user want to add new item and he have text on text fields he can clear by one click
+	 * @param event
+	 */
 	public void clearFields(ActionEvent event) {
 		pNametxt.clear();
 		pPricetxt.clear();
@@ -221,7 +256,14 @@ public class EditCatalogController implements Initializable{
 		pidtxt.clear();
 		
 	}
-	/***********************************ADD PRODUCT*****************************************/
+	/**ADD PRODUCT
+	 * user can add product and need to fill all the list include the image
+	 * there is a check if field is empty
+	 * and before pushing him to DB we check if he already exist with our own func
+	 * if exist we prompt msg
+	 * @param event
+	 * @see compareTwoCatalogProduct
+	 */
 	public void addProduct(ActionEvent event)
 	{
 		Product toAdd=new Product();
@@ -278,7 +320,10 @@ public class EditCatalogController implements Initializable{
 	
 	
 	
-	/***********************************DELETE PRODUCT*****************************************/
+	/**DELETE PRODUCT
+	 * this func get the selected item and delete him from data base with confirmation 
+	 * @param event
+	 */
 	public void deleteProduct(ActionEvent event)
 	{
 		Product toDelete=new Product();
@@ -329,7 +374,10 @@ public class EditCatalogController implements Initializable{
 	}
 	
 	
-	/***********************************LOGOUT*****************************************/
+	/**LOGOUT
+	 * log out the user from system
+	 * @param event
+	 */
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{
@@ -364,7 +412,15 @@ public class EditCatalogController implements Initializable{
 	}
 	
 	
-	
+	/**
+	 * this func help us to decided which two product are equal, we check the next parameters: 
+	 * name, color,type,store name
+	 * if are all equals we return true its mean that the two Products are equal,
+	 * else we return false
+	 * @param catalogP
+	 * @param compProduct
+	 * @return boolean
+	 */
 	public boolean compareTwoCatalogProduct(Product catalogP, Product compProduct) { /* if equals return true */
 		boolean[] flags=new boolean[4];
 			flags[0]=catalogP.getProductName().compareTo(compProduct.getProductName())==0; /* the same name*/
@@ -386,7 +442,7 @@ public class EditCatalogController implements Initializable{
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Open Catalog For Company Employee");
 		alert.setHeaderText(null);
-		alert.setContentText("Hello Company Employee and Welcome to the Catalog !");
+		alert.setContentText("Edit Catalog Smartfully :) ");
 		alert.showAndWait();
 		
 		pIdtb.setCellValueFactory(new PropertyValueFactory<Product, Integer>("ProductId"));

@@ -267,17 +267,11 @@ public class EchoServer extends AbstractServer {
 		stmt.setDouble(4, pToUpdate.getPrice()); //price
 		stmt.setString(5, pToUpdate.getProductColor()); //color
 		stmt.setString(6, pToUpdate.getStoreName()); //store name
-		//stmt.setBlob(7,ImageConverter.convertByteArrayToInputStream(pToUpdate.getProductImage()));
 		stmt.setInt(indexProductId, pToUpdate.getProductId());
 		stmt.executeUpdate();
 		con.close();
 	}
-	/*
-	 * path->setProductImage(String imagePath)->setProductImage
-	 * setblob(6,ImageConverter.ConvertByteArrayToInputStream(getProductImage-->of byte array));
-	 * 
-	 * 
-	 */
+
 		
 
 	private static void SearchProductInCatalog(Msg msg, ConnectionToClient client, Connection con) throws SQLException, IOException {

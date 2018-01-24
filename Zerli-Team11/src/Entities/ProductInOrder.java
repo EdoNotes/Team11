@@ -10,7 +10,9 @@ public class ProductInOrder extends Product implements Serializable{
 	private int orderId;
 	private int PIOquantity;
 	private double PIOtotalProductPrice;
-	
+	/**
+	 * this variable keep the current cart(Products in order) all the time that id i get him from DB once it stay with easy access
+	 */
 	public static ArrayList<ProductInOrder> CurCart;
 
 	public ProductInOrder() {}

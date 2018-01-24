@@ -33,7 +33,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
-
+/**
+ * OrderDetailsController show all order summary and user need to choose to pay by cash or by balance (if we have)
+ * @author tomer
+ *
+ */
 public class OrderDetailsController implements Initializable{
 	
 	ClientConsole clientSender = new ClientConsole(WelcomeController.IP,WelcomeController.port);
@@ -82,6 +86,9 @@ public class OrderDetailsController implements Initializable{
 	
 	ObservableList<ProductInOrder> cartProductsList = FXCollections.observableArrayList(Order.curOrder.getPIO());
 	
+	/**
+	 * sets all the customer,order,supply lable;
+	 */
 	public void getOrderDetails()
 	{
 		cusIdlbl.setText(String.valueOf(Customer.curCustomer.getCustomerID()));
@@ -119,7 +126,15 @@ public class OrderDetailsController implements Initializable{
 			e1.printStackTrace();
 		}
 	}
-	
+	/**
+	 * checks if user click on one of the radio head,
+	 * if choosed: 1. credit radio button the customer need to bupdate his balance (if he have enough)
+	 * 2.  pay by cash - at home store
+	 * the func also insert to DB the whole order and products in order and supply method
+	 * then open the summary of order window
+	 * @param event
+	 * @throws InterruptedException
+	 */
 	public void payBtn(ActionEvent event) throws InterruptedException
 	{
 		if(!(CreditRb.isSelected())&& !(cashRb.isSelected()))
@@ -143,6 +158,7 @@ public class OrderDetailsController implements Initializable{
 				customerUpdateMsg.setColumnToUpdate("balance");
 				customerUpdateMsg.setValueToUpdate(String.valueOf(Customer.curCustomer.getBalance()));
 				clientSender.accept(customerUpdateMsg);
+				Order.curOrder.setIsPaid(1);
 			}
 			else { /*If the customer's balance is low*/
 				Alert alert = new Alert(AlertType.WARNING);

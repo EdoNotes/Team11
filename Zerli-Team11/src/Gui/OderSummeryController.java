@@ -14,7 +14,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
+/**
+ * OderSummeryController show all order summary like: Order No. , total price, credit left
+ * @author tomer
+ *
+ */
 public class OderSummeryController {
 	@FXML
 	private Label Totalpricelbl;
@@ -23,6 +27,10 @@ public class OderSummeryController {
 	@FXML
 	private Label creditlbl;
 
+	
+	/**
+	 * load order id,order price and user balance to lables
+	 */
 	public void showDetails()
 	{
 		Totalpricelbl.setText(String.valueOf(Order.curOrder.getOrderPrice()));
@@ -30,6 +38,13 @@ public class OderSummeryController {
 		creditlbl.setText(String.valueOf(Customer.curCustomer.getBalance()));
 	}
 	
+	
+	/**
+	 * init the static: Order.curOrder,ProductInOrder.CurCart,Customer.curCustomer,OrderSupply.curSupply.
+	 * (to the next order)
+	 * open the main menu
+	 * @param event
+	 */
 	public void tnxBtn(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 		/*init the static vars*/

@@ -11,7 +11,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javafx.scene.image.Image;
-
+/**
+ * This class helps take handle of file that come from or into the server via socket
+ * @author Tomer Arzuan
+ *
+ */
 
 public class ImageConverter {
 	

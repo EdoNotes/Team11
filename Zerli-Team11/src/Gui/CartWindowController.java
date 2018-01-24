@@ -37,7 +37,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-
+/**
+ * This controller show as the products in order in view list and them details in text field (Not Editable)
+ * and also user can delete items from cart and go next to delivery
+ * @author Tomer Arzuan
+ *
+ */
 public class CartWindowController implements Initializable{
 	
 	private Order curOrder=Order.curOrder;
@@ -67,9 +72,15 @@ public class CartWindowController implements Initializable{
 	@FXML
 	private TextField qtytxt;
 	
-	//ObservableList<String> cartProductsList = FXCollections.observableArrayList(ProductInOrder.getAllPIONames());
 	ObservableList<ProductInOrder> cartProductsList = FXCollections.observableArrayList(CurCart);
 	
+	
+	/**
+	 * this function remove ProductInOrder from the static ArrayList and every time before item removed
+	 * there is check how many item thre is in the cart if there is zero item the function throw to Catalog window to add items
+	 * else we delete and update the viewList
+	 * @param event
+	 */
 	public void deleteProduct(ActionEvent event)
 	{
 		ProductInOrder toRemove=productView.getSelectionModel().getSelectedItem();
@@ -120,6 +131,12 @@ public class CartWindowController implements Initializable{
 		}
 	}
 	
+	
+	/**
+	 * this func act when there is MousseEvent on one of the fields at the ListView
+	 * when the user press on item from cart show him the details on text fields
+	 * @param Click
+	 */
 	public void showSelectedProductDetails(MouseEvent Click) {
 		ProductInOrder toShow=productView.getSelectionModel().getSelectedItem();
 		nametxt.setText(toShow.getProductName());
@@ -145,6 +162,13 @@ public class CartWindowController implements Initializable{
 		}
 	}
 	
+	/**
+	 * this function claculate total price
+	 * discountFlag-true-with discount
+	 * discountFlag=flase-without discount
+	 * @param discountFlag
+	 * @return
+	 */
 	public double cactulateTotalPrice(boolean discountFlag)
 	{
 		double totalPrice=0;
@@ -159,6 +183,13 @@ public class CartWindowController implements Initializable{
 		return totalPrice;
 	}
 	
+	
+	/**
+	 * this func checks if there is an open order
+	 * open if there isn't, then goto the delivery window
+	 * also we check if the customer account is settlement to continue with the purchase
+	 * @param event
+	 */
 	public void OrderConfirmtion(ActionEvent event)
 	{
 		if(Order.curOrder==null)
@@ -194,6 +225,7 @@ public class CartWindowController implements Initializable{
 		}
 		else if(Order.curOrder!=null) /*if there is order already exist  !!!! i need to go over the case if order was changed !!!!*/
 		{
+			curOrder.setOrderPrice(cactulateTotalPrice(true));
 			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 			try {
 				Stage DeliveryStage=new Stage();
@@ -210,10 +242,15 @@ public class CartWindowController implements Initializable{
 	
 	
 	
-	
+	/**
+	 * this function get the current customer from data base (not if he exist as static) and the store id
+	 * to prepare the order and create instance of order and init the order with the collected data know so far
+	 * and set this order as current static order
+	 * @throws InterruptedException
+	 */
 	private void makeNewOrder() throws InterruptedException {
 		Msg newOrderMsg=new Msg();
-		/* import from DB the current user that wants to order*/
+		/** import from DB the current user that wants to order**/
 		if(Customer.curCustomer==null)
 		{
 			curCustomer=new Customer();
@@ -227,7 +264,7 @@ public class CartWindowController implements Initializable{
 			curCustomer=(Customer)newOrderMsg.getReturnObj();
 			Customer.curCustomer=curCustomer;
 		}
-		/*Import from DB the store id*/
+		/**Import from DB the store id**/
 		Store zerlistore=new Store();
 		newOrderMsg.setClassType("Store");
 		newOrderMsg.setqueryToDo("checkStoreExistence");
@@ -242,10 +279,7 @@ public class CartWindowController implements Initializable{
 		{
 			curOrder=new Order();
 			curOrder.setCustomerId(Customer.curCustomer.getCustomerID());
-			if(Customer.curCustomer.getIsMember()==1)
-				curOrder.setOrderPrice(cactulateTotalPrice(true));
-			else
-				curOrder.setOrderPrice(cactulateTotalPrice(false));
+			curOrder.setOrderPrice(cactulateTotalPrice(Customer.curCustomer.getIsMember()==1));
 			curOrder.setIsPaid(0);
 			curOrder.setStoreId(zerlistore.getStoreID());
 			curOrder.setPIO(ProductInOrder.CurCart);

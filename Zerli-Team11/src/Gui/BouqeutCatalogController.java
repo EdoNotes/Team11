@@ -50,7 +50,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-
+/**
+ * This controller open and show in TableView all the products in catalog and thier images
+ * also have search and if customer is settlement he can continue to buy and look at his cart
+ * @author Tomer Arzuan
+ *
+ */
 public class BouqeutCatalogController implements Initializable {
 	
 	//public static ArrayList<ProductInOrder> CurCart;
@@ -83,10 +88,20 @@ public class BouqeutCatalogController implements Initializable {
 	@FXML
 	public ComboBox<String> sPrice;
 	
+	/**
+	 * combo initialize the String " " for the customer if he don't want to search nothing  
+	 */
 	ObservableList<String> lType=FXCollections.observableArrayList(" ",Catalog.bouquet,Catalog.flowerpot,Catalog.weddingBouquet,Catalog.sweetbouquet);
 	ObservableList<String> lColor=FXCollections.observableArrayList(" ",Catalog.BLACK,Catalog.BLUE,Catalog.GREEN,Catalog.PURPLE,Catalog.RED,Catalog.WHITE,Catalog.YELLOW);
 	ObservableList<String> lPrice=FXCollections.observableArrayList(" ","1. 20-49","2. 50-69","3. 70-99","4. 100-129","5. 130-159","6. 160 or more...");
 	
+	
+	/**
+	 * this func load all product from DB to catalog and accept from server ArrayList<Product>
+	 * that make convert to ArrayList<Product> and then convert images to catalog
+	 * @return ObservableList<Catalog>
+	 * @see ConvertAllProductImage , convertProductsToCatlogs
+	 */
 	public ObservableList<Catalog> getProducts()
 	{
 		try {
@@ -110,7 +125,11 @@ public class BouqeutCatalogController implements Initializable {
 		return null; /*If we can arrive until here there is some problem*/
 	}
 
-	
+	/**
+	 * Expect to ArrayList<Product> and for each product set his image
+	 * @param products
+	 * @return products -with Images
+	 */
 	private ArrayList<Product> ConvertAllProductImage(ArrayList<Product> products) {
 		for(Product p:products)
 		{
@@ -123,7 +142,11 @@ public class BouqeutCatalogController implements Initializable {
 		return products;
 	}
 
-
+	/**
+	 * this function convert ArrayList<Product> to ArrayList<Catalog>
+	 * @param products
+	 * @return ArrayList<Catalog>
+	 */
 	private ArrayList<Catalog> convertProductsToCatlogs(ArrayList<Product> products) {
 		ArrayList<Catalog> catalog=new ArrayList<Catalog>();
 		for (int i=0;i<products.size();i++)
@@ -149,13 +172,16 @@ public class BouqeutCatalogController implements Initializable {
 			e1.printStackTrace();
 		}
 	}
-	//* this method dosen't works  *//
+	/**
+	 * The function get from 3 or less comboBoxes the specific description item that the user
+	 * want to look and search them at the data base if the item didn't found we prompt a msg
+	 * after the search load all the founded product if no product founded we show all the catalog again
+	 * @param event (click on button)
+	 * @throws InterruptedException
+	 */
 	public void searchCustomizedItem(ActionEvent event) throws InterruptedException
 	{
-		//clientSender=new ClientConsole(WelcomeController.IP,WelcomeController.port);
-		//ClientConsole sender = new ClientConsole(WelcomeController.IP,WelcomeController.port);
 		Product toSearch=new Product();
-
 		String reqType,reqStringPrice,reqColor;
 		reqType= sType.getValue();
 		reqStringPrice= sPrice.getValue();
@@ -223,7 +249,11 @@ public class BouqeutCatalogController implements Initializable {
 		}
 
 	}
-	
+	/**
+	 * recive from comboBox price range and set the item to search price range
+	 * @param toSearch
+	 * @param toNum
+	 */
 	private void getPriceRange(Product toSearch, String toNum) {
 		if(toNum.startsWith("1")) {
 			toSearch.setStartPrice(20);
@@ -251,6 +281,14 @@ public class BouqeutCatalogController implements Initializable {
 		}
 	}
 	
+	
+	/**
+	 * the func get the choosen item from catalog (as instance of Catalog),
+	 * convert him into instance of Product and set his quantity (quantity is between 1-10)
+	 * there is input check and send to addToCart function
+	 * @see addToCart, checkquatity
+	 * @param event
+	 */
 	public void addToCartBtn(ActionEvent event)
 	{
 		String stringquantity;
@@ -291,7 +329,11 @@ public class BouqeutCatalogController implements Initializable {
 		
 		/*----------------------------prompt Msg----------------------------------*/
 	}
-	
+	/**
+	 * this function check input quantity is ok
+	 * @param reqQuantity
+	 * @return
+	 */
 	public boolean checkquatity(String reqQuantity) {
 		String tmp=reqQuantity;
 		while(tmp.startsWith(" "))
@@ -319,6 +361,14 @@ public class BouqeutCatalogController implements Initializable {
 		return true;
 	}
 	
+	
+	/**
+	 * This function inset product into cart, the cart is ArrayList<ProductInOrder>
+	 * and also check if the product is already inside,
+	 * then update the price of order
+	 * @param pToAdd
+	 * @param quantity
+	 */
 	public void addToCart(Product pToAdd,int quantity)
 	{
 		double totalPriceForProduct=pToAdd.getPrice()*quantity;
@@ -355,10 +405,13 @@ public class BouqeutCatalogController implements Initializable {
 		else { /*add a new product*/
 			ProductInOrder.CurCart.add(pToCart);
 		}
-		System.out.println(ProductInOrder.CurCart);
-
 	}
 	
+	
+	/**
+	 * if there is some product is the cart we can see our cart witht he next window
+	 * @param event
+	 */
 	public void showCartBtn(ActionEvent event)
 	{
 		if(ProductInOrder.CurCart!=null && ProductInOrder.CurCart.size()>0) /*If there is something in the cart we can view it*/

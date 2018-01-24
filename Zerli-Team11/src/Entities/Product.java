@@ -15,7 +15,11 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javafx.scene.image.ImageView;
-
+/**
+ * Product class save me all product data
+ * @author tomer
+ *
+ */
 public class Product implements Serializable {
 	
 	/**
@@ -34,6 +38,9 @@ public class Product implements Serializable {
 	private String storeName;
 	private byte[] productImage;
 	private ImageView imageOfproduct;
+	/**
+	 * the parameters: startPrice , endPrice is for search the price range of the product
+	 */
 	private int startPrice;
 	private int endPrice;
 	
@@ -162,7 +169,11 @@ public class Product implements Serializable {
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
 	}
-	
+	/**
+	 * this function expect to path of image that we want to upload and create file then convert him to byte array so he can be serializable (for protocol TCP/IP)
+	 * @param imagePath
+	 * 
+	 */
 	public void setProductImage(String imagePath) {
 		File f=new File(imagePath);
 		try {
@@ -172,16 +183,21 @@ public class Product implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * this function set byte array as byte array when i get him from DB
+	 * @param b
+	 */
 	public void setProductImage(byte[] b) {
 		this.productImage=b;
 	}
-
+/**
+ * the function get the Image as byte array
+ * @return byte[] productImage
+ */
 	public byte[] getProductImage() {
 		return productImage;
 	}
 	
-
 	public ImageView getImageOfproduct() {
 		return imageOfproduct;
 	}
