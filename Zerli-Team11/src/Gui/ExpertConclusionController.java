@@ -107,14 +107,13 @@ public class ExpertConclusionController implements Initializable {
 			CustomerStage.setScene(CustomerScene);
 			CustomerStage.show();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 	
 	
 	/**
-	 * 
+	 * this method setting survey number on the label lblSurveyNum
 	 * @param surveyNum number survey question
 	 */
 	public void loadDetails(int surveyNum)

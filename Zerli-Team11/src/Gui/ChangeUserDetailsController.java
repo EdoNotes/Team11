@@ -65,7 +65,7 @@ public class ChangeUserDetailsController {
 	@FXML
 	private RadioButton Female;
 	/**
-	 * Save Button 
+	 * This method saving the change details of the user
 	 * @param event-Save Button Click
 	 * @throws InterruptedException
 	 * @throws IOException
@@ -90,14 +90,13 @@ public class ChangeUserDetailsController {
 		
 		Msg UpdateUserDB = new Msg(Msg.qUPDATE, "UpadateUserInDB"); // create a new msg
 		
-		UpdateUserDB.setSentObj(UpdateUser); // 
+		UpdateUserDB.setSentObj(UpdateUser); 
 		UpdateUserDB.setClassType("User");
 		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-	//	client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 		client.accept((Object) UpdateUserDB);  
 		
 		UpdateUserDB.setClassType("Customer");
-		UpdateUserDB.setqueryToDo("update DB customer");
+		UpdateUserDB.setqueryToDo("update DB customer"); //set question to server
 		UpdateUserDB.setQueryQuestion(Msg.qUPDATE);
 		UpdateUserDB.setColumnToUpdate("customerID");
 		UpdateUserDB.setValueToUpdate(txtID.getText());
@@ -110,9 +109,9 @@ public class ChangeUserDetailsController {
 		al.setContentText("User Save Succeed ");
 		al.showAndWait();
 		
-		if(txtPermission.getText().equals("Customer")) 
+		if(txtPermission.getText().equals("Customer")) //if the user is customer
 		{
-			UpdateUserDB.setqueryToDo("Select DB customer");
+			UpdateUserDB.setqueryToDo("Select DB customer"); //get details (account settlement) of this customer
 			UpdateUserDB.setQueryQuestion(Msg.qSELECTALL);
 			UpdateUserDB.setClassType("Customer");
 			UpdateUserDB.setColumnToUpdate("customerID");
@@ -122,19 +121,19 @@ public class ChangeUserDetailsController {
 			UpdateUserDB = (Msg) client.get_msg();
 			Customer returnCustomer = (Customer) UpdateUserDB.getReturnObj();
 			
-			Stage primaryStage=new Stage();
+			Stage primaryStage=new Stage();         //pass to Settlement Account window
 			((Node)event.getSource()).getScene().getWindow().hide();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
 			SettlementAccountController settlementController= (SettlementAccountController)loader.getController();
 			settlementController.getCustomerIdANDuserName(txtID.getText(), txtUserName.getText());
-			settlementController.getCustomerSettlementANDmember(returnCustomer.getIsSettlement(), returnCustomer.getIsMember(), returnCustomer.getCreditCard());
+			settlementController.getCustomerSettlementANDmember(returnCustomer.getIsSettlement(),returnCustomer.getCreditCard(),returnCustomer.getTypeMember(),returnCustomer.getExpDate());
 			Scene Scene = new Scene(root);
 			Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
 			primaryStage.setScene(Scene);
 			primaryStage.show();
 		}
-		else{
+		else{ //if it is not a customer user pass back to  Manager System Menu window
 		
 			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
 			Stage primaryStage=new Stage();
@@ -146,8 +145,7 @@ public class ChangeUserDetailsController {
 		}
 	}
 	/**
-	 * 
-	 * @param event
+	 * @param event Button that pass you back to Manager System Menu window
 	 * @throws InterruptedException
 	 */
 	@FXML
@@ -172,9 +170,9 @@ public class ChangeUserDetailsController {
 	}
 	
 	/**
-	 * 
+	 * This method are set details User on the field and RadioButton that belongs to the User 
 	 * @param userName
-	 * @param pass
+	 * @param pass 
 	 * @param id
 	 * @param Fname
 	 * @param Lname
@@ -187,7 +185,7 @@ public class ChangeUserDetailsController {
 	public void getDetailsUser(String userName ,String pass,String id ,String Fname,String Lname
 			,String phone,String gender ,String email,String premission ,String connentionS,String branchN) 
 	{
-		txtUserName.setText(userName);
+		txtUserName.setText(userName);  //setting the user Details
 		txtUserPassword.setText(pass);
 		txtID.setText(id);
 		txtFirstName.setText(Fname);

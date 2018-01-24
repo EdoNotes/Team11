@@ -12,9 +12,9 @@
    <children>
       <AnchorPane layoutX="3.0" prefHeight="600.0" prefWidth="420.0">
          <children>
-            <Label layoutX="130.0" layoutY="23.0" prefHeight="36.0" prefWidth="185.0" text="Edit User Details">
+            <Label layoutX="78.0" layoutY="14.0" prefHeight="41.0" prefWidth="264.0" text="Edit User Details">
                <font>
-                  <Font size="25.0" />
+                  <Font name="Lucida Calligraphy Italic" size="26.0" />
                </font>
             </Label>
             <Button layoutX="278.0" layoutY="561.0" mnemonicParsing="false" onAction="#SaveBtn" text="Save" />
@@ -23,7 +23,7 @@
             <TextField fx:id="txtID" layoutX="148.0" layoutY="173.0" />
             <TextField fx:id="txtFirstName" layoutX="148.0" layoutY="222.0" />
             <TextField fx:id="txtLastName" layoutX="148.0" layoutY="267.0" />
-            <Label layoutX="47.0" layoutY="89.0" text="User Name" />
+            <Label layoutX="47.0" layoutY="89.0" text="User Name" textFill="#3f08f5" />
             <Label layoutX="51.0" layoutY="134.0" text="Password" />
             <Label layoutX="55.0" layoutY="177.0" text="ID" />
             <Label layoutX="47.0" layoutY="226.0" text="First Name" />
@@ -37,7 +37,7 @@
             <TextField fx:id="txtConnectionStatus" layoutX="149.0" layoutY="396.0" />
             <TextField fx:id="txtPermission" layoutX="148.0" layoutY="436.0" />
             <Label layoutX="36.0" layoutY="400.0" text="ConnectionStatus" />
-            <Label layoutX="48.0" layoutY="440.0" text="Permission" />
+            <Label layoutX="48.0" layoutY="440.0" text="Permission" textFill="#f00a0f" />
             <Label layoutX="47.0" layoutY="475.0" text="Branch Name" />
             <TextField fx:id="txtbranchName" layoutX="149.0" layoutY="471.0" />
             <RadioButton fx:id="Male" layoutX="152.0" layoutY="520.0" mnemonicParsing="false" text="Male">

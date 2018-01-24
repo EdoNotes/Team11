@@ -54,30 +54,47 @@ public class EditSurveyController
 	 * and sanding question to the server that save the new Survey in the DB 
 	 * @param event Button that save in the DB the new survey we build 
 	 * @throws InterruptedException
+	 * @throws IOException 
 	 */
 	@FXML
-	public void SaveBtn(ActionEvent event) throws InterruptedException
+	public void SaveBtn(ActionEvent event) throws InterruptedException, IOException
 	{
 		Survey SendNewSurvey = new Survey();
-		
-		
-		SendNewSurvey.setQuestion1(txtQuestion1.getText());
-		SendNewSurvey.setQuestion2(txtQuestion2.getText());
-		SendNewSurvey.setQuestion3(txtQuestion3.getText());
-		SendNewSurvey.setQuestion4(txtQuestion4.getText());
-		SendNewSurvey.setQuestion5(txtQuestion5.getText());
-		SendNewSurvey.setQuestion6(txtQuestion6.getText());
-		
-		
-		Msg NewSurveyToDB = new Msg(Msg.qINSERT, "SendNewQuestionSurveyToDB"); // create a new msg
-		NewSurveyToDB.setSentObj(SendNewSurvey); // put the Survey into msg
-		NewSurveyToDB.setClassType("survey_question");
-		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		client.accept((Object) NewSurveyToDB); //adding the survey to DB
-		Alert al = new Alert(Alert.AlertType.INFORMATION);
-		al.setTitle("New Survey");
-		al.setContentText("Save Succeed ");
-		al.showAndWait();
+		if(txtQuestion1.getText().compareTo("")==0 || txtQuestion2.getText().compareTo("")==0|| txtQuestion3.getText().compareTo("")==0 || 
+				txtQuestion4.getText().compareTo("")==0 || txtQuestion5.getText().compareTo("")==0 || txtQuestion6.getText().compareTo("")==0)
+		{
+			Alert al = new Alert(Alert.AlertType.ERROR);
+			al.setTitle("Save problem");
+			al.setContentText("One or more are empty questions");
+			al.showAndWait();
+		}
+		else {
+			SendNewSurvey.setQuestion1(txtQuestion1.getText());
+			SendNewSurvey.setQuestion2(txtQuestion2.getText());
+			SendNewSurvey.setQuestion3(txtQuestion3.getText());
+			SendNewSurvey.setQuestion4(txtQuestion4.getText());
+			SendNewSurvey.setQuestion5(txtQuestion5.getText());
+			SendNewSurvey.setQuestion6(txtQuestion6.getText());
+			
+			
+			Msg NewSurveyToDB = new Msg(Msg.qINSERT, "SendNewQuestionSurveyToDB"); // create a new msg
+			NewSurveyToDB.setSentObj(SendNewSurvey); // put the Survey into msg
+			NewSurveyToDB.setClassType("survey_question");
+			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			client.accept((Object) NewSurveyToDB); //adding the survey to DB
+			Alert al = new Alert(Alert.AlertType.INFORMATION);
+			al.setTitle("New Survey");
+			al.setContentText("Save Succeed ");
+			al.showAndWait();
+			
+			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+			Stage primaryStage=new Stage();
+			Parent root=FXMLLoader.load(getClass().getResource("/Gui/CustomerServiceMenu.fxml"));
+			Scene serverScene = new Scene(root);
+			serverScene.getStylesheets().add(getClass().getResource("CustomerServiceMenu.css").toExternalForm());
+			primaryStage.setScene(serverScene);
+			primaryStage.show();
+		}
 		
 	}
 		

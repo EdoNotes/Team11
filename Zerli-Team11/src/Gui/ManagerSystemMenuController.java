@@ -59,7 +59,6 @@ public class ManagerSystemMenuController {
 			userToCheck.setSentObj(userToChange); // put the user into msg
 			userToCheck.setClassType("User");
 			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-			//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 			try {
 				client.accept((Object) userToCheck);
 			} catch (InterruptedException e) {
@@ -94,7 +93,11 @@ public class ManagerSystemMenuController {
 		}	
 	}
 	
-	
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Logout" Button
+	 * @param event
+	 */
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{

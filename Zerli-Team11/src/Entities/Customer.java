@@ -37,6 +37,7 @@ public class Customer extends User implements Serializable
 	/**
 	 * this variable keep the current customer all the time that id i get him from DB once it stay with easy access
 	 */
+
 	public static Customer curCustomer;
 	
 	 /**
@@ -112,7 +113,6 @@ public class Customer extends User implements Serializable
 	public void setBalance(double balance) {
 		Balance = balance;
 	}
-	
 	
 	public String getTypeMember() {
 		return typeMember;

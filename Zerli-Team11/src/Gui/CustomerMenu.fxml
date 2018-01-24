@@ -7,20 +7,18 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.CustomerMenuController">
    <children>
-      <Label layoutX="102.0" layoutY="20.0" text="Customer Menu">
+      <Label layoutX="90.0" layoutY="31.0" text="Customer Menu" textFill="#4809e8">
          <font>
-            <Font name="System Bold" size="23.0" />
+            <Font name="Lucida Calligraphy Italic" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="66.0" layoutY="382.0" mnemonicParsing="false" onAction="#LogoutBtn" text="LogOut" />
+      <Button layoutX="176.0" layoutY="384.0" mnemonicParsing="false" onAction="#LogoutBtn" text="LogOut" />
       <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="View Catalog" />
       <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
 
-      <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" onAction="#viewCatalogBtn" prefHeight="25.0" prefWidth="92.0" text="View Catalog" />
-      <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="92.0" text="Cancel Order" />
-
-      <Button layoutX="307.0" layoutY="382.0" mnemonicParsing="false" onAction="#ExitBtn" prefHeight="25.0" prefWidth="56.0" text="Exit" />
-      <Button layoutX="151.0" layoutY="219.0" mnemonicParsing="false" onAction="#viewMyProfileBtn" prefHeight="25.0" prefWidth="99.0" text="View My Profile" />
-      <Button layoutX="154.0" layoutY="299.0" mnemonicParsing="false" onAction="#LoadingMoney" text="Loding Money" />
+                  <Button layoutX="154.0" layoutY="112.0" mnemonicParsing="false" onAction="#viewCatalogBtn" prefHeight="25.0" prefWidth="99.0" text="View Catalog" />
+      <Button layoutX="154.0" layoutY="164.0" mnemonicParsing="false" onAction="#OpenCancelOrder" prefHeight="25.0" prefWidth="99.0" text="Cancel Order" />
+      <Button layoutX="154.0" layoutY="214.0" mnemonicParsing="false" onAction="#viewMyProfileBtn" prefHeight="25.0" prefWidth="99.0" text="View My Profile" />
+      <Button layoutX="154.0" layoutY="267.0" mnemonicParsing="false" onAction="#LoadingMoney" prefHeight="25.0" prefWidth="99.0" text="Loding Money" />
    </children>
 </AnchorPane>

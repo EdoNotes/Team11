@@ -170,7 +170,11 @@ public class CustomerServiceMenuController implements Initializable {
 	}
 	
 	
-	
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Logout" Button
+	 * @param event
+	 */
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{

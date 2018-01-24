@@ -11,12 +11,18 @@
 package Gui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import Entities.Complaint;
 import Entities.Survey;
 import Entities.User;
 import Login.WelcomeController;
 import client.ClientConsole;
 import common.Msg;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,38 +31,45 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class StoreEmployeeMenuController {
+public class StoreEmployeeMenuController implements Initializable {
 	
 	public ClientConsole client;
 	private Msg LogoutMsg=new Msg();
-	
 	@FXML
-	TextField txtNumSurvey;
+	ComboBox cmbNumSurvey;
 	
 	
+	/**
+	 * 
+	 * @param event Button the pass you to the next screen the there the employee insert the 
+	 * answer customer
+	 * @throws IOException
+	 */
 	@FXML
 	public void FillSurveyBtn(ActionEvent event) throws IOException
 	{
-		if(txtNumSurvey.getText().equals("")) {
-			Alert al = new Alert(Alert.AlertType.ERROR);
-			al.setTitle("Survey User problem");
-			al.setContentText("Fill number Survey");
+		if(cmbNumSurvey.getValue()==null)//check if the combo box number survey are not empty
+		{
+			Alert al=new Alert(Alert.AlertType.ERROR);
+			al.setTitle("Error");
+			al.setContentText("Combo Box Cannot Remain Empty");
 			al.showAndWait();
 		}
 		else{
 			Msg QuestionSurvey = new Msg(Msg.qSELECTALL, "select survey by numer survey"); // create a new msg
-			QuestionSurvey.setSentObj(txtNumSurvey.getText()); // put the user into msg
+			String cbNumS=""+cmbNumSurvey.getSelectionModel().getSelectedItem();
+			QuestionSurvey.setSentObj(cbNumS); // put the user into msg
 			QuestionSurvey.setClassType("survey_question");
 			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-			//client = new ClientConsole("127.0.0.1",5555);/////לבדוק למה welcomeController לא מאותחל נכון
 			try {
 				client.accept((Object) QuestionSurvey);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} 
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			QuestionSurvey = (Msg) client.get_msg();
@@ -77,7 +90,7 @@ public class StoreEmployeeMenuController {
 				FXMLLoader loader=new FXMLLoader();
 				Pane root=loader.load(getClass().getResource("/Gui/Survey.fxml").openStream());
 				SurveyController surveyController = (SurveyController)loader.getController();
-				surveyController.getNumSurvey(txtNumSurvey.getText());
+				surveyController.getNumSurvey(""+cmbNumSurvey.getSelectionModel().getSelectedItem());
 				surveyController.getQues(returnSurveyQ.getNumSurvey(),returnSurveyQ.getQuestion1(), returnSurveyQ.getQuestion2(), returnSurveyQ.getQuestion3(), returnSurveyQ.getQuestion4(), returnSurveyQ.getQuestion5(), returnSurveyQ.getQuestion6());
 
 				Scene serverScene = new Scene(root);
@@ -120,6 +133,26 @@ public class StoreEmployeeMenuController {
 			e1.printStackTrace();
 		}
 
+	}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+		Msg numSurveyCheck=new Msg(Msg.qSELECTALL,"get all surveys");
+		numSurveyCheck.setClassType("survey_question");
+		try {
+			client.accept(numSurveyCheck);
+			numSurveyCheck = (Msg) client.get_msg();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		ObservableList<Integer> ComboBoxNumSurveyQuest=FXCollections.observableArrayList();
+		ArrayList<Integer> returnNumQuest = new ArrayList<Integer>((ArrayList<Integer>) numSurveyCheck.getReturnObj());
+		for(int surveyNum:returnNumQuest)
+		{
+			ComboBoxNumSurveyQuest.add(surveyNum);
+		}
+		cmbNumSurvey.setItems(ComboBoxNumSurveyQuest);
+		
 	}
 	
 

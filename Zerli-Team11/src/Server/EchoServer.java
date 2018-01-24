@@ -897,7 +897,7 @@ public class EchoServer extends AbstractServer {
 
 	}
 	/**
-	 * 
+	 * this method are update user details on the DB 
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -919,8 +919,6 @@ public class EchoServer extends AbstractServer {
 			stmt.executeUpdate();
 			con.close();
 		} catch (SQLException e) {
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -1038,7 +1036,7 @@ public class EchoServer extends AbstractServer {
 
 
 	/**
-	 * 
+	 * this method adding the customer details to the DB 
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1048,9 +1046,10 @@ public class EchoServer extends AbstractServer {
 		Customer CustomerDB = (Customer) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
 		String sql= message.getQueryQuestion() + " zerli." + tableName + " ("
-				+ "customerID ,UserName ,isSettlement , isMember, creditCardNumber ,balance)" + "\nVALUES " + "('"
+				+ "customerID ,UserName ,isSettlement , isMember, creditCardNumber ,balance ,typeMember ,expDate)" + "\nVALUES " + "('"
 				+ CustomerDB.getCustomerID() + "','" + CustomerDB.getUserName() + "','"
-				+ CustomerDB.getIsSettlement() + "','" + CustomerDB.getIsMember() + "','" +CustomerDB.getCreditCard()+ "','"+CustomerDB.getBalance()+ "');" ;
+				+ CustomerDB.getIsSettlement() + "','" + CustomerDB.getIsMember() + "','" +CustomerDB.getCreditCard()+ "','"+CustomerDB.getBalance()+
+				"','"+CustomerDB.getTypeMember() +"','"+CustomerDB.getExpDate()+ "');" ;
 		try {
 
 			Statement stmt=con.createStatement();
@@ -1101,12 +1100,14 @@ public class EchoServer extends AbstractServer {
 
 	}
 
-	/*
-	 * Method that adding new user to DB
-	 * =============================================================================
-	 * ==
-	 */
 
+/**
+ * this method are adding new user to DB 
+ * @param msg
+ * @param tableName
+ * @param client
+ * @param con
+ */
 	public static void AddNewUser(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User NewUserToAdd = (User) (((Msg) msg).getSentObj());
 		Msg message = (Msg) msg;
@@ -1249,7 +1250,7 @@ public class EchoServer extends AbstractServer {
 
 	
 	/**
-	 * 
+	 * this method return the survey question to store employee
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1266,13 +1267,13 @@ public class EchoServer extends AbstractServer {
 					+ " \nWHERE numSurvey= '" + NumSurvey + "';");
 
 			if (rs.next()) {
-				surveyques.setNumSurvey(rs.getInt(1));
-				surveyques.setQuestion1(rs.getString(2));
-				surveyques.setQuestion2(rs.getString(3));
-				surveyques.setQuestion3(rs.getString(4));
-				surveyques.setQuestion4(rs.getString(5));
-				surveyques.setQuestion5(rs.getString(6));
-				surveyques.setQuestion6(rs.getString(7));
+				surveyques.setNumSurvey(rs.getInt(1));  //Set number survey for returned object
+				surveyques.setQuestion1(rs.getString(2)); //Set question 1 for returned object
+				surveyques.setQuestion2(rs.getString(3));//Set question 2 for returned object
+				surveyques.setQuestion3(rs.getString(4));//Set question 3 for returned object
+				surveyques.setQuestion4(rs.getString(5));//Set question 4 for returned object
+				surveyques.setQuestion5(rs.getString(6));//Set question 5 for returned object
+				surveyques.setQuestion6(rs.getString(7));//Set question 6 for returned object
 			}
 
 			rs.close();
@@ -1352,7 +1353,7 @@ public class EchoServer extends AbstractServer {
 
 	}
 	/**
-	 * 
+	 * this method update customer details by user name 
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1368,7 +1369,8 @@ public class EchoServer extends AbstractServer {
 			con.close();
 	}
 	/**
-	 * 
+	 * this method update customer details - > if is account settlement and if he is a member 
+	 * and type member and expiry date of member
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1378,9 +1380,8 @@ public class EchoServer extends AbstractServer {
 	private static void UpdateCustomerSettlMemberCreditInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Customer CustomerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
-		System.out.println(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"+CustomerToUpdate.getCreditCard() +"' WHERE 'customerID'="+CustomerToUpdate.getCustomerID()+";");
-		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"+CustomerToUpdate.getCreditCard() +"'"
-				+ " WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
+		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"
+		+CustomerToUpdate.getCreditCard() +"'"+ ",typeMember= '" +CustomerToUpdate.getTypeMember()+"',expDate = '"+CustomerToUpdate.getExpDate()+ "' WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
 		stmt.executeUpdate();
 		con.close();
 	}
@@ -1449,7 +1450,7 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	/**
-	 * 
+	 * this method update customer balance on the customer table 
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1508,6 +1509,7 @@ public class EchoServer extends AbstractServer {
 		Msg message = (Msg) msg;
 		ArrayList<Integer> SurveysQuestionsNum=new ArrayList<Integer>();
 		String Query=(message.getQueryQuestion()+" FROM zerli."+tableName+";");
+		System.out.println(Query);
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(Query);

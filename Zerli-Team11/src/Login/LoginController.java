@@ -256,16 +256,16 @@ public class LoginController
 							}
 							
 						}	
+					} 
+					else 
+					{
+						System.out.println("Wrong password");
+	
+						Alert al = new Alert(Alert.AlertType.ERROR);
+						al.setTitle("Connecttion problem");
+						al.setContentText("Wrong Password!");
+						al.showAndWait();
 					}
-				} 
-				else 
-				{
-					System.out.println("Wrong password");
-
-					Alert al = new Alert(Alert.AlertType.ERROR);
-					al.setTitle("Connecttion problem");
-					al.setContentText("Wrong Password!");
-					al.showAndWait();
 				}
 			}
 			else {

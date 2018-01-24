@@ -134,19 +134,6 @@ public class CustomerMenuController
 	}
 	/**
 	 * this function implementing the sequence of actions
-	 * that happens after customer clicks "Exit" Button
-	 * @param event
-	 */
-	@FXML
-	public void ExitBtn(ActionEvent event) {
-		Alert al = new Alert(Alert.AlertType.INFORMATION);
-		al.setHeaderText("Closing Customer Panel ");
-		al.setContentText("Closing Customer Panel Now");
-		al.showAndWait();
-		System.exit(0);
-	}
-	/**
-	 * this function implementing the sequence of actions
 	 * that happens after customer clicks "Logout" Button
 	 * @param event
 	 */
@@ -188,6 +175,11 @@ public class CustomerMenuController
 	}
 	
 	
+	/**
+	 * This method open screen loading money and pass you there
+	 * @param event Button Loading money
+	 * @throws IOException
+	 */
 	@FXML
 	public void LoadingMoney(ActionEvent event) throws IOException 
 	{
