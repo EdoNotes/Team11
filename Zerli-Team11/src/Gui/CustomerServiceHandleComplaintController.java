@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import Entities.Complaint;
@@ -43,6 +44,10 @@ public class CustomerServiceHandleComplaintController {
 	private Label lblUserName;
 	@FXML
 	private Label lblBranchId;
+	@FXML
+	private Label lblAsgDate;
+	@FXML
+	private Label lblAsgTime;
 	@FXML
 	private TextField txtRefund;
 	private Complaint CurrentComplaint;
@@ -72,6 +77,8 @@ public class CustomerServiceHandleComplaintController {
 		}
 		lblBranchId.setText(complaint.getStoreId()+"");
 		txtComplaintDetails.setText(complaint.getComplaintDetails());
+		lblAsgDate.setText(complaint.getAssigningDate());
+		lblAsgTime.setText(complaint.getAssigningTime());
 		CurrentComplaint=complaint;
 	}
 
@@ -194,6 +201,15 @@ public class CustomerServiceHandleComplaintController {
 		{
 			Confirmation.close();
 		}
-
+		
 	}
+
+	public Label getLblAsgDate() {
+		return lblAsgDate;
+	}
+
+	public Label getLblAsgTime() {
+		return lblAsgTime;
+	}
+	
 }

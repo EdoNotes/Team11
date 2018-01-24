@@ -26,6 +26,7 @@ public class Complaint implements Serializable {
 	private int StoreId;
 	private String ComplaintDetails;
 	private String assigningDate;
+	private String assigningTime;
 	private int gotTreatment;/*The Complaint Handle Status(1=<Yes>,0=<No>)*/
 	private int gotRefund;/*The Complaint Refund Handle Status(1=<Yes>,0=<No>)*/
 	public static int ComplaintIndex=1;
@@ -36,13 +37,15 @@ public class Complaint implements Serializable {
 	 * @param StorId-Store ID
 	 * @param Details-Complaint Details
 	 * @param date-Complaint Assigning Date
+	 * @param time-Complaint Assigning Time
 	 */
-	public Complaint(int CompId,int cusId, int StorId, String Details, String date) {
+	public Complaint(int CompId,int cusId, int StorId, String Details, String date,String time) {
 		this.ComplaintId=CompId;
 		this.CustomerId = cusId;
 		this.StoreId = StorId;
 		this.ComplaintDetails = Details;
 		this.assigningDate = date;
+		this.assigningTime=time;
 		this.gotTreatment = 0;
 		this.gotRefund = 0;
 		ComplaintIndex++;
@@ -117,6 +120,11 @@ public class Complaint implements Serializable {
 	public void setComplaintId(int complaintId) {
 		ComplaintId = complaintId;
 	}
-	
+	public String getAssigningTime() {
+		return assigningTime;
+	}
+	public void setAssigningTime(String assigningTime) {
+		this.assigningTime = assigningTime;
+	}
 
 }

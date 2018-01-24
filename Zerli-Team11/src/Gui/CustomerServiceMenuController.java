@@ -12,6 +12,8 @@ package Gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -29,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -77,6 +80,30 @@ public class CustomerServiceMenuController implements Initializable {
 				ViewProfileScene.getStylesheets().add(getClass().getResource("/Gui/CustomerServiceHandleComplaint.css").toExternalForm());
 				OpenComplaintDetailsStage.setScene(ViewProfileScene);
 				OpenComplaintDetailsStage.show();
+				//Compare Current Date And time to the Assigning time and date
+				LocalDate assignDate=LocalDate.parse(ComplaintHandlerWindow.getLblAsgDate().getText());
+				LocalTime assignTime=LocalTime.parse(ComplaintHandlerWindow.getLblAsgTime().getText());
+				int assignHour=assignTime.getHour();
+				if(LocalDate.now().isAfter(assignDate))
+				{
+					int hourNow=LocalTime.now().getHour();
+					if(assignHour<hourNow)
+					{
+						Alert al=new Alert(Alert.AlertType.ERROR);
+						al.setContentText("Complaint Treatment Time Passed");
+						al.setHeaderText("Time Has Passed");
+						al.showAndWait();
+					}
+				}
+				else//Same Day
+				{
+					int hourNow=LocalTime.now().getHour();
+					int diffhours=24+(assignHour-hourNow);
+					Alert al=new Alert(Alert.AlertType.INFORMATION);
+					al.setContentText("Complaint Treatment Time");
+					al.setHeaderText("You Have\n "+diffhours+" Hours To Treat The Complaint");
+					al.showAndWait();
+				}
 
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
