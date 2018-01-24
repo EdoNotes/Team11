@@ -279,7 +279,16 @@ public class CartWindowController implements Initializable{
 		{
 			curOrder=new Order();
 			curOrder.setCustomerId(Customer.curCustomer.getCustomerID());
-			curOrder.setOrderPrice(cactulateTotalPrice(Customer.curCustomer.getIsMember()==1));
+			if(Customer.curCustomer.typeMember.compareTo(Customer.none)!=0) /*if customer is member*/
+			{
+				LocalDate expDateOfSubsc=LocalDate.parse(Customer.curCustomer.getExpDate(),Order.formtDateLocal); //convert the String Date to LocalDate to check the expired date of the subscription
+				LocalDate today=LocalDate.now(); //the day of today
+				if(today.isAfter(expDateOfSubsc)) /*if the subscription is expired*/
+					curOrder.setOrderPrice(cactulateTotalPrice(false));
+				else /*if subscription isn't expired*/
+					curOrder.setOrderPrice(cactulateTotalPrice(true));
+			}
+			else curOrder.setOrderPrice(cactulateTotalPrice(false)); /*if subscription not exist at all*/
 			curOrder.setIsPaid(0);
 			curOrder.setStoreId(zerlistore.getStoreID());
 			curOrder.setPIO(ProductInOrder.CurCart);

@@ -22,12 +22,18 @@ public class Customer extends User implements Serializable
 {
 
 	public final static double memberDiscount= 0.1;
+	public final static String none="NONE";
+	public final static String monthly="MONTHLY";
+	public final static String yearly="YEARLY";
+	
 	
 	private int customerID;
 	private int isSettlement;//if the currency is positive and there is not debt
 	private int isMember;
 	private String CreditCard;
 	private double Balance;
+	public String typeMember;
+	public String expDate;
 	/**
 	 * this variable keep the current customer all the time that id i get him from DB once it stay with easy access
 	 */
@@ -105,6 +111,20 @@ public class Customer extends User implements Serializable
 	}
 	public void setBalance(double balance) {
 		Balance = balance;
+	}
+	
+	
+	public String getTypeMember() {
+		return typeMember;
+	}
+	public String getExpDate() {
+		return expDate;
+	}
+	public void setTypeMember(String typeMember) {
+		this.typeMember = typeMember;
+	}
+	public void setExpDate(String expDate) {
+		this.expDate = expDate;
 	}
 	/**
 	 * Customer ToString Method

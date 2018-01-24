@@ -14,6 +14,10 @@ import java.io.IOException;
 
 import com.mysql.jdbc.util.ServerController;
 
+import Entities.Customer;
+import Entities.Order;
+import Entities.OrderSupply;
+import Entities.ProductInOrder;
 import Entities.User;
 import Gui.ApprovalCancelationController;
 import Gui.CustomerMenuController;
@@ -96,6 +100,10 @@ public class LoginController
 						al.setTitle("Connecttion Succeed");
 						al.setContentText("Welcome " + returnUsr.getFirstName());
 						al.showAndWait();
+						Order.curOrder=null;
+						ProductInOrder.CurCart=null;
+						Customer.curCustomer=null;
+						OrderSupply.curSupply=null; //init all statics to the next action
 						User.currUser=returnUsr;
 						//Open Appropriate menu
 						String userType=returnUsr.getUserType();

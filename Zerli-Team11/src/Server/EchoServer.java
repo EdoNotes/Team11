@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TreeMap;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,16 +23,12 @@ import java.io.*;
 import Entities.*;
 import common.*;
 import ocsf.server.AbstractServer;
-//import ocsf.server.*;
 import ocsf.server.ConnectionToClient;
 
+
 public class EchoServer extends AbstractServer {
-	/*
-	 * Attributes Area
-	 * 
-	 * =============================================================================
-	 * ==
-	 */
+
+	
 	/**
 	 * The default port and host to listen on.
 	 */
@@ -50,8 +45,15 @@ public class EchoServer extends AbstractServer {
 		super(port);
 	}
 	/**
-	 * All The Communication Between Client To server Is Moving Through This Function,And Here We Filter 
-	 * To Specific Type
+	 *All The Communication Between Client To server
+	 *Is Moving Through This Function,
+	 *in this func we do classification
+	 *for any msg that send from, client
+	 *from this func we go to specific handler
+	 *and from there to the required func we need 
+	 *
+	 *@param msg convert from Object to Msg and contains the class type to handle
+	 *
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
@@ -103,10 +105,10 @@ public class EchoServer extends AbstractServer {
 	
 
 	/**
-	 * 
-	 * @param msg
-	 * @param client
-	 * @param conn
+	 * orderHandler- sort the msg with class type "order" to functions by the query that need to do
+	 * @param msg contains the query to do
+	 * @param client the connection connected to the client that sent the message.
+	 * @param conn the conntion to DB
 	 * @throws SQLException
 	 * @throws IOException
 	 */
@@ -125,6 +127,14 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	
+	/**
+	 * by using PreparedStatement we insert a new supply of order to data base
+	 * @param msg contain OrderSupply instace
+	 * @param tableName
+	 * @param client the connection connected to the client that sent the message.
+	 * @param con the connection to DB
+	 */
 	private static void insertOrderSupply(Msg msg, String tableName, ConnectionToClient client, Connection con) {
 		OrderSupply supToInset=(OrderSupply)msg.getSentObj();
 		String query= msg.getQueryQuestion()+" zerli."+tableName+" (`IDOrder`, `StoreID`, `supplyMethod`, `dateOfSupply`, `TimeOfSupply`, `contactName`, `Contact address`, `contacPhonet`, `isInstant`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -147,6 +157,14 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * using PreparedStatement we push to DB product in order
+	 * @param msg contins ProductInOrder instance
+	 * @param tableName
+	 * @param client the connection connected to the client that sent the message.
+	 * @param con the connection to DB
+	 * @throws SQLException
+	 */
 	private static void insertProductInOrder(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		ProductInOrder productToInset=(ProductInOrder)msg.getSentObj();
 		String query= msg.getQueryQuestion()+" zerli."+tableName+"(`OrderID`, `productID`, `quantity`, `totalPrice`) VALUES (?,?,?,?);";
@@ -163,7 +181,14 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}	
 	}
-
+	/**
+	 * insert to the data base new order with PreparedStatement
+	 * @param msg contains product to update and query question
+	 * @param tableName
+	 * @param client the connection connected to the client that sent the message.
+	 * @param con the connection to DB
+	 * @throws IOException
+	 */
 	private static void insertNewOrder(Msg msg, String tableName, ConnectionToClient client, Connection con) throws IOException {
 		Order OrderToSet=(Order)msg.getSentObj();
 		String query=msg.getQueryQuestion()+" zerli."+tableName+" (`customerID`, `supplyMethod`, `orderPrice`, `greeting`, `Date`, `orderTime`, `isPaid`, `storeID`) VALUES (?,?,?,?,?,?,?,?);";
@@ -199,6 +224,15 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}	
 	}
+	
+	/**
+	 * the handler of the products- sort msg from class type product
+	 * @param msg
+	 * @param client
+	 * @param conn
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	private static void productHandler(Msg msg, ConnectionToClient client, Connection conn) throws SQLException, IOException {
 		String queryToDo = msg.getqueryToDo();
 		if(queryToDo.compareTo("load all flowers")==0)
@@ -220,7 +254,14 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	
-	//DELETE FROM `zerli`.`product` WHERE `productID`='6';
+	/**
+	 * Delete product from data base by given the product id
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void DeleteProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Product toDelete=(Product)msg.getSentObj();
 		String query= msg.getQueryQuestion()+" FROM zerli."+tableName +" WHERE productID = ? " ;
@@ -230,6 +271,14 @@ public class EchoServer extends AbstractServer {
 		con.close();
 	}
 	
+	/**
+	 * add product to DB with product image
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void addProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Product toAdd=(Product)msg.getSentObj();
 		String query= msg.getQueryQuestion()+" zerli."+tableName +" (productName, productType, productDescription, price, dominantColor, BranchName, image) VALUES (?, ?, ?, ?, ?, ?, ?);";
@@ -245,6 +294,18 @@ public class EchoServer extends AbstractServer {
 		con.close();
 		
 	}
+	
+	/**
+	 * update product details by given product id
+	 * the product can be with or without image
+	 * if the product the image include
+	 * add to ValueToUpdate param at Msg class the string "with image"
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void updateProduct(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Product pToUpdate=(Product)msg.getSentObj();
 		String query;
@@ -273,7 +334,16 @@ public class EchoServer extends AbstractServer {
 	}
 
 		
-
+/**
+ * The 6 type of search to the customize item
+ * this method bring the product that the user exactly
+ * want to look the filters are: price range, type and color
+ * @param msg
+ * @param client
+ * @param con
+ * @throws SQLException
+ * @throws IOException
+ */
 	private static void SearchProductInCatalog(Msg msg, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		Product parmsToSearch=((Product)msg.getSentObj());
 		ArrayList<Product> productsFounded=new ArrayList<Product>();
@@ -377,7 +447,8 @@ public class EchoServer extends AbstractServer {
 		client.sendToClient(msg);
 	}
 	/**
-	 * 
+	 * load all products from catalog
+	 * if we want to load products from specific store the put the store name in the storeName of product
 	 * @param msg
 	 * @param prodtype
 	 * @param client
@@ -392,7 +463,7 @@ public class EchoServer extends AbstractServer {
 		InputStream input=null;
 		img=conn.createBlob();
 		String que;
-		String storeName=((Product)msg.getSentObj()).getStoreName(); /*I need to put here storeID that i will send from client with combobox*/
+		String storeName=((Product)msg.getSentObj()).getStoreName(); 
 		if(storeName.compareTo("all")!=0) /*load from specific store */
 			 que=msg.getQueryQuestion()+" FROM zerli.product WHERE BranchName= '" + storeName+"';";
 		else /*load from all stores*/
@@ -424,7 +495,7 @@ public class EchoServer extends AbstractServer {
 		client.sendToClient(msg);
 	}
 	/**
-	 * 
+	 * orderHandler- sort the msg with class type "Store" to functions by the query that need to do
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -443,6 +514,16 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+	
+	/**
+	 * this func send back to the user all the stores's name from DB
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	private void getStoresName(Msg msg, String tableName, ConnectionToClient client, Connection con) throws SQLException, IOException {
 		ArrayList<String> storesName=new ArrayList<String>();
 		String query=msg.getQueryQuestion()+" branchName From zerli."+ tableName;
@@ -458,45 +539,33 @@ public class EchoServer extends AbstractServer {
 		client.sendToClient(msg);
 	}
 	/**
-	 * 
+	 * search spesific store in DB with a search filter that we can put in ColumnToUpdate at msg
 	 * @param msg
 	 * @param tableName
 	 * @param client
 	 * @param con
+	 * @throws IOException 
+	 * @throws SQLException 
 	 */
-	private void searchStoreInDB(Object msg, String tableName, ConnectionToClient client, Connection con) {
+	private void searchStoreInDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws IOException, SQLException {
 		Store tmpStore = new Store();
 		Msg message = (Msg) msg;
 		String Query = (message.getQueryQuestion() + " FROM  zerli." + tableName + " Where "
 				+ message.getColumnToUpdate() + "=" + "?;");
-		try {
 			PreparedStatement stmt = con.prepareStatement(Query);
 			stmt.setString(1, message.getValueToUpdate());// get Specific Field's value
 			ResultSet rs = stmt.executeQuery();
-
 			if (rs.next()) {
 				tmpStore.setStoreID(rs.getInt(1));
 				tmpStore.setBranchName(rs.getString(2));
 			}
 			con.close();
 			rs.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(tmpStore);// works
-
 		((Msg) msg).setReturnObj(tmpStore);
-
-		try {
 			client.sendToClient(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
+	
+	
 	/**
 	 * 
 	 * @param msg
@@ -579,11 +648,9 @@ public class EchoServer extends AbstractServer {
 			try {
 				client.sendToClient(message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -667,7 +734,9 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	/**
-	 * 
+	 * update customer field
+	 * the field is selected by ColumnToUpdate in msg 
+	 * and by filter of customer id
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -688,7 +757,16 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * this function update double parameter in customer, like price
+	 * @param msg
+	 * @param tableName
+	 * @param client
+	 * @param con
+	 * @throws NumberFormatException
+	 * @throws SQLException
+	 */
 	private static void UpdateCustomeR(Object msg, String tableName, ConnectionToClient client, Connection con) throws NumberFormatException, SQLException {
 		Msg deatilsToUpdate=(Msg)msg;
 		String query=deatilsToUpdate.getQueryQuestion()+" `zerli`."+tableName+" SET "+deatilsToUpdate.getColumnToUpdate()+"= ? WHERE customerID= ?;";
@@ -698,7 +776,8 @@ public class EchoServer extends AbstractServer {
 		stmt.executeUpdate();
 		con.close();
 	}
-	/*---------------------------------------------------End----------------------*/
+	
+	
 	/**
 	 * 
 	 * @param msg
@@ -798,6 +877,8 @@ public class EchoServer extends AbstractServer {
 				tmpCustomer.setIsMember(rs.getInt(4));
 				tmpCustomer.setBalance(rs.getDouble("balance"));
 				tmpCustomer.setCreditCard(rs.getString("creditCardNumber"));
+				tmpCustomer.setTypeMember(rs.getString("typeMember"));
+				tmpCustomer.setExpDate(rs.getString("expDate"));
 			}
 			con.close();
 			rs.close();
@@ -955,11 +1036,7 @@ public class EchoServer extends AbstractServer {
 			client.sendToClient(msg);
 	}
 
-	/*
-	 * Methods that insert a new customer to DB (עדין לא עובד - לא מגיע למתודה(
-	 * =============================================================================
-	 * ==
-	 */
+
 	/**
 	 * 
 	 * @param msg
@@ -1382,8 +1459,6 @@ public class EchoServer extends AbstractServer {
 	private static void UpdateCustomerBalanceDB(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
 		Customer customerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
-		System.out.println("matannnnnnn");
-		System.out.println(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= "+message.getValueToUpdate()+" WHERE UserName='"+customerToUpdate.getUserName()+"'");
 		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+message.getColumnToUpdate()+"= ? WHERE UserName='"+customerToUpdate.getUserName()+"'");
 		stmt.setString(1, message.getValueToUpdate());
 		stmt.executeUpdate();
