@@ -70,11 +70,13 @@ public class CancelOrderController implements Initializable
 
 	}
 	
-	
+	/**
+	 * @param event
+	 * Button that cancel the order that been chosen at the combo box and calculate the appropriate refund.
+	 * @throws Exception
+	 */
 	public void cancel(ActionEvent event) throws Exception
 {		
-		
-		
 		float refund = 0;
 		String cmd ="DELETE FROM zerli.`order` WHERE orderId=  ";
 		String val = (String) CBcancel.getValue();
@@ -100,8 +102,6 @@ public class CancelOrderController implements Initializable
 				+ refund+"  where c.customerID='"+userid+"' and o.orderId ="+id+";";
 		System.out.println(cmd_refund);
 
-		
-
 		Stage primaryStage=new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("ApprovalCancelation.fxml").openStream());
@@ -118,6 +118,22 @@ public class CancelOrderController implements Initializable
 		al.setContentText(msg);
 		al.showAndWait();
 
+		((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+		Stage CustomerStage=new Stage();
+		Parent CustomerRoot;
+		try {
+			FXMLLoader loader2 = new FXMLLoader();
+			Pane root2 = loader2.load(getClass().getResource("/Gui/CustomerMenu.fxml").openStream());
+			CustomerMenuController report2=loader2.getController();
+			Scene CustomerScene2 = new Scene(root2);
+			CustomerScene2.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());
+			CustomerStage.setScene(CustomerScene2);
+			CustomerStage.show();
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();	
+		}
 	}
 
 	@FXML
@@ -176,7 +192,6 @@ public class CancelOrderController implements Initializable
 		Scene.getStylesheets().add(getClass().getResource("CustomerMenu.css").toExternalForm());
 		primaryStage.setScene(Scene);
 		primaryStage.show();
-		
 
 	}
 	
