@@ -176,21 +176,21 @@ public class DeliveryAndGreetingController1 implements Initializable{
 	public void paymentBtn(ActionEvent event)
 	{
 		tmpSupplyTime=getSupTime();
-		if(tmpSupplyTime.compareTo("false")==0) /*worng input*/
-		{
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Wrong Time Input");
-			alert.setHeaderText("Please Insert A Valid Time");
-			alert.setContentText("The date you inserted is passed\nOr not good foramt");
-			alert.showAndWait();
-			return;
-		}
 		if(!(validDate)) /*if date not ok*/
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Wrong Date Input");
 			alert.setHeaderText("Please Insert A Valid Date");
 			alert.setContentText("The date you inserted is passed");
+			alert.showAndWait();
+			return;
+		}
+		else if(tmpSupplyTime.compareTo("false")==0) /*worng input*/
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Wrong Time Input");
+			alert.setHeaderText("Please Insert A Valid Time");
+			alert.setContentText("The date you inserted is passed\nOr not good foramt");
 			alert.showAndWait();
 			return;
 		}
@@ -359,6 +359,14 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			LocalTime chosenHour=LocalTime.parse(supTime, Order.formtTimeLocal); /* time that chosen as instance of LocalTime */
 			if(chosenHour.isBefore(currentTime))
 				return "false";
+			else if(chosenHour.plusHours(3).isAfter(currentTime)) /*if chosenHoure+3 hours from now the company can try to supply but not promise */
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Not Immediately Order");
+				alert.setHeaderText("You Choosed Supply Time Less Then 3 Hours");
+				alert.setContentText("The company can try to supply but not promise\nIf you want delivery less then 3 hours mark 'Yes' in the Immediately Supply");
+				alert.showAndWait();
+			}
 		}
 		return supTime;
 	}

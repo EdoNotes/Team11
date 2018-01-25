@@ -721,6 +721,9 @@ public class EchoServer extends AbstractServer {
 		else if(requestMsg.getqueryToDo().compareTo("Update Customer Settlement and Member and credit card") == 0) {
 			UpdateCustomerSettlMemberCreditInDB(msg, tableName, client, con);
 		}
+		else if(requestMsg.getqueryToDo().compareTo("Update Cus") == 0) {
+			UpdateCustomerInDATABASE(msg, tableName, client, con);
+		}
 		else if(requestMsg.getqueryToDo().compareTo("pull the balance customer") == 0) {
 			searchCustomerInDB(msg, tableName, client, con);
 		}
@@ -758,7 +761,7 @@ public class EchoServer extends AbstractServer {
 	}
 	
 	/**
-	 * this function update double parameter in customer, like price
+	 * this function update double parameter in customer, like balance
 	 * @param msg
 	 * @param tableName
 	 * @param client
@@ -1183,18 +1186,14 @@ public class EchoServer extends AbstractServer {
 			Integer i = 1;
 			rs.next();
 			while (i < 7) {
-
-				System.out.println(i.toString() + rs.getString(i));
 				directory.put(i.toString(), rs.getString(i));
 				i += 1;
-
 			}
 			
 			rs.close();
-			System.out.println(directory);
 			message.setReturnObj(directory);
 			try {
-				client.sendToClient(directory);
+				client.sendToClient(message);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -1367,9 +1366,22 @@ public class EchoServer extends AbstractServer {
 		Msg message=(Msg)msg;
 		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"
 		+CustomerToUpdate.getCreditCard() +"'"+ ",balance= " +CustomerToUpdate.getBalance()+ ",typeMember= '" +CustomerToUpdate.getTypeMember()+"',expDate = '"+CustomerToUpdate.getExpDate()+ "' WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
+
 		stmt.executeUpdate();
 		con.close();
 	}
+	
+	private static void UpdateCustomerInDATABASE(Object msg, String tableName, ConnectionToClient client, Connection con) throws SQLException {
+		Customer CustomerToUpdate = (Customer) (((Msg) msg).getSentObj());
+		Msg message=(Msg)msg;
+		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"+CustomerToUpdate.getCreditCard() +"'"
+				+ " WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
+		stmt.executeUpdate();
+		con.close();
+	}
+
+	
+	
 	/**
 	 * 
 	 * @param msg
