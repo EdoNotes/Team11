@@ -47,7 +47,7 @@ public class ManagerSystemMenuController {
 	public void ShowDetails(ActionEvent event) throws IOException
 	{
 		User userToChange = new User(); // create a new user to make sure
-		if(txtId.getText().equals("")) {
+		if(checkNumFiedl()) {
 			Alert al = new Alert(Alert.AlertType.ERROR);
 			al.setTitle("User problem");
 			al.setContentText("Fill number User");
@@ -132,7 +132,20 @@ public class ManagerSystemMenuController {
 
 	}
 	
-
+	/**
+	 * method that check if the text field is legal number 
+	 * @return
+	 */
+	public boolean checkNumFiedl()
+	{
+		if(txtId.getText().compareTo("")==0
+				||txtId.getText().charAt(0)<'0' 
+				||txtId.getText().charAt(0)>'9' 
+				||txtId.getText().charAt(0)==' '
+				||txtId.getText().compareTo("")==0)
+			return true;
+		else return false;
+	}
 	
 	
 	

@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Entities.Customer;
+import Entities.User;
 import Login.WelcomeController;
 import client.ClientConsole;
 import common.Msg;
@@ -50,7 +51,6 @@ public class SettlementAccountController {
 	
 	public ClientConsole client;
 	
-	private int flagUpdate=0;
 	
 	
 	/**
@@ -92,6 +92,7 @@ public class SettlementAccountController {
 		String crOrCash="";
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //date of today
 		LocalDate localDate = LocalDate.now();
+		LocalDate time = null;
 		
 		if(IsSettlement.isSelected()) {  //check if selected - account is settlement or not
 			NewCustomerDB.setIsSettlement(1);
@@ -107,28 +108,28 @@ public class SettlementAccountController {
 		else if(memberMONTHLY.isSelected()) {  //check if selected - customer member monthly or not
 				NewCustomerDB.setIsMember(1); //setting  is member
 				NewCustomerDB.setTypeMember(Customer.monthly);
-				if(flagUpdate==0) {crOrCash=creditOrCash("Price for monthly subscription is 10.0 NIS");} //check if it is about new Registration
-				if(crOrCash.compareTo("credit")==0) 
-					NewCustomerDB.setBalance(90.0); //setting balance after the customer pay whit is credit card balance
-				else if(crOrCash.compareTo("cash")==0)
+				crOrCash=creditOrCash("Price for monthly subscription is 10.0 NIS"); //check if it is about new Registration
+				if(crOrCash.compareTo("Balance Account")==0) //if he want to pay whit is account balance
+					NewCustomerDB.setBalance(90.0); //setting balance after the customer pay whit is account balance after he pay 10 NIS
+				else if(crOrCash.compareTo("cash")==0)//if he want to pay in cash
 					NewCustomerDB.setBalance(100.0); //if he pay whit cash
 	
 				if(crOrCash.compareTo("cancel")!=0) {	
-					LocalDate time=localDate.plusMonths(1);
+					time=localDate.plusMonths(1);
 					NewCustomerDB.setExpDate(time.format(dtf));
 				}
 		}	
 		else if(memberYEARLY.isSelected()) {  //check if selected - customer member yearly or not
 				NewCustomerDB.setIsMember(1);
 				NewCustomerDB.setTypeMember(Customer.yearly);
-				if(flagUpdate==0) {crOrCash=creditOrCash("Price for yearly subscription is 80.0 NIS");}
-				if(crOrCash.compareTo("credit")==0) 
-					NewCustomerDB.setBalance(20.0);
-				else if(crOrCash.compareTo("cash")==0)
+				crOrCash=creditOrCash("Price for yearly subscription is 80.0 NIS");
+				if(crOrCash.compareTo("Balance Account")==0) //if he want to pay whit is account balance
+					NewCustomerDB.setBalance(20.0);   //after he pay 80 NIS
+				else if(crOrCash.compareTo("cash")==0) //if he want to pay in cash
 					NewCustomerDB.setBalance(100.0);
 			
 				if(crOrCash.compareTo("cancel")!=0) {	
-					LocalDate time=localDate.plusYears(1);
+					time=localDate.plusYears(1);
 					NewCustomerDB.setExpDate(time.format(dtf));
 				}
 			}
@@ -137,16 +138,14 @@ public class SettlementAccountController {
 			NewCustomerDB.setUserName(txtUserName.getText());
 			NewCustomerDB.setCreditCard(txtCreditCard.getText());
 			
-			if(txtCreditCard.getText().equals("")) //check if the text field credit card are empty (must to be credit card)
+			if(checkNumFiedl()) //check if the text field credit card are empty (must to be credit card)
 			{
 				Alert al = new Alert(Alert.AlertType.ERROR); //if the text field credit card are empty show error massage
 				al.setTitle("Adding credit card problem");
 				al.setContentText("You have to enter credit card!");
 				al.showAndWait();
 			}
-			else if(flagUpdate==0)
-					newRegistration(NewCustomerDB,event);  //if it is about new registration
-				else updateUser(NewCustomerDB,event); //if it is about update user
+			else newRegistration(NewCustomerDB,event);  //if it is about new registration
 					
 		}
 	}
@@ -183,7 +182,6 @@ public class SettlementAccountController {
 		try {
 			root = FXMLLoader.load(getClass().getResource("/Gui/NewUserRegistration.fxml"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Scene loginScene = new Scene(root);
@@ -193,49 +191,6 @@ public class SettlementAccountController {
 		
 	}
 	
-		
-	/*******************************************UpdeteUser-->ManagerSystem***************************/
-	/**
-	 * this method are update customer details
-	 * @param updateCustomer Customer type to update 
-	 * @param event
-	 */
-	public void updateUser(Customer updateCustomer,ActionEvent event) 
-	{
-		Msg UpdateCustomerInDB = new Msg(Msg.qUPDATE, "Update Customer Settlement and Member and credit card"); // create a new msg
-		UpdateCustomerInDB.setSentObj(updateCustomer); // put the customer into msg
-		UpdateCustomerInDB.setClassType("Customer");
-		
-		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		try {
-			client.accept((Object) UpdateCustomerInDB);
-		} 
-		catch (InterruptedException e1) {
-			e1.printStackTrace();
-		} 
-
-		Alert al = new Alert(Alert.AlertType.INFORMATION);
-		al.setTitle("Customer Number ID: "+ updateCustomer.getCustomerID());
-		al.setContentText("Update Succeed ");
-		al.showAndWait();
-		
-	
-		Stage primaryStage=new Stage(); //after the update pass you back to Manager System Menu screen
-		Parent root = null;
-		((Node)event.getSource()).getScene().getWindow().hide();
-		try {
-			root = FXMLLoader.load(getClass().getResource("/Gui/ManagerSystemMenu.fxml"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Scene loginScene = new Scene(root);
-		loginScene.getStylesheets().add(getClass().getResource("ManagerSystemMenu.css").toExternalForm());
-		primaryStage.setScene(loginScene);
-		primaryStage.show();		
-			
-		}
-
 	/**
 	 * 
 	 * @param event Button that pass you back to Manager System Menu screen or pass you back to New User Registration screen
@@ -244,18 +199,8 @@ public class SettlementAccountController {
 	@FXML
 	public void BackBut(ActionEvent event) throws IOException 
 	{
-		if(flagUpdate==1) { //if it is about update user details 
-			flagUpdate=0;
-			Stage primaryStage=new Stage();
-			Parent root = null;
-			((Node)event.getSource()).getScene().getWindow().hide();
-			root = FXMLLoader.load(getClass().getResource("/Gui/ManagerSystemMenu.fxml"));
-			Scene loginScene = new Scene(root);
-			loginScene.getStylesheets().add(getClass().getResource("ManagerSystemMenu.css").toExternalForm());
-			primaryStage.setScene(loginScene);
-			primaryStage.show();	
-		}
-		else {
+	
+		 
 			Stage primaryStage=new Stage(); ////if it is about new registration 
 			Parent root = null;
 			((Node)event.getSource()).getScene().getWindow().hide();
@@ -264,7 +209,6 @@ public class SettlementAccountController {
 			loginScene.getStylesheets().add(getClass().getResource("NewUserRegistration.css").toExternalForm());
 			primaryStage.setScene(loginScene);
 			primaryStage.show();	
-		}
 	}
 		
 		
@@ -283,36 +227,6 @@ public class SettlementAccountController {
 		
 	}
 	
-	/**
-	 *  The method getting the details and setting them on the textFields
-	 * @param settl settlement account if it is 1 the account are settlement and 0 not settlement
-	 * @param credit 
-	 * @param typeMem if type member is monthly or yearly or none 
-	 * @param expDate
-	 */
-	public void getCustomerSettlementANDmember(int settl ,String credit ,String typeMem ,String expDate)
-	{
-		txtCreditCard.setText(credit);
-		if(settl==1) 
-			IsSettlement.setSelected(true);
-		else IsSettlement.setSelected(false);
-		
-		if(typeMem==Customer.none) 
-			isNOTSettlement.setSelected(true);
-		else isNOTSettlement.setSelected(false);
-		
-		if(typeMem==Customer.monthly) 
-			memberMONTHLY.setSelected(true);
-		else memberMONTHLY.setSelected(false);
-		
-		if(typeMem==Customer.yearly) 
-			memberYEARLY.setSelected(true);
-		else memberYEARLY.setSelected(false);
-		
-		txtExpDate.setText(expDate);
-		
-		flagUpdate=1;//for know that is about update user
-	}
 	
 	/**
 	 * this method ask the customer if he want to pay whit cash or credit card
@@ -321,19 +235,19 @@ public class SettlementAccountController {
 	 */
 	public String creditOrCash(String ques) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Credit Card Or Cash");
+		alert.setTitle("Balance Account Or Cash");
 		alert.setHeaderText(ques);
-		alert.setContentText("Do you want to pay whit Credit Card or Cash ?");
+		alert.setContentText("Do you want to pay whit Balance Account or Cash ?");
 
-		ButtonType buttonCredit = new ButtonType("Credit Card");
+		ButtonType buttonBalance = new ButtonType("Balance Account");
 		ButtonType buttonCash = new ButtonType("Cash");
 		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-		alert.getButtonTypes().setAll(buttonCredit, buttonCash, buttonTypeCancel);
+		alert.getButtonTypes().setAll(buttonBalance, buttonCash, buttonTypeCancel);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonCredit){
-		    return "credit";
+		if (result.get() == buttonBalance){
+		    return "Balance Account";
 		} else if (result.get() == buttonCash) {
 			return "cash";
 		} else  {
@@ -341,6 +255,22 @@ public class SettlementAccountController {
 		}
 		
 
+	}
+	
+	
+	/**
+	 * method that check if the text field is legal number 
+	 * @return
+	 */
+	public boolean checkNumFiedl()
+	{
+		if(txtCreditCard.getText().compareTo("")==0
+				||txtCreditCard.getText().charAt(0)<'0' 
+				||txtCreditCard.getText().charAt(0)>'9' 
+				||txtCreditCard.getText().charAt(0)==' '
+				||txtCreditCard.getText().compareTo("")==0)
+			return true;
+		else return false;
 	}
 
 }

@@ -863,8 +863,6 @@ public class EchoServer extends AbstractServer {
 		Msg message = (Msg) msg;
 		String Query = (message.getQueryQuestion() + " FROM  zerli." + tableName + " Where "
 				+ message.getColumnToUpdate() + "=" + "?;");
-		
-		System.out.println(Query);
 		try {
 			PreparedStatement stmt = con.prepareStatement(Query);
 			stmt.setString(1, message.getValueToUpdate());// get Specific Field's value
@@ -1157,19 +1155,15 @@ public class EchoServer extends AbstractServer {
 	 * @throws IOException
 	 */
 	public void get_order_report(Msg msg, Connection con, ConnectionToClient client) throws SQLException, IOException {
-		System.out.println("great" + msg.getQueryQuestion());
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(msg.getQueryQuestion());
 
 			while (rs.next()) {
-
-				System.out.println(rs.getString(1) + rs.getString(2));
 				directory.put(rs.getString(1), rs.getString(2));
 			}
 
 			rs.close();
-			System.out.println(directory);
 				client.sendToClient(directory);
 
 			con.close();
@@ -1181,7 +1175,6 @@ public class EchoServer extends AbstractServer {
 	 * @param client
 	 */
 	public void get_order_survey_report(Msg msg, Connection con, ConnectionToClient client) {
-		System.out.println("great" + msg.getQueryQuestion());
 		Msg message= (Msg)msg;
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		try {
@@ -1244,10 +1237,6 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	
-
-	// SELECT orders.type,count(*) as count FROM zerli.orders WHERE date BETWEEN
-	// '2011-10-01' AND '2011-12-31' and orders.shop = 'Ako' group by orders.type ;
-
 	
 	/**
 	 * this method return the survey question to store employee
@@ -1261,7 +1250,6 @@ public class EchoServer extends AbstractServer {
 		Survey surveyques = new Survey();
 		Msg message = (Msg) msg;
 		try {
-			System.out.println(NumSurvey);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(message.getQueryQuestion() + "  FROM  zerli." + tableName
 					+ " \nWHERE numSurvey= '" + NumSurvey + "';");
@@ -1332,8 +1320,6 @@ public class EchoServer extends AbstractServer {
 		String Query = message.getQueryQuestion() + " " + tableName+" (customerID , storeID,complaintDetails ,assigningDate ,assigningTime,gotTreatment,gotRefund)" 
 		+ " VALUES (?,?,?,?,?,?,?);";
 		
-		System.out.println(Query);
-		
 		try {
 			PreparedStatement stmt = con.prepareStatement(Query);
 			stmt.setInt(1, userToUpdate.getCustomerId());
@@ -1381,7 +1367,7 @@ public class EchoServer extends AbstractServer {
 		Customer CustomerToUpdate = (Customer) (((Msg) msg).getSentObj());
 		Msg message=(Msg)msg;
 		PreparedStatement stmt=con.prepareStatement(message.getQueryQuestion()+" zerli."+tableName+" Set "+"isSettlement= " + CustomerToUpdate.getIsSettlement() + ",isMember= " +CustomerToUpdate.getIsMember() + ",creditCardNumber= '"
-		+CustomerToUpdate.getCreditCard() +"'"+ ",typeMember= '" +CustomerToUpdate.getTypeMember()+"',expDate = '"+CustomerToUpdate.getExpDate()+ "' WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
+		+CustomerToUpdate.getCreditCard() +"'"+ ",balance= " +CustomerToUpdate.getBalance()+ ",typeMember= '" +CustomerToUpdate.getTypeMember()+"',expDate = '"+CustomerToUpdate.getExpDate()+ "' WHERE customerID="+CustomerToUpdate.getCustomerID()+";");
 		stmt.executeUpdate();
 		con.close();
 	}

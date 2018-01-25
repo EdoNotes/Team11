@@ -73,75 +73,85 @@ public class ChangeUserDetailsController {
 	@FXML
 	public void SaveBtn(ActionEvent event) throws InterruptedException, IOException 
 	{
-		User UpdateUser= new User();                
-		UpdateUser.setUserName(txtUserName.getText());    //setting the user Details
-		UpdateUser.setPassword(txtUserPassword.getText());
-		UpdateUser.setID(Integer.parseInt(txtID.getText()));
-		UpdateUser.setFirstName(txtFirstName.getText());
-		UpdateUser.setLastName(txtLastName.getText());
-		UpdateUser.setPhone(txtPhone.getText());
-		if(Male.isSelected())
-			UpdateUser.setGender("M");
-		else UpdateUser.setGender("F");
-		UpdateUser.setEmail(txtEmail.getText());
-		UpdateUser.setUserType(txtPermission.getText());
-		UpdateUser.setConnectionStatus(txtConnectionStatus.getText());
-		UpdateUser.setBranchName(txtbranchName.getText());
-		
-		Msg UpdateUserDB = new Msg(Msg.qUPDATE, "UpadateUserInDB"); // create a new msg
-		
-		UpdateUserDB.setSentObj(UpdateUser); 
-		UpdateUserDB.setClassType("User");
-		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		client.accept((Object) UpdateUserDB);  
-		
-		UpdateUserDB.setClassType("Customer");
-		UpdateUserDB.setqueryToDo("update DB customer"); //set question to server
-		UpdateUserDB.setQueryQuestion(Msg.qUPDATE);
-		UpdateUserDB.setColumnToUpdate("customerID");
-		UpdateUserDB.setValueToUpdate(txtID.getText());
-		client.accept((Object) UpdateUserDB);  
-		
-		
-		
-		Alert al = new Alert(Alert.AlertType.INFORMATION);
-		al.setTitle("User ID: "+ UpdateUser.getID());
-		al.setContentText("User Save Succeed ");
-		al.showAndWait();
-		
-		if(txtPermission.getText().equals("Customer")) //if the user is customer
-		{
-			UpdateUserDB.setqueryToDo("Select DB customer"); //get details (account settlement) of this customer
-			UpdateUserDB.setQueryQuestion(Msg.qSELECTALL);
+		User UpdateUser= new User();
+		if (checkFiedls()) { // check if one of the text fields details are empty
+
+			Alert al = new Alert(Alert.AlertType.ERROR); // if one of the text fields details are empty ,jumping a alert
+															// error message
+			al.setTitle("Register problem");
+			al.setContentText("One of the feild are empty Or illegal input in one of the fields!");
+			al.showAndWait();
+
+		}else {
+			UpdateUser.setUserName(txtUserName.getText());    //setting the user Details
+			UpdateUser.setPassword(txtUserPassword.getText());
+			UpdateUser.setID(Integer.parseInt(txtID.getText()));
+			UpdateUser.setFirstName(txtFirstName.getText());
+			UpdateUser.setLastName(txtLastName.getText());
+			UpdateUser.setPhone(txtPhone.getText());
+			if(Male.isSelected())
+				UpdateUser.setGender("M");
+			else UpdateUser.setGender("F");
+			UpdateUser.setEmail(txtEmail.getText());
+			UpdateUser.setUserType(txtPermission.getText());
+			UpdateUser.setConnectionStatus(txtConnectionStatus.getText());
+			UpdateUser.setBranchName(txtbranchName.getText());
+			
+			Msg UpdateUserDB = new Msg(Msg.qUPDATE, "UpadateUserInDB"); // create a new msg
+			
+			UpdateUserDB.setSentObj(UpdateUser); 
+			UpdateUserDB.setClassType("User");
+			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			client.accept((Object) UpdateUserDB);  
+			
 			UpdateUserDB.setClassType("Customer");
+			UpdateUserDB.setqueryToDo("update DB customer"); //set question to server
+			UpdateUserDB.setQueryQuestion(Msg.qUPDATE);
 			UpdateUserDB.setColumnToUpdate("customerID");
 			UpdateUserDB.setValueToUpdate(txtID.getText());
+			client.accept((Object) UpdateUserDB);  
 			
-			client.accept((Object) UpdateUserDB);
-			UpdateUserDB = (Msg) client.get_msg();
-			Customer returnCustomer = (Customer) UpdateUserDB.getReturnObj();
 			
-			Stage primaryStage=new Stage();         //pass to Settlement Account window
-			((Node)event.getSource()).getScene().getWindow().hide();
-			FXMLLoader loader = new FXMLLoader();
-			Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
-			SettlementAccountController settlementController= (SettlementAccountController)loader.getController();
-			settlementController.getCustomerIdANDuserName(txtID.getText(), txtUserName.getText());
-			settlementController.getCustomerSettlementANDmember(returnCustomer.getIsSettlement(),returnCustomer.getCreditCard(),returnCustomer.getTypeMember(),returnCustomer.getExpDate());
-			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
-			primaryStage.setScene(Scene);
-			primaryStage.show();
-		}
-		else{ //if it is not a customer user pass back to  Manager System Menu window
-		
-			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-			Stage primaryStage=new Stage();
-			Parent root=FXMLLoader.load(getClass().getResource("/Gui/ManagerSystemMenu.fxml"));
-			Scene serverScene = new Scene(root);
-			serverScene.getStylesheets().add(getClass().getResource("ManagerSystemMenu.css").toExternalForm());
-			primaryStage.setScene(serverScene);
-			primaryStage.show();
+			
+			Alert al = new Alert(Alert.AlertType.INFORMATION);
+			al.setTitle("User ID: "+ UpdateUser.getID());
+			al.setContentText("User Save Succeed ");
+			al.showAndWait();
+			
+			if(txtPermission.getText().equals("Customer")) //if the user is customer
+			{
+				UpdateUserDB.setqueryToDo("Select DB customer"); //get details (account settlement) of this customer
+				UpdateUserDB.setQueryQuestion(Msg.qSELECTALL);
+				UpdateUserDB.setClassType("Customer");
+				UpdateUserDB.setColumnToUpdate("customerID");
+				UpdateUserDB.setValueToUpdate(txtID.getText());
+				
+				client.accept((Object) UpdateUserDB);
+				UpdateUserDB = (Msg) client.get_msg();
+				Customer returnCustomer = (Customer) UpdateUserDB.getReturnObj();
+				
+				Stage primaryStage=new Stage();         //pass to Settlement Account window
+				((Node)event.getSource()).getScene().getWindow().hide();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/Gui/UpdateSettelmentAccount.fxml").openStream());
+				UpdateSettelmentAccountController UpdateSettelmentAccount= (UpdateSettelmentAccountController)loader.getController();
+				UpdateSettelmentAccount.getCustomerIdANDuserName(txtID.getText(), txtUserName.getText());
+				UpdateSettelmentAccount.getCustomerSettlementANDmember(returnCustomer.getIsSettlement(),returnCustomer.getCreditCard(),returnCustomer.getExpDate(),1);
+				Scene Scene = new Scene(root);
+				//Scene.getStylesheets().add(getClass().getResource("UpdateSettelmentAccountController.css").toExternalForm());
+				primaryStage.setScene(Scene);
+				primaryStage.show();
+			}
+			else{ //if it is not a customer user pass back to  Manager System Menu window
+			
+				((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+				Stage primaryStage=new Stage();
+				Parent root=FXMLLoader.load(getClass().getResource("/Gui/ManagerSystemMenu.fxml"));
+				Scene serverScene = new Scene(root);
+				serverScene.getStylesheets().add(getClass().getResource("ManagerSystemMenu.css").toExternalForm());
+				primaryStage.setScene(serverScene);
+				primaryStage.show();
+			}
 		}
 	}
 	/**
@@ -206,4 +216,28 @@ public class ChangeUserDetailsController {
 		
 	}
 
+	/**
+	 * method that check if the text fields are legal and not empty 
+	 * @return
+	 */
+	public boolean checkFiedls()
+	{
+		if(txtUserPassword.getText().compareTo("")==0
+				||txtUserPassword.getText().charAt(0)<'0' 
+				||txtUserPassword.getText().charAt(0)>'9' 
+				||txtUserPassword.getText().charAt(0)==' '
+				||txtUserPassword.getText().compareTo("")==0
+				||txtUserName.getText().equals("") 
+				||txtID.getText().charAt(0)<'0' 
+				||txtID.getText().charAt(0)>'9' 
+				||txtID.getText().charAt(0)==' '
+				||txtID.getText().compareTo("")==0
+				|| txtFirstName.getText().equals("") 
+				|| txtLastName.equals("") 
+				|| txtPhone.getText().equals("")
+				|| txtEmail.getText().equals(""))
+			return true;
+		else return false;
+	}
+	
 }

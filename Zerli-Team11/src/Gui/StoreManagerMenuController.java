@@ -181,33 +181,53 @@ public class StoreManagerMenuController implements Initializable
 	public void SettelementAccountBut(ActionEvent event) throws Exception
 	{
 		Customer CustomerDB= new Customer();
-		CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
-		
-		Msg exsitCustomer = new Msg(Msg.qSELECT, "searchCustomerInDB"); // create a new msg
-		exsitCustomer.setSentObj(CustomerDB); // put the customer into msg
-		exsitCustomer.setClassType("customer");
-		
-		ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		client.accept((Object) exsitCustomer); 
-		
-		exsitCustomer = (Msg) client.get_msg();
-		Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
-		if(returnCustomer.getCustomerID()!=0) //check if the customer exist by ID check
+		if(checkNumFiedl()) 
 		{
-			
-			Stage primaryStage=new Stage();
-			((Node)event.getSource()).getScene().getWindow().hide();
-			FXMLLoader loader = new FXMLLoader();
-			Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
-			SettlementAccountController settlementController= (SettlementAccountController)loader.getController();
-			settlementController.getCustomerIdANDuserName(Integer.toString(returnCustomer.getCustomerID()), returnCustomer.getUserName());
-			Scene Scene = new Scene(root);
-			Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
-			primaryStage.setScene(Scene);
-			primaryStage.show();
+			Alert al = new Alert(Alert.AlertType.ERROR); // if one of the text field is empty ,jumping a alert
+			// error message
+			al.setTitle("Customer ID problem");
+			al.setContentText("Customer ID field is empty!");
+			al.showAndWait();
 		}
-		
-		
+		else {
+			CustomerDB.setCustomerID(Integer.parseInt(CustomerIDtext.getText()));
+			
+			Msg exsitCustomer = new Msg(Msg.qSELECTALL, "checkCustomerExistence"); // create a new msg
+			exsitCustomer.setSentObj(CustomerDB); // put the customer into msg
+			exsitCustomer.setClassType("Customer");
+			exsitCustomer.setColumnToUpdate("customerID");
+			exsitCustomer.setValueToUpdate(CustomerIDtext.getText());
+			
+			
+			ClientConsole client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			client.accept((Object) exsitCustomer); 
+			
+			exsitCustomer = (Msg) client.get_msg();
+			Customer returnCustomer = (Customer) exsitCustomer.getReturnObj();
+			if(returnCustomer.getCustomerID()!=0) //check if the customer exist by ID check
+			{
+				
+				Stage primaryStage=new Stage();
+				((Node)event.getSource()).getScene().getWindow().hide();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/Gui/UpdateSettelmentAccount.fxml").openStream());
+				UpdateSettelmentAccountController settlementController= (UpdateSettelmentAccountController)loader.getController();
+				settlementController.getCustomerIDuserName(Integer.toString(returnCustomer.getCustomerID()), returnCustomer.getUserName());
+				
+				settlementController.getCustomerSettlement(returnCustomer.getIsSettlement(),returnCustomer.getCreditCard(),returnCustomer.getExpDate());  
+				
+				Scene Scene = new Scene(root);
+				primaryStage.setScene(Scene);
+				primaryStage.show();
+			}
+			else {
+				Alert al = new Alert(Alert.AlertType.ERROR); // if customer Unexist,jumping a alert
+				// error message
+				al.setTitle("Customer Connection problem");
+				al.setContentText("Unexist Custoner!");
+				al.showAndWait();
+			}
+		}	
 	}
 	
 	
@@ -251,5 +271,20 @@ public class StoreManagerMenuController implements Initializable
 
 	}
 	
+	
+	/**
+	 * method that check if the text field is legal number 
+	 * @return
+	 */
+	public boolean checkNumFiedl()
+	{
+		if(CustomerIDtext.getText().compareTo("")==0
+				||CustomerIDtext.getText().charAt(0)<'0' 
+				||CustomerIDtext.getText().charAt(0)>'9' 
+				||CustomerIDtext.getText().charAt(0)==' '
+				||CustomerIDtext.getText().compareTo("")==0)
+			return true;
+		else return false;
+	}
 }
 
