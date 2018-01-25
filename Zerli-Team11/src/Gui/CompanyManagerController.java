@@ -103,7 +103,7 @@ public class CompanyManagerController implements Initializable
 		if(cmbSelectReport1.getValue()==null) {
 			Alert al = new Alert(Alert.AlertType.ERROR);
 			al.setTitle("misses details ");
-			al.setContentText("misses order request details ");
+			al.setContentText("misses report request details ");
 			al.showAndWait();}
 		else {
 

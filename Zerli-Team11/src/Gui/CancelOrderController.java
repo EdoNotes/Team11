@@ -76,7 +76,12 @@ public class CancelOrderController implements Initializable
 	 * @throws Exception
 	 */
 	public void cancel(ActionEvent event) throws Exception
-{		
+{		if(CBcancel.getValue()==null) {
+	Alert al = new Alert(Alert.AlertType.ERROR);
+	al.setTitle("misses details ");
+	al.setContentText("misses order request details ");
+	al.showAndWait();}
+	else {
 		float refund = 0;
 		String cmd ="DELETE FROM zerli.`order` WHERE orderId=  ";
 		String val = (String) CBcancel.getValue();
@@ -133,6 +138,7 @@ public class CancelOrderController implements Initializable
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();	
+			}
 		}
 	}
 
