@@ -139,12 +139,14 @@ public class CartWindowController implements Initializable{
 	 */
 	public void showSelectedProductDetails(MouseEvent Click) {
 		ProductInOrder toShow=productView.getSelectionModel().getSelectedItem();
-		nametxt.setText(toShow.getProductName());
-		colortxt.setText(toShow.getProductColor());
-		typetxt.setText(toShow.getProductType());
-		dscrptxt.setText(toShow.getProductDescription());
-		qtytxt.setText(String.valueOf(toShow.getPIOquantity()));
-		unitprctxt.setText(String.valueOf(toShow.getPrice()));
+		if(toShow!=null) { /* if someone press on a blank column */
+			nametxt.setText(toShow.getProductName());
+			colortxt.setText(toShow.getProductColor());
+			typetxt.setText(toShow.getProductType());
+			dscrptxt.setText(toShow.getProductDescription());
+			qtytxt.setText(String.valueOf(toShow.getPIOquantity()));
+			unitprctxt.setText(String.valueOf(toShow.getPrice()));
+		}
 	}
 	
 	public void backToCatalogBtn(ActionEvent event)
@@ -163,9 +165,9 @@ public class CartWindowController implements Initializable{
 	}
 	
 	/**
-	 * this function claculate total price
-	 * discountFlag-true-with discount
-	 * discountFlag=flase-without discount
+	 * this function calculate total price
+	 * discountFlag=true-with discount
+	 * discountFlag=false-without discount
 	 * @param discountFlag
 	 * @return
 	 */
@@ -185,7 +187,7 @@ public class CartWindowController implements Initializable{
 	
 	
 	/**
-	 * this func checks if there is an open order
+	 * this function checks if there is an open order
 	 * open if there isn't, then goto the delivery window
 	 * also we check if the customer account is settlement to continue with the purchase
 	 * @param event
@@ -283,8 +285,23 @@ public class CartWindowController implements Initializable{
 			{
 				LocalDate expDateOfSubsc=LocalDate.parse(Customer.curCustomer.getExpDate(),Order.formtDateLocal); //convert the String Date to LocalDate to check the expired date of the subscription
 				LocalDate today=LocalDate.now(); //the day of today
-				if(today.isAfter(expDateOfSubsc)) /*if the subscription is expired*/
+				if(today.isAfter(expDateOfSubsc)) { /*if the subscription is expired*/
 					curOrder.setOrderPrice(cactulateTotalPrice(false));
+					/*if the membership is expired so we update the customer data on the type of membership*/
+					newOrderMsg.setClassType("Customer");
+					newOrderMsg.setqueryToDo("UpdateCustomerDetails");
+					newOrderMsg.setQueryQuestion(Msg.qUPDATE);
+					newOrderMsg.setColumnToUpdate("typeMember");
+					newOrderMsg.setValueToUpdate(Customer.none);
+					newOrderMsg.setSentObj(Customer.curCustomer);
+					clientSender.accept(newOrderMsg);
+					/*now we update the customer column "isMember"*/
+					newOrderMsg.setClassType("Customer");
+					newOrderMsg.setqueryToDo("Update Cus");
+					newOrderMsg.setQueryQuestion(Msg.qUPDATE);
+					Customer.curCustomer.setIsMember(0);
+					clientSender.accept(newOrderMsg);
+				}
 				else /*if subscription isn't expired*/
 					curOrder.setOrderPrice(cactulateTotalPrice(true));
 			}

@@ -32,6 +32,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -78,8 +79,16 @@ public class LoginController
 		client = new ClientConsole(WelcomeController.IP,WelcomeController.port);
 		client.accept((Object) userToCheck);//Get Specific User From DB If Exists
 		userToCheck = (Msg) client.get_msg();
-		System.out.println(""+userToCheck);
 		User returnUsr = (User) userToCheck.getReturnObj();
+		if(returnUsr.getConnectionStatus().compareTo("Blocked")==0) /*if user is blocked*/
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Blocked Account");
+			alert.setHeaderText("Your account has been blocked!");
+			alert.setContentText("Please contact with your store manager to open it");
+			alert.showAndWait();
+			return;
+		}
 		if (returnUsr.getUserName() != null) //returnUsr=null means not existing On DB
 		{
 			if (returnUsr.getConnectionStatus().compareTo("Online") != 0) //Multiply connection is not allowed
