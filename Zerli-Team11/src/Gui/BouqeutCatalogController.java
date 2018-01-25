@@ -173,9 +173,10 @@ public class BouqeutCatalogController implements Initializable {
 		}
 	}
 	/**
-	 * The function get from 3 or less comboBoxes the specific description item that the user
+	 * The function get from 3 or less comboBoxes the specific description of item that the user
 	 * want to look and search them at the data base if the item didn't found we prompt a msg
 	 * after the search load all the founded product if no product founded we show all the catalog again
+	 * if the user want to see all catalog after his search he need to select the empty line and press "search" button
 	 * @param event (click on button)
 	 * @throws InterruptedException
 	 */
@@ -236,6 +237,10 @@ public class BouqeutCatalogController implements Initializable {
 				alert.setHeaderText("Ops, search filters are empty!");
 				alert.setContentText("Please, fill them to find your favorite bouqeut");
 				alert.showAndWait();
+			}
+			else if((reqStringPrice==null || reqStringPrice.compareTo(" ")==0) && (reqColor==null || reqColor.compareTo(" ")==0) && (reqType==null || reqType.compareTo(" ")==0))
+			{
+				prodTable.setItems(getProducts());
 			}
 			else
 			{

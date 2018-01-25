@@ -13,8 +13,10 @@ package Gui;
 import java.io.IOException;
 import java.rmi.server.LoaderHandler;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.TreeMap;
 
+import Entities.Order;
 import Entities.User;
 import Login.LoginController;
 import Login.WelcomeController;
@@ -29,6 +31,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -140,32 +144,78 @@ public class CustomerMenuController
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{
-		LogoutMsg.setqueryToDo("update user");
-		LogoutMsg.setSentObj(User.currUser);
-		LogoutMsg.setQueryQuestion(Msg.qUPDATE);
-		LogoutMsg.setColumnToUpdate("ConnectionStatus");
-		LogoutMsg.setValueToUpdate("Offline");	
-		LogoutMsg.setClassType("User");
-		ClientConsole client=new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		try {
-			client.accept(LogoutMsg);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} /* Update the connection status of the user from online  to offline */
+		if(Order.curOrder==null)
+		{
+			LogoutMsg.setqueryToDo("update user");
+			LogoutMsg.setSentObj(User.currUser);
+			LogoutMsg.setQueryQuestion(Msg.qUPDATE);
+			LogoutMsg.setColumnToUpdate("ConnectionStatus");
+			LogoutMsg.setValueToUpdate("Offline");	
+			LogoutMsg.setClassType("User");
+			ClientConsole client=new ClientConsole(WelcomeController.IP, WelcomeController.port);
+			try {
+				client.accept(LogoutMsg);
+			} 
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			} /* Update the connection status of the user from online  to offline */
 		
-		Stage primaryStage=new Stage();
-		Parent root;
-		try {
+			Stage primaryStage=new Stage();
+			Parent root;
+			try {
 			
-			((Node)event.getSource()).getScene().getWindow().hide();
-			root = FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
-			Scene loginScene = new Scene(root);
-			loginScene.getStylesheets().add(getClass().getResource("/Login/login_application.css").toExternalForm());
-			primaryStage.setScene(loginScene);
-			primaryStage.show();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+				((Node)event.getSource()).getScene().getWindow().hide();
+				root = FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
+				Scene loginScene = new Scene(root);
+				loginScene.getStylesheets().add(getClass().getResource("/Login/login_application.css").toExternalForm());
+				primaryStage.setScene(loginScene);
+				primaryStage.show();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Open Order");
+			alert.setHeaderText("You Have An Open Order");
+			alert.setContentText("You must complete the purchase\nTo continue the purchase click 'OK'\nTo cancel and logout click 'cancel'");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){ /*open the window of the order details*/
+				return;
+			} 
+			else { /*log out*/
+				LogoutMsg.setqueryToDo("update user");
+				LogoutMsg.setSentObj(User.currUser);
+				LogoutMsg.setQueryQuestion(Msg.qUPDATE);
+				LogoutMsg.setColumnToUpdate("ConnectionStatus");
+				LogoutMsg.setValueToUpdate("Offline");	
+				LogoutMsg.setClassType("User");
+				ClientConsole client=new ClientConsole(WelcomeController.IP, WelcomeController.port);
+				try {
+					client.accept(LogoutMsg);
+				} 
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				} /* Update the connection status of the user from online  to offline */
+			
+				Stage primaryStage=new Stage();
+				Parent root;
+				try {
+				
+					((Node)event.getSource()).getScene().getWindow().hide();
+					root = FXMLLoader.load(getClass().getResource("/Login/Login.fxml"));
+					Scene loginScene = new Scene(root);
+					loginScene.getStylesheets().add(getClass().getResource("/Login/login_application.css").toExternalForm());
+					primaryStage.setScene(loginScene);
+					primaryStage.show();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
 		}
 
 	}
