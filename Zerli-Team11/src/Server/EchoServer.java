@@ -932,27 +932,29 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static void searchUserbyID(Object msg, String tableName, ConnectionToClient client, Connection con) {
 		User toSearch = (User) (((Msg) msg).getSentObj());
+		User retSearch= new User();
+	//	retSearch.setUserName("");
 		Msg message = (Msg) msg;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(message.getQueryQuestion() + " FROM " + " zerli." + tableName
 					+ " WHERE UserID='" + toSearch.getID() + "';");
 			if (rs.next()) {
-				toSearch.setUserName(rs.getString(1));// Set user name for returned object
-				toSearch.setPassword(rs.getString(2));// Set Password for returned object
-				toSearch.setID(Integer.parseInt(rs.getString(3)));// Set ID for returned object
-				toSearch.setFirstName(rs.getString(4));// Set FirstName for returned object
-				toSearch.setLastName(rs.getString(5));// Set tLastName for returned object
-				toSearch.setConnectionStatus(rs.getString(6));// Set ConnectionStatus for returned object
-				toSearch.setUserType(rs.getString(7));// Set UserType for returned object
-				toSearch.setPhone(rs.getString(8));// Set Phone for returned object
-				toSearch.setGender(rs.getString(9));// Set Gender for returned object
-				toSearch.setEmail(rs.getString(10));// Set Email for returned object
-				toSearch.setBranchName(rs.getString(11));
+				retSearch.setUserName(rs.getString(1));// Set user name for returned object
+				retSearch.setPassword(rs.getString(2));// Set Password for returned object
+				retSearch.setID(Integer.parseInt(rs.getString(3)));// Set ID for returned object
+				retSearch.setFirstName(rs.getString(4));// Set FirstName for returned object
+				retSearch.setLastName(rs.getString(5));// Set tLastName for returned object
+				retSearch.setConnectionStatus(rs.getString(6));// Set ConnectionStatus for returned object
+				retSearch.setUserType(rs.getString(7));// Set UserType for returned object
+				retSearch.setPhone(rs.getString(8));// Set Phone for returned object
+				retSearch.setGender(rs.getString(9));// Set Gender for returned object
+				retSearch.setEmail(rs.getString(10));// Set Email for returned object
+				retSearch.setBranchName(rs.getString(11));
 			}
 			con.close();
 
-			((Msg) msg).setReturnObj(toSearch);
+			((Msg) msg).setReturnObj(retSearch);
 
 			try {
 				client.sendToClient(msg);
