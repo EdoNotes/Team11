@@ -20,6 +20,7 @@ public class Order implements Serializable{
 	public final static String pickUp="PICKUP";
 	public final static String delivery="DELIVERY";
 	public static final DateTimeFormatter formtDateLocal =DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	public static final  DateTimeFormatter formtTimeLocal=DateTimeFormatter.ofPattern("HH:mm");
 	public static DateFormat formtTime=new SimpleDateFormat("HH:mm");
 	public static DateFormat formtDate=new SimpleDateFormat("dd/MM/yyyy");
 	//orderId, customerID, supplyMethod, orderPrice, greeting, Date, orderTime, isPaid, storeID

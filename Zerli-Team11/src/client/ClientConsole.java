@@ -43,7 +43,7 @@ public class ClientConsole implements ChatIF {
 	 * @throws InterruptedException 
 	 * @get Msg from the client and send to to the server with the func client.handleMessageFromClientUI()
 	 */
-	  public void accept(Object msg) throws InterruptedException
+	  public synchronized void accept(Object msg) throws InterruptedException
 	  {  
 		  client.handleMessageFromClientUI(msg);
 		  Thread.sleep(1500);

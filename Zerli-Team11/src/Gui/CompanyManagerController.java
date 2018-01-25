@@ -100,14 +100,20 @@ public class CompanyManagerController implements Initializable
 	
 	public void askReport(ActionEvent event) throws Exception
 {		
-		if(cmbSelectReport1.getValue()==null||cmbQ1.getValue()==null||cmbS1.getValue()==null||year1.getValue()==null) {
+		if(cmbSelectReport1.getValue()==null) {
 			Alert al = new Alert(Alert.AlertType.ERROR);
 			al.setTitle("misses details ");
-			al.setContentText("misses order request details ");
+			al.setContentText("misses report request details ");
 			al.showAndWait();}
 		else {
-		
-		
+
+			if((cmbSelectReport1.getValue()!="Customer Satisfication")&&(cmbQ1.getValue()==null||cmbS1.getValue()==null||year1.getValue()==null))
+			 {
+				Alert al = new Alert(Alert.AlertType.ERROR);
+				al.setTitle("misses details ");
+				al.setContentText("misses order request details ");
+				al.showAndWait();}
+			else {
 		
 		
 		//The report request create an sql question.
@@ -115,18 +121,24 @@ public class CompanyManagerController implements Initializable
 		TreeMap<String, String> directory = new TreeMap<String, String>();
 		Msg userToCheck=new Msg(Msg.qSELECTALL,"checkUserExistence");
 		userToCheck.setClassType("report");// create a new msg
-		
-		int qutere =Integer.parseInt((String)cmbQ1.getValue());  //build the computable string for the chosen quarterly.
+		int qutere =0;
+		String qutr = "";
+		if(cmbSelectReport1.getValue()!="Customer Satisfication")
+		{qutere =Integer.parseInt((String)cmbQ1.getValue());  //build the computable string for the chosen quarterly.
 		int monthStart= (qutere*3) -2;
 		int monthEnd= (qutere*3);
-		String qutr="'"+(String)year1.getValue()+"-"+monthStart+"-01' AND '"+(String)year1.getValue()+"-"+monthEnd+"-31'";
-		System.out.println(qutr);
+		qutr="'"+(String)year1.getValue()+"-";
+		if (monthStart<10) qutr+="0";
+		qutr+=monthStart+"-01' AND '"+(String)year1.getValue()+"-";
+		if (monthEnd<10) qutr+="0";
+		qutr+=monthEnd+"-31'";
+		System.out.println(qutr);}
 		String cmd = "";
-		String cmd_count ="SELECT  p.productType, count(*) FROM zerli.order o, zerli.product_in_order pid, zerli.product p where o.Date BETWEEN";
+		String cmd_count ="SELECT  p.productType, sum(pid.quantity) FROM zerli.order o, zerli.product_in_order pid, zerli.product p where o.Date BETWEEN";
 		String cmd_sum = "SELECT  p.productType, sum(p.price) FROM zerli.order o, zerli.product_in_order pid, zerli.product p where o.Date BETWEEN";
 		String cmd_complain = "SELECT month(assigningDate) as M ,count(*) as count FROM zerli.complaint  WHERE assigningDate BETWEEN";
 		String cmd_survey = "SELECT avg(answer1),avg(answer2),avg(answer3),avg(answer4),avg(answer5), "
-				+ "avg(answer6) FROM zerli.survey_answer where numSurvey = 1;";
+				+ "avg(answer6) FROM zerli.survey_answer;";
 			//Chosen the suitable cmd for the request order.
 			if((String)cmbSelectReport1.getValue()=="Quarter's Incomes") cmd=cmd_sum;
 			if((String)cmbSelectReport1.getValue()=="Quarter's Order") cmd=cmd_count;
@@ -159,7 +171,7 @@ public class CompanyManagerController implements Initializable
 		serverScene.getStylesheets().add(getClass().getResource("report_order.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();}
-		
+		}
 	}
 
 	public void askReport2(ActionEvent event) throws Exception

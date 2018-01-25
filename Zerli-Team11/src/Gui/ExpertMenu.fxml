@@ -15,7 +15,8 @@
       </Label>
       <Label layoutX="39.0" layoutY="146.0" text="Survey Number Report : " />
       <ComboBox fx:id="SurveyNumCM" layoutX="188.0" layoutY="142.0" prefWidth="150.0" />
-      <Button layoutX="255.0" layoutY="383.0" mnemonicParsing="false" onAction="#ReportBtn" text="View" />
+      <Button layoutX="255.0" layoutY="383.0" mnemonicParsing="false" onAction="#ReportBtn" text="View Report" />
       <Button layoutX="96.0" layoutY="383.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
+      <Label layoutX="20.0" layoutY="204.0" text="*The surveys that appear are the surveys that have answers for them" textFill="#ff0909" />
    </children>
 </AnchorPane>

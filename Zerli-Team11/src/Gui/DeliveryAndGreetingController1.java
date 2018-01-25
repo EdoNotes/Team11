@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -97,7 +98,8 @@ public class DeliveryAndGreetingController1 implements Initializable{
 	private String tmpAdrs;
 	private String tmpRcvName;
 	private String tmpRcvPhone;
-	
+	private boolean validDate=true;
+	private boolean orderToday=false;
 	/**
 	 * make the correct required fields visible
 	 * @param event
@@ -138,19 +140,30 @@ public class DeliveryAndGreetingController1 implements Initializable{
 	 */
 	public void pickDate(ActionEvent event)
 	{
-		LocalDate todayDate=LocalDate.now();
-		System.out.println(todayDate);
-		System.out.println(datePck.getValue());
-		tmpSupplyDate=datePck.getValue().format(Order.formtDateLocal); /*collect the date*/
-		if(datePck.getValue().isBefore(todayDate))
+		validDate=true;
+		LocalDate todayDate=LocalDate.now(); /*today date*/
+		LocalDate choosenDate= datePck.getValue();
+		if(choosenDate.isBefore(todayDate))
 		{
-			datePck.getEditor().clear();
+			validDate=false;
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Wrong Date Input");
 			alert.setHeaderText("Please Insert A Valid Date");
 			alert.setContentText("The date you inserted is passed");
 			alert.showAndWait();
+			return;
 			
+		}
+		if(validDate)
+		{
+			tmpSupplyDate=choosenDate.format(Order.formtDateLocal); /*collect the date*/
+			validDate=true;
+			if(choosenDate.isEqual(todayDate))
+			{
+				orderToday=true;
+			}
+			else
+				orderToday=false;
 		}
 	}
 	/**
@@ -167,8 +180,17 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Wrong Time Input");
-			alert.setHeaderText("Please Insert A Good format of Time");
-			alert.setContentText("Time Format: hh:mm \nOnly Digits Between 1 to 12 and select am\\pm");
+			alert.setHeaderText("Please Insert A Valid Time");
+			alert.setContentText("The date you inserted is passed\nOr not good foramt");
+			alert.showAndWait();
+			return;
+		}
+		if(!(validDate)) /*if date not ok*/
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Wrong Date Input");
+			alert.setHeaderText("Please Insert A Valid Date");
+			alert.setContentText("The date you inserted is passed");
 			alert.showAndWait();
 			return;
 		}
@@ -200,16 +222,16 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		}
 		/*Open next window*/
 		try {
-			((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
-			Stage orderdStage=new Stage();
-			FXMLLoader loader=new FXMLLoader();
-			Pane orderdRoot = loader.load(getClass().getResource("/Gui/OrderDetails.fxml").openStream());
-			OrderDetailsController orderdetails=(OrderDetailsController)loader.getController();
-			orderdetails.getOrderDetails();
-			Scene orderdscene = new Scene(orderdRoot);
-			orderdStage.setScene(orderdscene);
-			orderdStage.show();
 
+				((Node)event.getSource()).getScene().getWindow().hide();//Hide Menu
+				Stage orderdStage=new Stage();
+				FXMLLoader loader=new FXMLLoader();
+				Pane orderdRoot = loader.load(getClass().getResource("/Gui/OrderDetails.fxml").openStream());
+				OrderDetailsController orderdetails=(OrderDetailsController)loader.getController();
+				orderdetails.getOrderDetails();
+				Scene orderdscene = new Scene(orderdRoot);
+				orderdStage.setScene(orderdscene);
+				orderdStage.show();
 		} 
 		catch (IOException e1) {
 			e1.printStackTrace();
@@ -223,7 +245,7 @@ public class DeliveryAndGreetingController1 implements Initializable{
  * @return boolean
  * @throws InterruptedException
  */
-	private boolean deliverySelected() throws InterruptedException {
+	public boolean deliverySelected() throws InterruptedException {
 		tmpAdrs=addrsTxt.getText();
 		tmpRcvName=nameTxt.getText();
 		tmpRcvPhone= prePhoneTxt.getText()+sufPhoneText.getText();
@@ -272,7 +294,7 @@ public class DeliveryAndGreetingController1 implements Initializable{
  * init the pick up
  * @throws InterruptedException
  */
-	private void pickUpSelected() throws InterruptedException {
+	public void pickUpSelected() throws InterruptedException {
 		OrderSupply supOrder=new OrderSupply();
 		Msg supMsg = new Msg();
 		/*Set Store id - bring the store from DB  */
@@ -300,9 +322,10 @@ public class DeliveryAndGreetingController1 implements Initializable{
 	 * also puts 0 where it need
 	 * @return
 	 */
-	private String getSupTime() {
+	public String getSupTime() {
 		String tmpHour=hourTxt.getText(),tmpMin=minTxt.getText();
 		String supTime;
+		int intHour;
 		if(tmpHour.length()==0||tmpHour.charAt(0)<'0' || tmpHour.charAt(0)>'9' || tmpMin.length()==0||tmpMin.charAt(0)<'0' || tmpMin.charAt(0)>'9')
 		{
 			return supTime="false";
@@ -313,19 +336,29 @@ public class DeliveryAndGreetingController1 implements Initializable{
 			}
 			if(pmRb.isSelected())
 			{
-				int intHour=Integer.parseInt(tmpHour);
+				intHour=Integer.parseInt(tmpHour);
 				if(intHour==12)
 					intHour=0;
-				else {
-					intHour+=12;
-				}
+				intHour+=12;
 				tmpHour=String.valueOf(intHour);
 			}
+			else {
+				if ((intHour=Integer.parseInt(tmpHour))==12)
+					intHour=0;
+			}
+			tmpHour=String.valueOf(intHour);
 			if(tmpHour.length()==1)
 				tmpHour="0"+tmpHour;
 			if(tmpMin.length()==1)
 				tmpMin="0"+tmpMin;
 			supTime=tmpHour+":"+tmpMin;
+		}
+		if(orderToday)
+		{
+			LocalTime currentTime=LocalTime.now(); /*current time*/
+			LocalTime chosenHour=LocalTime.parse(supTime, Order.formtTimeLocal); /* time that chosen as instance of LocalTime */
+			if(chosenHour.isBefore(currentTime))
+				return "false";
 		}
 		return supTime;
 	}
@@ -337,8 +370,6 @@ public class DeliveryAndGreetingController1 implements Initializable{
 		Stage cartStage=new Stage();
 		Parent cartRoot;
 		try {
-			System.out.println(ProductInOrder.CurCart);
-			System.out.println(ProductInOrder.CurCart);
 			cartRoot = FXMLLoader.load(getClass().getResource("/Gui/CartWindow.fxml"));
 			Scene Cartscene = new Scene(cartRoot);
 			Cartscene.getStylesheets().add(getClass().getResource("/Gui/CustomerMenu.css").toExternalForm());

@@ -38,8 +38,8 @@ public class ExpertMenuController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
-		Msg allSurveyComboBoxs=new Msg(Msg.qSELECTALL,"get all surveys");
-		allSurveyComboBoxs.setClassType("survey_question");
+		Msg allSurveyComboBoxs=new Msg("SELECT DISTINCT numSurvey","get all surveys");
+		allSurveyComboBoxs.setClassType("survey_answer");
 		
 		try {
 			client.accept(allSurveyComboBoxs);
@@ -85,7 +85,6 @@ public class ExpertMenuController implements Initializable
 		
 			client = new ClientConsole(WelcomeController.IP, WelcomeController.port);
 			client.accept((Object)SatisficationReport);
-			//directory = (TreeMap<String, String> )client.msg;
 			SatisficationReport = (Msg) client.get_msg();
 			directory = (TreeMap<String, String>)SatisficationReport.getReturnObj();
 		
@@ -115,9 +114,11 @@ public class ExpertMenuController implements Initializable
 		
 	}
 	
-	
-	
-	
+	/**
+	 * this function implementing the sequence of actions
+	 * that happens after customer clicks "Logout" Button
+	 * @param event
+	 */
 	@FXML
 	public void LogoutBtn(ActionEvent event)
 	{

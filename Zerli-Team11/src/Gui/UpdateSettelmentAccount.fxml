@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.SettlementAccountController">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.UpdateSettelmentAccountController">
    <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="532.0" prefWidth="400.0">
+      <AnchorPane layoutX="20.0" layoutY="20.0" prefHeight="532.0" prefWidth="400.0">
          <children>
             <Label layoutX="106.0" layoutY="27.0" prefHeight="32.0" prefWidth="188.0" text="AccountSettlement">
                <font>
@@ -35,12 +35,12 @@
                </toggleGroup>
             </RadioButton>
             <RadioButton fx:id="isNOTSettlement" layoutX="64.0" layoutY="215.0" mnemonicParsing="false" selected="true" text="Account is NOT Settlement" textFill="#ee0e0e" toggleGroup="$Settlement" />
-            <RadioButton fx:id="memberMONTHLY" layoutX="56.0" layoutY="334.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="206.0" text="Customer Member MONTHLY" textFill="#0bc614">
+            <RadioButton fx:id="memberMONTHLY" layoutX="56.0" layoutY="317.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="206.0" text="Add Customer Member MONTHLY" textFill="#0bc614">
                <toggleGroup>
                   <ToggleGroup fx:id="Member" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="NOTmember" layoutX="56.0" layoutY="363.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="154.0" selected="true" text="NOT Customer Member" textFill="#e80505" toggleGroup="$Member" />
+            <RadioButton fx:id="NOTmember" layoutX="56.0" layoutY="343.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="154.0" text="NOT Customer Member" textFill="#e80505" toggleGroup="$Member" />
             <Button layoutX="308.0" layoutY="483.0" mnemonicParsing="false" onAction="#SaveBut" text="Save" />
             <Button layoutX="58.0" layoutY="483.0" mnemonicParsing="false" onAction="#BackBut" text="Back" />
             <Label layoutX="17.0" layoutY="146.0" prefHeight="17.0" prefWidth="143.0" text="Account Settlement" underline="true">
@@ -48,7 +48,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="17.0" layoutY="274.0" prefHeight="17.0" prefWidth="143.0" text="Customer Member" underline="true">
+            <Label layoutX="11.0" layoutY="258.0" prefHeight="17.0" prefWidth="143.0" text="Customer Member" underline="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -59,13 +59,14 @@
                </font>
             </Label>
             <TextField fx:id="txtCreditCard" layoutX="181.0" layoutY="432.0" prefHeight="25.0" prefWidth="162.0" promptText="Enter Credit Card Number " />
-            <RadioButton fx:id="memberYEARLY" layoutX="60.0" layoutY="300.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="188.0" text="Customer Member YEARLY" textFill="#0906ee" toggleGroup="$Member" />
-            <TextField fx:id="txtExpDate" editable="false" layoutX="183.0" layoutY="388.0" prefHeight="25.0" prefWidth="154.0" />
-            <Label layoutX="70.0" layoutY="392.0" text="Expiry Date :" underline="true">
+            <RadioButton fx:id="memberYEARLY" layoutX="57.0" layoutY="288.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="206.0" text="Add Customer Member YEARLY" textFill="#0906ee" toggleGroup="$Member" />
+            <TextField fx:id="txtExpDate" editable="false" layoutX="181.0" layoutY="397.0" prefHeight="25.0" prefWidth="154.0" />
+            <Label layoutX="63.0" layoutY="401.0" text="Expiry Date :" underline="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
+            <RadioButton fx:id="doNotChange" layoutX="51.0" layoutY="371.0" mnemonicParsing="false" selected="true" text="Don't Add anthing (Type Mmber)" toggleGroup="$Member" />
          </children>
       </AnchorPane>
    </children>

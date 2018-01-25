@@ -61,15 +61,16 @@ public class LoadingMoneyController implements Initializable{
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
+	//(txtAmount.getText().compareTo("")==0) || (Double.parseDouble(txtAmount.getText())<=0)
 	@FXML
 	public void ContinueBtn(ActionEvent event) throws InterruptedException, IOException {
 		
-		if(Double.parseDouble(txtAmount.getText())<=0) //check if the customer entered a negative amount
+		if(checkNumFiedl()) //check if the customer entered a negative amount
 		{
 
 			Alert al = new Alert(Alert.AlertType.ERROR); // jump error massage 
 			al.setTitle("Money Loading");
-			al.setContentText("Amount must be a positive amount!");
+			al.setContentText("Amount must be a positive amount and numbers only!");
 			al.showAndWait();
 		}
 		else {
@@ -135,5 +136,22 @@ public class LoadingMoneyController implements Initializable{
 		serverScene.getStylesheets().add(getClass().getResource("CustomerMenu.css").toExternalForm());
 		primaryStage.setScene(serverScene);
 		primaryStage.show();
+	}
+	
+	
+	/**
+	 * method that check if the text field is legal number 
+	 * @return
+	 */
+	public boolean checkNumFiedl()
+	{
+		if(txtAmount.getText().compareTo("")==0
+				||txtAmount.getText().charAt(0)<'0' 
+				||txtAmount.getText().charAt(0)>'9' 
+				||txtAmount.getText().charAt(0)==' '
+				||txtAmount.getText().compareTo("")==0
+				||Double.parseDouble(txtAmount.getText())<0)
+			return true;
+		else return false;
 	}
 }

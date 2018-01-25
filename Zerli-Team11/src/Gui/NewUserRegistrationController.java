@@ -86,9 +86,7 @@ public class NewUserRegistrationController {
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws InterruptedException {
 
-		if (txtUserName.getText().equals("") || txtUserPassword.getText().equals("") || txtID.getText().equals("")
-				|| txtFirstName.getText().equals("") || txtLastName.equals("") || txtPhone.getText().equals("")
-				|| txtEmail.getText().equals("")) { // check if one of the text fields details are empty
+		if (checkFiedls()) { // check if one of the text fields details are empty
 
 			Alert al = new Alert(Alert.AlertType.ERROR); // if one of the text fields details are empty ,jumping a alert
 															// error message
@@ -157,8 +155,7 @@ public class NewUserRegistrationController {
 					((Node) event.getSource()).getScene().getWindow().hide();
 					FXMLLoader loader = new FXMLLoader();
 					Pane root = loader.load(getClass().getResource("/Gui/SettlementAccount.fxml").openStream());
-					SettlementAccountController settlementController = (SettlementAccountController) loader
-							.getController();
+					SettlementAccountController settlementController = (SettlementAccountController) loader.getController();
 					settlementController.getCustomerIdANDuserName(txtID.getText(), txtUserName.getText());
 					Scene Scene = new Scene(root);
 					Scene.getStylesheets().add(getClass().getResource("SettlementAccount.css").toExternalForm());
@@ -171,6 +168,31 @@ public class NewUserRegistrationController {
 			}
 
 		}
+	}
+	
+	
+	/**
+	 * method that check if the text fields are legal and not empty 
+	 * @return
+	 */
+	public boolean checkFiedls()
+	{
+		if(txtUserPassword.getText().compareTo("")==0
+				||txtUserPassword.getText().charAt(0)<'0' 
+				||txtUserPassword.getText().charAt(0)>'9' 
+				||txtUserPassword.getText().charAt(0)==' '
+				||txtUserPassword.getText().compareTo("")==0
+				||txtUserName.getText().equals("") 
+				||txtID.getText().charAt(0)<'0' 
+				||txtID.getText().charAt(0)>'9' 
+				||txtID.getText().charAt(0)==' '
+				||txtID.getText().compareTo("")==0
+				|| txtFirstName.getText().equals("") 
+				|| txtLastName.equals("") 
+				|| txtPhone.getText().equals("")
+				|| txtEmail.getText().equals(""))
+			return true;
+		else return false;
 	}
 
 }
