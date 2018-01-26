@@ -75,12 +75,6 @@ public class StoreManagerMenuController implements Initializable
 		year1.setItems(yearlist);
 		//cmbS1.setItems(ShopList);
 	}
-	
-	/**
-	 * 
-	 * @param event Button that pass you to New User Registration
-	 * @throws IOException
-	 */
 	@FXML
 	public void RegisterBtn(ActionEvent event) throws IOException
 	{	
@@ -93,8 +87,6 @@ public class StoreManagerMenuController implements Initializable
 		primaryStage.show();}
 
 	}
-	
-
 	@FXML
 	public void askReport(ActionEvent event) throws Exception
 {		
@@ -143,7 +135,7 @@ public class StoreManagerMenuController implements Initializable
 		cmd+=" and o.orderId=pid.OrderID and pid.productID = p.productID group by p.productType;";}
 		
 		else {cmd += "and c.storeID = st.storeID and st.branchName= us.branchName and us.userID="+userid+" group by month(c.assigningDate);";}
-		
+	
 		if ((String)cmbSelectReport1.getValue()!="Customer Satisfication")
 		{userToCheck.setQueryQuestion(cmd);}
 		else
@@ -169,8 +161,6 @@ public class StoreManagerMenuController implements Initializable
 			}
 		}
 	}
-
-
 	/**
 	 * This method get customer from DB by ID customer and if customer exits than show in the next window 
 	 * the details of settlement and if is member and number credit card 

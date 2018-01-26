@@ -124,21 +124,15 @@ public class NewUserRegistrationController {
 			client.accept((Object) NewUserAdding); // adding the new user to DB
 
 			NewUserAdding = (Msg) client.get_msg();
-			User returnUsr = (User) NewUserAdding.getReturnObj();
+			User returnUsr = (User) NewUserAdding.getReturnObj(); //get user name
 
 			client.accept((Object) UserAddingByID);
 			UserAddingByID = (Msg) client.get_msg();
-			User returnUsrById = (User) UserAddingByID.getReturnObj();
-
-			if ((returnUsr.getID()) == 0 && returnUsrById.getUserName().compareTo("")==0) // check if the new user already exists
-			{
-			 // if user already exists show error massage
-				Alert al = new Alert(Alert.AlertType.ERROR);
-				al.setTitle("Adding New User problem");
-				al.setContentText("Customer exist!");
-				al.showAndWait();
-			}
-			else {
+			User returnUsrById = (User) UserAddingByID.getReturnObj(); //get id 
+			 String checkUserName=""+returnUsr.getUserName();
+		
+			if(returnUsrById.getID()==0 && checkUserName.compareTo(NewUser.getUserName())!=0) { /*if 0 is return in id the user not exist*/
+				
 				NewUserAdding.setqueryToDo("AddNewUserToDB");
 				NewUserAdding.setSentObj(NewUser);
 				NewUserAdding.setQueryQuestion(Msg.qINSERT);
@@ -165,6 +159,14 @@ public class NewUserRegistrationController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+			else
+			{
+			 // if user already exists show error massage
+				Alert al = new Alert(Alert.AlertType.ERROR);
+				al.setTitle("Adding New User problem");
+				al.setContentText("Customer exist!");
+				al.showAndWait();
 			}
 
 		}
