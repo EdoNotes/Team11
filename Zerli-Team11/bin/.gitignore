@@ -1,6 +1,9 @@
-/Gui/
-/Server/
-/Login/
 /Entities/
+/Gui/
+/Login/
+/Server/
 /client/
+/common/
 /test/
+/mysql-connector-java-5.1.19-bin.jar
+/Images/

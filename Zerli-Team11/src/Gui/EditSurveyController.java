@@ -64,6 +64,7 @@ public class EditSurveyController
 				txtQuestion4.getText().compareTo("")==0 || txtQuestion5.getText().compareTo("")==0 || txtQuestion6.getText().compareTo("")==0)
 		{
 			Alert al = new Alert(Alert.AlertType.ERROR);
+			
 			al.setTitle("Save problem");
 			al.setContentText("One or more are empty questions");
 			al.showAndWait();
